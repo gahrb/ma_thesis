@@ -1,0 +1,58 @@
+\chapter{Spatial Channel}
+\label{sec:spatial_channel}
+
+\begin{align}
+\mat{H}_{sp} &= 
+\begin{bmatrix}
+\mat{H}_{1,Txi}\\
+\mat{H}_{2,Txi}\\
+\vdots\\
+\mat{H}_{Rel,Txi}
+\end{bmatrix}
+\end{align}
+
+This leads to the following relation:
+
+\begin{align}
+\mat{H}_0\cdot \mat{H}_{sp} &= 
+\begin{bmatrix}
+\mat{I}_{N_i} & -\mat{Z}_{OL}\left(
+\begin{bmatrix}
+\mat{Z}_{InM_{N_i+1}} & \mat{0}\\
+\mat{0} & \mat{X}_{Rel}
+\end{bmatrix}
+ + \mat{Z}_{LL}\right)^{-1}
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+\mat{H}_{1,Txi}\\
+\mat{H}_{2,Txi}\\
+\mat{H}_{Rel,Txi}
+\end{bmatrix}
+\end{align}
+
+To fully remove interference:
+
+
+\begin{align}
+\mat{H}_{1,Tx_{Interf}} &= \left[\mat{Z}_{OL}\left(
+\begin{bmatrix}
+\mat{Z}_{InM_{N_i+1}} & \mat{0}\\
+\mat{0} & \mat{X}_{Rel}
+\end{bmatrix}
+ + \mat{Z}_{LL}\right)^{-1}\right]\cdot
+\begin{bmatrix}
+\mat{H}_{2,Tx_{Interf}}\\
+\mat{H}_{Rel,Tx_{Interf}}
+\end{bmatrix}
+\end{align}
+
+
+Cost Function
+
+\begin{align}
+r_i &= \log\left(\det\left(\mat{K}_{S_i} + \mat{K}_{I_i} + \mat{K}_{n_i})\right)\right) - \log\left(\det\left(\mat{K}_{I_i} + \mat{K}_{n_i})\right)\right)\\
+C(\vec{r},p) &= \|\vec{r}\|_p \\
+\underset{\mat{X}_{Rel},\mat{Z}_M}{\text{maximize }} C(\vec{r},p)
+\end{align}
+

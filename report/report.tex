@@ -1,0 +1,116 @@
+%==============================================================================
+% ETHASL - Template for student projects at the ASL
+% 2013.10: Péter Fankhauser
+% This template is based on the IMRT Latex template by Eric A. Mueller.
+%==============================================================================
+
+\documentclass[10pt,twoside,a4paper]{report}
+% ETHASL package
+% TODO Choose options according to your project
+% som/bt/st/mt: Studies on Mechatronics, Bachelor Thesis, Semester Thesis, Master Thesis
+% fs/hs: Spring term, Autumn term
+% german/english: German/English
+\usepackage[mt,hs,english]{packages/ethasl}
+
+% Activate for german language
+%\usepackage{german}
+%\usepackage{ae}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LaTeX preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{preambles/asl_preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% TODO Add your title
+\title{The Use of Loaded Antennas as Scattering Relays for Post-Cellular Networks with Closely Spaced Terminals}
+\subtitle{}
+
+% TODO Add name of the authors
+\studentA{Bernhard Gahr}
+% \studentB{Student 2}
+% \studentC{Student 3}
+
+% TODO Add name of the professor
+\professorA{Armin Wittneben}
+
+% TODO Add name of the supervisors
+\supervisionA{Yahia Hassan}
+%\supervisionB{Amir Melzer}
+%\supervisionC{Supervisor C}
+
+% TODO Change if necessary
+\projectYear{\the\year} % This year
+%\projectYear{\advance\year by -1 \the\year\advance\year by 1} % Last year
+
+\maketitle
+\pagestyle{plain}
+\pagenumbering{roman}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Declaration of originality
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}
+
+% TODO Modify placeholders in declaration.tex
+\input{chapters/declaration}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table on contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\setcounter{tocdepth}{2}
+\tableofcontents
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chapters standard
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{chapters/preface}
+\cleardoublepage
+\input{chapters/abstract}
+\cleardoublepage
+\input{chapters/symbols}
+\cleardoublepage
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Chapters custom
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\pagenumbering{arabic}
+
+\input{chapters/introduction}
+\cleardoublepage
+\input{chapters/system}
+\input{chapters/noise_description}
+\cleardoublepage
+\input{chapters/gradient}
+\cleardoublepage
+\input{chapters/solver}
+\cleardoublepage
+\input{chapters/results}
+\cleardoublepage
+\input{chapters/outlook}
+\cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Appendix
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \appendix
+% \input{chapters/appendix_text}
+% \cleardoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{ieeetr}
+\bibliography{bibliography/references}
+\addcontentsline{toc}{chapter}{References}
+
+\end{document}

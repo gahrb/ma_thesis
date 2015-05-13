@@ -1,0 +1,68 @@
+\chapter{Introduction}
+\label{sec:introduction}
+
+Future wireless networks are assumed to be of higher density at the receiver side, as more and more devices with access to the internet are appearing on the market, and more and more types of devices are staffed with moduels wich are able to connect to the internet (internet of things~IoT).
+Examples for such scenarios are cellular networks in an urban area, wireless networks in public spaces as concert halls, or seonsor networks.
+
+Such networks mainly suffer from two rate limiting  effects: fading and interference.
+When the effect of fading is mostly solved by MIMO-techinques, the interference is the remaining bottleneck to achieve high data rates.
+Current methods to overcome interference are protocals like TDMA, FDMA or CDMA.
+The downside of those protocals is the unique allocation of a user to a specific time or frequency slot, hence the blocking of all other users for this period.
+More advanced techniques use multiple antennas as in the case of fading, to achieve multiple observations of the incoming signals and therefore the ability to zeroforce the interfering signals.
+This, however, is only possible, if the number of antennas per receiver is larger than the number of interfering signal streams~\ref{sec:zeroforcing}
+ - in high density networks nearly impossible, or very expensive as the size of the receiver structure grows rapidly.
+
+In this thesis the use of passive relays, i.e. antennae with pure imaginary impedances attached is introduced.
+As they are placed very closely (in terms of wavelengths) around the receivers, they interact by the effect of coupling with the receivers.
+B the choice of the impedances, the strengh of coupling can be changed.
+With an increasing number of such passive relays, the coupling can be used to steer the signal towards the receiver and to amplify the signal and block the interference.
+
+\section{Motivation and Goals}
+\label{sec:motivation}
+
+The achievable rate of a connection pair is propotional to the signal to noise and interference ration (SINR)~\eqref{eq:sinr}.
+In a high power region the effect of noise can be neglected as the interference is main diminishing factor.
+Therefore an interference-free connection is the main goal.
+
+As the method of using passive relays only by their coupling is a new way of adressing the problem of interference, this thesis will look more into the achievable improvements than into the feasibility of the method.
+To achieve the highest possible rate for any realization, the shape of the problem will be analyzed and different solver methods will be introduced and compared.
+
+
+\section{State of the Art}
+\label{sec:SoA}
+
+TBD...
+
+Nossek Ivrlac
+Hassan Wittneben
+
+
+
+
+\section{Outline}
+\label{sec:outline}
+
+In the following chapter the whole system will be described.
+The effect of coupling will be analyzed and the overall transfer function - from the transmitter to the receiver will be stated.
+All the noise sources appearing in the systems and their transfer function will be shown and derived.
+The transfer functions will be splitted up into smaller, simpler (sub-) functions, so that the effect of coupling and the interference can be better described and analyzed.
+
+As one of the solver methods is gradient search, in the third chapter the analytical gradients will be derived - for the signal, the interference and the noise parts.
+
+Last, the different solver methods will be evaluated.
+The results will be compared versus the number of relays used in a setup,
+versus different types of placings of the relays and versus different numbers of connection pairs.
+Additionally theoretical limits of the setups will be derived and the results will be compared to current protocols which overcome interference (TDMA).
+
+
+
+
+
+
+
+
+
+
+
+
+

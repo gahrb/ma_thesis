@@ -1,0 +1,93 @@
+\chapter{Gradient of the ML Position Estimator}\label{sec:appendix_gradient_position}
+In the following the gradient of the objective function of the ML position estimator in~\eqref{eq:ml_solution} is shown.
+The objective function is given by
+\begin{align}
+\vec{f}(\vec{r},\vec{t},\vec{b}_r)&=(\vec{d} - \vec{g} - \mat{\Gamma}_r\vec{b})^T \mat{\Sigma}^{-1}(\vec{d} - \vec{g} - \mat{\Gamma}_r\vec{b})\\\nonumber
+&\quad+(\tilde{\vec{r}} - \vec{r})^T\mat{\Delta}^{-1}(\tilde{\vec{r}} - \vec{r}).\\\nonumber
+\end{align}
+We then note that
+\begin{align}
+\nabla\vec{f}&=
+\frac{\partial\vec{f}}{\partial\vec{r}} + \frac{\partial\vec{f}}{\partial\vec{t}} + \frac{\partial\vec{f}}{\partial\vec{b}}\\\nonumber
+&=-2*(
+\begin{bmatrix}
+\frac{\partial\vec{g}}{\partial\vec{r}} |& \frac{\partial\vec{g}}{\partial\vec{t}}  &| \mat{\Gamma}
+\end{bmatrix}^T
+\mat{\Sigma}^{-1}
+(\vec{d} - \vec{g} - \mat{\Gamma}\vec{b}))\\\nonumber
+&\quad-2*
+(\tilde{\vec{r}} - \vec{r})^T\mat{\Delta}^{-1}\mat{I},
+\end{align}
+with
+\begin{align}
+\nonumber
+\frac{\partial\vec{g}}{\partial\vec{r}} = 
+\begin{bmatrix}
+\frac{\vec{t}_1 - \vec{r}_1}{||\vec{t}_1 - \vec{r}_1||}^T & {} & \mat{0} \\
+{}&\ddots&{}\\
+\mat{0}&{}&\frac{\vec{t}_1 - \vec{r}_{N_r}}{||\vec{t}_1 - \vec{r}_{N_r}||}^T \\
+{}&\vdots&{}\\
+\frac{\vec{t}_{N_t} - \vec{r}_1}{||\vec{t}_{N_t} - \vec{r}_1||}^T & {} & \mat{0} \\
+{}&\ddots&{}\\
+\mat{0}&{}&\frac{\vec{t}_{N_t} - \vec{r}_{N_r}}{||\vec{t}_{N_t} - \vec{r}_{N_r}||}^T 
+\end{bmatrix}\quad\text{and}\quad
+\frac{\partial\vec{g}}{\partial\vec{t}} = 
+\begin{bmatrix}
+\frac{\vec{t}_1 - \vec{r}_1}{||\vec{t}_1 - \vec{r}_1||}^T & {} & {} \\
+\vdots&{}&\mat{0}\\
+\frac{\vec{t}_1 - \vec{r}_{N_r}}{||\vec{t}_1 - \vec{r}_{N_r}||}^T&{}&{} \\
+{}&\ddots&{}\\
+{} & {} & \frac{\vec{t}_{N_t} - \vec{r}_1}{||\vec{t}_{N_t} - \vec{r}_1||}^T \\
+\mat{0}&{}&\vdots\\
+{}&{}&\frac{\vec{t}_{N_t} - \vec{r}_{N_r}}{||\vec{t}_{N_t} - \vec{r}_{N_r}||}^T 
+\end{bmatrix}.
+\end{align}
+
+
+
+
+\chapter{Gradient of the ML Calibration Algorithm}\label{sec:appendix_gradient_calibration}
+In the following the gradient of the objective function of the ML calibration algorithm in~\eqref{eq:ml_calibration} is shown.
+The objective function is given by
+\begin{align}
+\vec{f}(\vec{r},\vec{t},\vec{b}_r)&=\mat{\Sigma}^{-\frac{1}{2}}(\tilde{\vec{d}} - \tilde{\vec{g}} - (\mat{\Gamma}_r\vec{b}_r - \mat{\Lambda}\mat{\Gamma}_r\vec{b}_r))\\\nonumber
+\text{with}\quad\mat{\Lambda} &= \mat{\Gamma}_t(\mat{\Gamma}_t^T\mat{\Sigma}^{-1}\mat{\Gamma}_t)^{-1}\mat{\Gamma}^T\mat{\Sigma}^{-1}\\\nonumber
+\text{and}\quad\tilde{\vec{d}} &=\vec{d}-\mat{\Lambda}\vec{d},\quad\tilde{\vec{g}} =\vec{g}-\mat{\Lambda}\vec{g}.
+\end{align}
+We then note that
+\begin{align}
+\nabla\vec{f}&=
+\frac{\partial\vec{f}}{\partial\vec{r}} + \frac{\partial\vec{f}}{\partial\vec{t}} + \frac{\partial\vec{f}}{\partial\vec{b}_r}\\\nonumber
+&=2*(
+\begin{bmatrix}
+\frac{\partial\vec{g}}{\partial\vec{r}} - \mat{\Lambda}\frac{\partial\vec{g}}{\partial\vec{r}}  |& 
+\frac{\partial\vec{g}}{\partial\vec{t}} - \mat{\Lambda}\frac{\partial\vec{g}}{\partial\vec{t}}  &| 
+\mat{\Gamma}_r - \mat{\Lambda}\mat{\Gamma}_r
+\end{bmatrix}^T
+\mat{\Sigma}^{-1}
+(\tilde{\vec{d}} - \tilde{\vec{g}} - (\mat{\Gamma}_r\vec{b}_r - \mat{\Lambda}\mat{\Gamma}_r\vec{b}_r))),\\\nonumber
+\end{align}
+with
+\begin{align}
+\nonumber
+\frac{\partial\vec{g}}{\partial\vec{r}} = 
+\begin{bmatrix}
+\frac{\vec{t}_1 - \vec{r}_1}{||\vec{t}_1 - \vec{r}_1||}^T & {} & \mat{0} \\
+{}&\ddots&{}\\
+\mat{0}&{}&\frac{\vec{t}_1 - \vec{r}_{N_r}}{||\vec{t}_1 - \vec{r}_{N_r}||}^T \\
+{}&\vdots&{}\\
+\frac{\vec{t}_{N_t} - \vec{r}_1}{||\vec{t}_{N_t} - \vec{r}_1||}^T & {} & \mat{0} \\
+{}&\ddots&{}\\
+\mat{0}&{}&\frac{\vec{t}_{N_t} - \vec{r}_{N_r}}{||\vec{t}_{N_t} - \vec{r}_{N_r}||}^T 
+\end{bmatrix}\quad\text{and}\quad
+\frac{\partial\vec{g}}{\partial\vec{t}} = 
+\begin{bmatrix}
+\frac{\vec{t}_1 - \vec{r}_1}{||\vec{t}_1 - \vec{r}_1||}^T & {} & {} \\
+\vdots&{}&\mat{0}\\
+\frac{\vec{t}_1 - \vec{r}_{N_r}}{||\vec{t}_1 - \vec{r}_{N_r}||}^T&{}&{} \\
+{}&\ddots&{}\\
+{} & {} & \frac{\vec{t}_{N_t} - \vec{r}_1}{||\vec{t}_{N_t} - \vec{r}_1||}^T \\
+\mat{0}&{}&\vdots\\
+{}&{}&\frac{\vec{t}_{N_t} - \vec{r}_{N_r}}{||\vec{t}_{N_t} - \vec{r}_{N_r}||}^T 
+\end{bmatrix}.
+\end{align}
