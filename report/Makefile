@@ -20,8 +20,8 @@ buildclean:
 
 distclean: clean
 	rm -f $(targets)
-open:
-	gnome-open $(targets)
+#open:
+#	gnome-open $(targets)
 
 all:	$(targets)
 	make clean

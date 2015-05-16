@@ -91,31 +91,28 @@ The complexity of this system is therefore $N_\text{var} =  1\cdot 2\cdot 3 + 3\
 \section{Gradient Search}
 \label{sec:grads_solver}
 
-Despite this large number of variables and the non-convexity of the utility function, the first approach remains a gradient search.
-Figure~\ref{fig:grad_search} shows the typical behaviour of the gradient search for a realization over the iteration steps.
-In the following, different methods are described, to improve the algorithm.
-
 \begin{figure}
 \centering
   \includegraphics[width=0.5\linewidth]{images/rvsgradCnt_7rel_18dB_6.png}
 \caption{The sum rate over the gradient search iterations.}
 \label{fig:grad_search}
 \end{figure}
-
+Despite this large number of variables and the non-convexity of the utility function, the first approach remains a gradient search.
+Figure~\ref{fig:grad_search} shows the typical behaviour of the gradient search for a realization over the iteration steps.
+In the following, different methods are described, to improve the algorithm.
 
 \subsection{Choice of Initial Values}
 \label{sec:grads_ini}
-
 We try to overcome the non-pleasant properties of the problem with a larger number of initial guesses, so that the gradient search approach tends more towards a grid search optimization method.
 The gradient search routine itself is then used as a refinement step of the grid search.
 %(c.f. \cite{Adjashvili2012})
-
-\begin{figure}[hb]
+\begin{figure}[h]
 \centering
-  \includegraphics[width=0.6\linewidth]{images/Inicomparison_edited.png}
+  \includegraphics[width=0.85\linewidth]{images/Inicomparison_edited.png}
 \caption{Comparison of the number of initial values used.}
 \label{fig:ini_comp}
 \end{figure}
+
 
 Figure~\ref{fig:ini_comp} shows the empirical CDFs of the optimized sum rate, for different numbers of initializations.
 The initial values were drawn uniformly at random for $Z_{\text{Rel}}[i]\in[-600,600] j , \quad\forall i\in[1,N_{\text{Rel}}]$.
@@ -144,7 +141,7 @@ Therefore the number of time-expensive gradient calculations is reduced immense.
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.3\linewidth]{images/conjugate_gradient_example.png}
+\includegraphics[width=0.25\linewidth]{images/conjugate_gradient_example.png}
 \caption{A comparison of the convergence of gradient descent with optimal step size (in green) and conjugate vector (in red) for minimizing a quadratic function associated with a given linear system\cite{wiki:conj_grad}.}
 \label{fig:conj_grad_ex}
 \end{figure}
@@ -179,7 +176,7 @@ In Figure~\ref{fig:pr_fr_sa} the pure gradient search (steepest ascent) method i
 The Figure shows once the optimization after 50 iterations (solid lines), to see, which method optimizes the problem the best after just a few steps, and at 500 iterations, to see which routine might get caught in the shape  of the problem.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/Conjgradcomparison_edited.png}
+  \includegraphics[width=0.85\linewidth]{images/Conjgradcomparison_edited.png}
 \caption{Comparison between Steepest Ascent, Polak-Ribi\`{e}re, and Fletcher-Reeves.}
 \label{fig:pr_fr_sa}
 \end{figure}
@@ -259,27 +256,55 @@ The factor 2 from the matching network variables comes from the fact, that with 
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.8\linewidth]{images/Inioptcomparison_edited.png}
+  \includegraphics[width=\linewidth]{images/Inioptcomparison_edited.png}
 \caption{Comparison of the number of initial values used.}
-\label{fig:ini_comp}
+\label{fig:iniopt_comp}
 \end{figure}
 
-Figure~\ref{fig:globals} shows the performance of the steepest ascent algorithm, with the pre-optimized initial values (red curves).
-We see, that using the five best pre-optimizations leads to a performance almost as good as initializing the algorithm with 60 random vectors (blues curve).
-To push the optimization even further, we can combine these two techniques and take the best optimization from the five best pre-optimized initial values and 55 random initial values (black curve).
+Figure~\ref{fig:iniopt_comp} shows the performance of the steepest ascent algorithm, with the pre-optimized initial values (three red dotted curves on the left).
+We see, that using the five best pre-optimizations leads to a performance almost as good as initializing the algorithm with 60 random vectors (red solid curve).
+To push the optimization even further, we can combine these two techniques and take the best optimization from the five best pre-optimized initial values and 55 random initial values (red dotted curve on the right).
 This leads to a $0.5 \left[\text{b/s/Hz}\right]$ improvement at the mean and a $1.5 \left[\text{b/s/Hz}\right]$ improvement for the lowest 10\% of the rates, than only considering random values.
 
+Applying this to the method of Polak-Ribi\`{e}re (blue dotted curve), however, does not improve the results as much as with the steepest ascent method.
+A sum rate of only about $0.1 \left[\text{b/s/Hz}\right]$ higher is achieved by using pre-optimized initial values in combination with the method of Polak-Ribi\`{e}re.
+
+Finally, this method is applied to the heuristic GlobalSearch routine.
+As mentioned in Section~\ref{sec:globals}, GloablSearch is less dependent on the initial value and therefore, the initial value is chose to be open circuited for the relays.
+With five optimized initial values plus the standard open circuit initial value, an improvement of almost $1.0 \left[\text{b/s/Hz}\right]$ can be achieved (black dotted curve) compared to initializing only by the open circuited value (black solid curve).
 
 
 \subsection{Post Refinement of GlobalSearch by Gradient Search}
-Stepwise improvement of the relays.
-
+Post refinement by gradient search
 
 \subsection{Stepwise Relay Improvements}
-Stepwise improvement of the relays.
+In the previous Sections, we saw the performance of different methods for three relays per user.
+The number of relays was kept small for the analysis of the algorithms, so that complexity effects diminishing the performance were avoided.
+Increasing the number of relays might result in worse sum rates.
+Therefore we will have a look at the performance of the optimization and how it can be pushed in the following.
+For the results shown below, the number of relays were increased to seven, if not mentioned specifically.
 
+In Figure~\ref{fig:nrel7} we see the performance of the GlobalSearch algorithm, optimizing a 2x2 MIMO system, with seven relays and one receiving antenna per user (red curve).
+The black curve shows the performance of the algorithm optimizing only three relays per user (c.f. Figure~\ref{fig:globals}).
+Actually this should be a lower limit of the red curve, as one solution for seven relays is to optimize only three of them and open circuit the remaining four.
+However this is only the case for about 85\% of the cases, the lowest 15\% actually lead to a worse solution than only optimizing three relays.
+This shows, that the GlobalSeach optimization might not perform very good on larger problems, i.e. reducing the size of the problem results in a better sum rate.
 
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/Relstepcomparison.png}
+\caption{Comparison of the number of initial values used.}
+\label{fig:nrel7}
+\end{figure}
 
+Therefore one approach to prevent GlobalSearch of running into a low rate, is to reduce the number of relays to optimize and increase them stepwise.
+The blue curve shows to result of the optimization, when GlobalSearch is allowed to optimize only two relays.
+Once finished, two additional relays are considered so that in total four relays per user are optimized.
+This is repeated until the total number of relays is reached (in this case four times, $N_{\text{Rep}} = \lceil\frac{N_{\text{Relays}}}{N_{\text{Step}}}\rceil = \lceil\frac{7}{2}\rceil=4$).
+This leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relay steps ($ N_{\text{Step}}$) will lead (most probably) to a better result, but also to a larger number of repetitions and therefore it will take a lot longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
+
+The yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$.
+Therefore $N_{\text{Rep}} = 3$ had to be taken.
 
 
 
