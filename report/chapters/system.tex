@@ -16,6 +16,21 @@ The signals are transmittet over a spatial interference channel, therefore a tra
 Besides the receivers, there are passive relays on the right side.
 The relays and the receivers are closely spaced, therefore the channels between a transmitter and the receivers and relays are spatially correlated and the elements on the receiver side experience coupling among each other.
 
+\section{Spatial Channel}
+\label{sec:spatial}
+
+TO-DO
+
+$\mat{H}_{ij}^{\text{sp}} = $ 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.75\textwidth]{images/antennae_position.png}
+\caption{Example of the antenna Placing.}
+\label{fig:antenna_placing}
+\end{center}
+\end{figure}
+
 \section{Receiver Circuit Description}
 \label{sec:network_description}
 As mentioned in Section~\ref{sec:SoA}, the idea of describing the receiver circuitry is based on the work of~\cite{Nossek}.
@@ -28,7 +43,7 @@ A short overview on 2-ports (simplified n-ports) is given in the following.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.75\textwidth]{images/twoport.png}
-\caption{A twoport network ("www.antennamagnus.com").}
+\caption{A twoport network~\cite{magnus:twoport}.}
 \label{fig:twoport}
 \end{center}
 \end{figure}
@@ -75,7 +90,7 @@ For reciprocal (multiport-)networks (\textit{RLC}-Networks, containing only pass
 \subsection{Receiver Blocks}
 \begin{figure}[h]
 \centering
-  \includegraphics[width=\linewidth]{images/Receiver.jpg}
+  \includegraphics[width=\linewidth]{images/Receiver.png}
 \caption{The receiver, with the coupling network $\mat{Z}_C$, the SP-matching network $\mat{Z}_M$, the LNA, and loads attached to the LNA.}
 \label{fig:receiver}
 \end{figure}
@@ -267,7 +282,34 @@ and so we can reduce the system shown in Figure~\ref{fig:port_reduction}, to the
 To calculate the achievable sum rate of the systems, we need to derive the signal covariance matrix, defined as $\mathbb{E}[\vec{v}_L\vec{v}_L^H]$.
 As in all the transfer functions from $\vec{v}_0$ to $\vec{v}_L$ only impedance matrices appear, the covariance matrix becomes
 \begin{equation}
-\mat{K}_s=\mathbb{E}[\vec{v}_L\vec{v}_L^H] = \mat{H}_{L,0}\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot\mat{H}_{L,0}^H,
+\label{eq:sig_cov}
+\mat{K}_s=\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}] = 
+	\mat{H}_{L,0}\cdot \mat{H}_{\text{sp},0} 
+	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
+	\mat{H}_{\text{sp},0}^H \cdot \mat{H}_{L,0}^H,
 \end{equation}
 where $\mat{H}_{L,0}$ is the transfer function including any port reduction.
+
+\subsection{Interference Covariance Matrix}
+\label{sec:int_cov}
+
+To calculate the interference covariance matrix, all the signal sources besides the user partner have to be consider.
+In contrast to the signal covariance matrix, all signal parts arriving at the loads must be summed up over all the interferer.
+
+The interference covariance matrix hence becomes 
+\begin{equation}
+\label{eq:interf_cov}
+\mat{K}_i=\mathbb{E}[\vec{v}_L^i\vec{v}_L^{i^H}] = \sum_{j=1}^{N_{User}-1} 
+	\mat{H}_{L,0} \cdot \mat{H}_{\text{sp},j} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{\text{sp},j}^H \cdot \mat{H}_{L,0}^H.
+\end{equation}
+
+
+
+
+
+
+
+
 

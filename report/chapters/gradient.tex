@@ -6,22 +6,28 @@ The gradients are derived to improve the achievable sum rate function of the sys
 It is given by
 \begin{align}
 \label{eq:sum_rate}
-r &= \text{log}_2(\text{det}(\mat{K}_s\mat{K}_n^{-1} + \mat{I}_{N_r}))\\\nonumber 
-&= \text{log}_2(\text{det}(\mat{K}_s+\mat{K}_n^{-1})) - \text{log}_2(\text{det}(\mat{K}_n)),
+r &= \text{log}_2\left(\text{det}\left(
+		\mat{K}_s\mat{K}_i^{-1}\mat{K}_n^{-1} + \mat{I}_{N_r}\right)\right)\\\nonumber 
+&= \text{log}_2\left(\text{det}\left(
+		\mat{K}_s+\mat{K}_i+\mat{K}_n\right)\right) -
+		\text{log}_2\left(\text{det}\left(\mat{K}_i+\mat{K}_n\right)\right),
 \end{align}
-where $\mat{K}_s$ and $\mat{K}_n$ denote the signal and noise covariance matrices derived in~\eqref{eq:sig_cov} and~\eqref{eq:noise_cov}.
+where $\mat{K}_s, \mat{K}_i$ and $\mat{K}_n$ denote the signal, interference and noise covariance matrices derived in~\eqref{eq:sig_cov},~\eqref{eq:interf_cov}and~\eqref{eq:noise_cov}.
 
 We are interested in the gradient of the achievable sum rate with respect to the matching network and the passive antenna loads.
 Using the matrix relations from~\cite{Codebook12} the gradient becomes
 \begin{align}
-\label{eq:gradient}
-\frac{\partial r}{\partial\mat{Z}_{l,ij}} &= \frac{1}{\text{ln}2} 
-\text{Tr}\left((\mat{K}_s + \mat{K}_n)^{-1}
+\label{eq:gradient}\nonumber
+\frac{\partial r}{\partial\mat{Z}_{l,ij}} &= \frac{1}{\text{ln}(2)} 
+\text{Tr}\Bigg(\left(\mat{K}_s + \mat{K}_i + \mat{K}_n\right)^{-1}
 \left(\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}}+
- \frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}\right)- 
- \mat{K}_n^{-1}\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}\right),
+ \frac{\partial\mat{K}_i}{\partial\mat{Z}_{l,ij}}+
+ \frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}\right)-\\
+ &\quad\left(\mat{K}_i+\mat{K}_n\right)^{-1}
+ \left(\frac{\partial\mat{K}_i}{\partial\mat{Z}_{l,ij}}+
+ 	\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}\right)\Bigg),
 \end{align}
-with $l\in\{11,12,22,pass\}$ denoting the sub-matrices of the matching network or the passive antenna loads and $i,j$ denoting the element in the i-th row and j-th column.
+with $l\in\{11,12,22,\text{pass}\}$ denoting the sub-matrices of the matching network or the passive antenna loads and $i,j$ denoting the element in the i-th row and j-th column.
 In the following the gradient is split up in the signal and the noise part.
 The derivatives for each covariance matrix will be derived.
 
@@ -30,16 +36,16 @@ The derivatives for each covariance matrix will be derived.
  For the signal covariance matrix, we see from Equation~\eqref{eq:sig_cov}, that we can take the derivative of each sub transfer function and place them together afterwards by the chain rule.
 First of all, we check which sub transfer functions are affected by the gradient.
 We see that for the matching network sub matrices, we need to take the derivative of the transfer functions $\mat{H}_{LNA,M}$ and $\mat{H}_{M,0}$.
-For the passive antenna loads $\mat{Z}_{pass}$ obviously $\mat{H}_{0}$ for the port reduction is affected.
+For the passive antenna loads $\mat{Z}_\text{pass}$ obviously $\mat{H}_{0}$ for the port reduction is affected.
 Additionally $\mat{H}_{M,0}$ is affected because it contains $\mat{Z}_{C'}$.
 
 For the following $\mat{J}_{ij}$ denotes the single entry matrix, with respect to the i-th row and the j-th column.
 If follows for the port reduction transfer function
 \begin{align}
 \label{eq:H0_sig_grad}
-\frac{\partial\mat{H}_{0}}{\partial\mat{Z}_{pass,ij}}&=
+\frac{\partial\mat{H}_{0}}{\partial\mat{Z}_{\text{pass},ij}}&=
 \begin{bmatrix}
-\mat{0}_{N_i} & \mat{Z}_{OL}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}
+\mat{0}_{N_i} & \mat{Z}_{OL}(\mat{Z}_\text{pass}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}
 \end{bmatrix}
 \end{align}
 with $\mat{0}_{N_i}$ the $N_i$ by $N_i$ all-zeros matrix.
@@ -56,10 +62,10 @@ For the voltage divider before the matching network it follows,
 \frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{22,ij}}&=
 \frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M22}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1} -
 \mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M22}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1},\\\nonumber
-\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{pass,ij}} = 
-\mat{Z}_{OL}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO}\\
-\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{pass,ij}}&=
--\mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{pass,ij}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}.
+\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
+\mat{Z}_{OL}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO}\\
+\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{\text{pass},ij}}&=
+-\mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}.
 \end{align}
 Last, the transfer function over the matching network is affected as follows
 \begin{align}
@@ -87,7 +93,7 @@ Because they sum up at the loads after the LNA, we can look at each noise transf
 As the antenna noise is picked up at the same place as the signal, its gradient is also the same as the signal covariance gradient.
 The formulas from~\eqref{eq:H0_sig_grad} to ~\eqref{eq:HLNAM_sig_grad_22} apply in the same manner to the antenna noise transfer functions.
 Therefore they are omitted here.
-We only note, that the trasfer functions $\mat{H}_{0}$, $\mat{H}_{M,0}$ and $\mat{H}_{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}$, with $l\in\{11,12,22,pass\}$.
+We only note, that the trasfer functions $\mat{H}_{0}$, $\mat{H}_{M,0}$ and $\mat{H}_{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}$, with $l\in\{11,12,22,\text{pass}\}$.
 
 \subsection{LNA Noise Gradient}
 \label{sec:lna_noise_grad}
@@ -102,10 +108,10 @@ It follows,
 \frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{12,ij}}&=
 -\mat{J}_{ij}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{Z}_{M21} - \mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{J}_{ij}^T,\\
 \frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{22,ij}}&=\mat{J}_{ij},\\\nonumber
-\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{pass,ij}} = 
-\mat{Z}_{OL}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{pass}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO},\\
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{pass,ij}}&=
-\mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{pass,ij}}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{Z}_{M21},\\\nonumber\qquad&\text{which results in}\\
+\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
+\mat{Z}_{OL}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO},\\
+\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{\text{pass},ij}}&=
+\mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{Z}_{M21},\\\nonumber\qquad&\text{which results in}\\
 \frac{\mat{H}_{L,LNA_v}}{\partial\mat{Z}_{l,ij}}&=-\mat{H}_{L,LNA}\mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1} + \mat{\tilde{Z}}_{eqM_2})^{-1}\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{l,ij}}(\mat{Z}_{eqLNA_1} + \mat{\tilde{Z}}_{eqM_2})^{-1}.
 \label{eq:HLNAM_sig_grad_22}
 \end{align}
@@ -119,7 +125,7 @@ Otherwise, $\mat{\tilde{Z}}_{eqLNA_2}$ is a function of the matching network and
 \subsection{Noise Gradient}
 We can now write the gradient of the noise covariance matrix as
 \begin{align}
-\label{eq:noise_cov}\nonumber
+\label{eq:noise_grad}\nonumber
 \frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}} &= 
 \frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}\mat{R}_{na}\mat{H}_{L,0}^H +\mat{H}_{L,0}\mat{R}_{na} \frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}^H
 \\\nonumber
