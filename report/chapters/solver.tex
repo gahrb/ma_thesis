@@ -9,10 +9,10 @@ The relays in this system will be lossless, i.e. the impedances will be pure ima
 
 \section{Utility Function}
 \label{sec:utility_function}
-As the aim for wireless communication networks is to maximize the achievable rate, we take the formulas derived in Section~\ref{sec:full_transf}, which describe the rates for each transmit-receive pair.
+As the aim for wireless communication networks is to maximize the achievable rate, we take the formulas derived in Section~\ref{sec:rates}, which describe the rates for each transmit-receive pair.
 In order to get an utility function from the achievable rates, we stack them into the vector $\vec{r} = \begin{bmatrix}
-r_1 \\ r_2 \\ \vdots \\ r_N
-\end{bmatrix}$.
+r_1 & r_2 & \cdots & r_N
+\end{bmatrix}^T$.
 
 To optimize the rates, different approaches are possible.
 \begin{itemize}
@@ -275,7 +275,22 @@ With five optimized initial values plus the standard open circuit initial value,
 
 
 \subsection{Post Refinement of GlobalSearch by Gradient Search}
-Post refinement by gradient search
+
+When the problem of gradietn search is, that ir may run into non optimal local maximas, the questions remaining for the heuristic solvers are: "How good are the results after all?" and "Can they be improved any further?"
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/Postrefinementcomparison.png}
+\caption{Comparison the heuristic solvers with and without a post refinement by gradient search.}
+\label{fig:postrefinement}
+\end{figure}
+
+The approach in finding the answers, is to use the gradient search routine on top of the heuristic solvers as a refinement.
+Figure~\ref{fig:postrefinement} shows the performance of the Simulated Annealing and the GlobalSearch algorithm (solid red and solid yellow curves).
+The dashed lines show the result, when gradient search was added on top of the heuristic solvers (red for Simulated Annealing and blue for GlobalSearch).
+This shows, that the poor results of the Simulated Annealing algorithm does not lead to any good initial value for the gradient search as after the refinement the performance is still about $5 \left[\text{b/s/Hz}\right]$ worse, than the performance of GlobalSearch.
+Second, it shows that the performance of GlobalSearch is quite good, as any post refinement of gradient search does not lead to any significant improvement.
+
 
 \subsection{Stepwise Relay Improvements}
 In the previous Sections, we saw the performance of different methods for three relays per user.
@@ -285,14 +300,14 @@ Therefore we will have a look at the performance of the optimization and how it 
 For the results shown below, the number of relays were increased to seven, if not mentioned specifically.
 
 In Figure~\ref{fig:nrel7} we see the performance of the GlobalSearch algorithm, optimizing a 2x2 MIMO system, with seven relays and one receiving antenna per user (red curve).
-The black curve shows the performance of the algorithm optimizing only three relays per user (c.f. Figure~\ref{fig:globals}).
+The black curve shows the performance of the algorithm optimizing only three relays per user (c.f.  red curve in Figure~\ref{fig:globals}).
 Actually this should be a lower limit of the red curve, as one solution for seven relays is to optimize only three of them and open circuit the remaining four.
 However this is only the case for about 85\% of the cases, the lowest 15\% actually lead to a worse solution than only optimizing three relays.
 This shows, that the GlobalSeach optimization might not perform very good on larger problems, i.e. reducing the size of the problem results in a better sum rate.
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/Relstepcomparison.png}
+  \includegraphics[width=0.9\linewidth]{images/Relstepcomparison_edited.png}
 \caption{Comparison of the number of initial values used.}
 \label{fig:nrel7}
 \end{figure}
@@ -303,8 +318,27 @@ Once finished, two additional relays are considered so that in total four relays
 This is repeated until the total number of relays is reached (in this case four times, $N_{\text{Rep}} = \lceil\frac{N_{\text{Relays}}}{N_{\text{Step}}}\rceil = \lceil\frac{7}{2}\rceil=4$).
 This leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relay steps ($ N_{\text{Step}}$) will lead (most probably) to a better result, but also to a larger number of repetitions and therefore it will take a lot longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
 
-The yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.6\linewidth]{images/choice_of_relays.png}
+\caption{Example of choosing the relays for stepwise optimization.}
+\label{fig:rel_choice}
+\end{figure}
+
+The first relay is therebey chosen at random.
+For the following relays, the algorithm takes always the next free relay across the receiver.
+Figure~\ref{fig:rel_choice} shows an example on how the relays would be chosen for this setting.
+
+Back in Figure~\ref{fig:nrel7}, the yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$.
 Therefore $N_{\text{Rep}} = 3$ had to be taken.
+As for $N_{\text{Step}}=4$, $N_{\text{Step}}=5$ and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), it leads almost to the same result.
+It can also be seen, that none of the stepwise optimized solvers has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
+
+
+%The main difference are the rates below $12 \left[\text{b/s/Hz}\right]$ (logarithmic scaled subplot).
+%Whenever the step to increase the number of relays was chosen to be even (i.e. on both sides of the relay were the same number of relays optimized), the rates were higher.
+%This speaks for some symmetry in optimizing the relays.
+%Additionally, the lower the size of the "step" (i.e. the higher the number of the repetition), the higher were the optimized rates (c.f. "3 Steps" (yellow) and "5 Steps" (orange), or "2 Steps" (blue) and "4 Steps" (green)).
 
 
 

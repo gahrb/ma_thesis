@@ -31,7 +31,7 @@ with $l\in\{11,12,22,\text{pass}\}$ denoting the sub-matrices of the matching ne
 In the following the gradient is split up in the signal and the noise part.
 The derivatives for each covariance matrix will be derived.
 
-\section{Signal Gradients}
+\section{Signal Gradient}
 \label{sec:signal_gradient}
  For the signal covariance matrix, we see from Equation~\eqref{eq:sig_cov}, that we can take the derivative of each sub transfer function and place them together afterwards by the chain rule.
 First of all, we check which sub transfer functions are affected by the gradient.
@@ -81,6 +81,13 @@ Last, the transfer function over the matching network is affected as follows
 \end{align}
 
 With these derivations, we can apply the chain rule on the transfer function in~\eqref{eq:transf} to get $\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}}$.
+
+
+
+\section{Interference Gradient}
+\label{sec:interf_gradient}
+
+TO-DO
 
 \section{Noise Gradients}
 \label{sec:noise_gradient}
