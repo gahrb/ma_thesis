@@ -5,7 +5,7 @@ In the following, the results of the thesis will be discussed.
 The performance of the optimization routine will be shown for different settings, i.e. for different number of relays, receiving antennas per user, users, relay placings, ...
 If not any further mentioned, the same settings will be used, as in Section~\ref{sec:solver}, i.e.
 we will look at a 2x2 MIMO system with one receive antenna per user and three relays, as shown in Figure~\ref{fig:antenna_placing}.
-The relays in this system will be lossless, i.e. the impedances will be pure imaginary.
+The relays in this system will be loss less, i.e. the impedance will be pure imaginary.
 
 \section{Introduction of Measures for Comparison}
 \label{sec:measures}
@@ -44,19 +44,20 @@ The blue dashed line shows the performance of TDMA under the sum power constrain
 As before, the rates including relay coupling (red solid line) are much larger than without any coupling and TDMA.
 Of course this comparison is more dependent on the choice of the settings (especially the choice of the number of transmit-receive pairs) and we will see different behaviors in the following sections. 
 
-\subsection{Signal-Interference-Ration (SIR) Rates}
+\subsection{Noise-free Rates}
 \label{sec:sir}
-As we are addressing the problem of interference, a good measure is the SIR-rate.
-It is calculated similar to the SINR-rate\eqref{eq:sinr_rate}, however it only considers the interference and not the noise.
+As we are addressing the problem of interference, a good measure is the noise-free rate (short: SIR-rate).
+It is calculated similar to the SINR-rate from Equation~\eqref{eq:achiev_rate}, however it only considers the interference and not the noise.
 As we said, in high SNR regime, the interference is the main diminishing factor for the rates (c.f. Section~\ref{sec:rates}), the SIR-rates will give us a indicator, on how good we optimized the relays.
 Example curves of the SIR-rates (blue dashed lines) can be seen in Figures~\ref{fig:relcomp_1}~to~\ref{fig:relcomp_3}.
 
 \subsection{Relays as Fully Cooperation Receivers - Limit}
 \label{sec:fullrx_limit}
-The remaining two function to which the optimization algorithms are compared against will give limits on how good the method of loaded antennas can be at best.
-The first approach is to see the relays as fully cooperation receivers.
-Therefore the number of observations the receiver has on the incoming signals is increased to $N_\text{Rx} + N_\text{Relays}$.
-As we choose the number of relays always strictly larger than the number of interferer, this method will always lead to zero interference.
+The remaining two function to which the rates after the optimization algorithms are compared against will give limits on how good the method of loaded antennas can be at best.
+The first approach is to see the relays as fully cooperation receivers, which are widely spread.
+Hence they experience no coupling among each other.
+The number of observations the receiver has on the incoming signals is increased to $N_\text{Rx} + N_\text{Relays}$.
+As we choose the number of relays larger than the number of interferer in most of the cases, this method will lead to an interference free connection.
 
 The performance of the fully cooperation relays can be seen in Figure~\ref{fig:limcomparison} (black solid curve).
 At median it is almost $2 \left[\text{b/s/Hz}\right]$ higher, than the optimized rate of the passive coupled relays.
@@ -66,13 +67,6 @@ for the worst 10\% of the cases this lies in between  $2.5 \left[\text{b/s/Hz}\r
 
 \subsection{Multiport Matching - Limit}
 \label{sec:mp_limit}
-
-The Multiport Matching Rate can be found here~\cite{Nossek}.
-It has been shown that this is the optimal setting for a matching network (without considering any coupling among the receivers, and any relays).
-For the comparison with the coupled relays, the relays are, as in the previous section, assumed to be fully cooperating receiver antennas.
-Therefore the number of observations one receiver has, is again $N_\text{Rx} + N_\text{Relays}$.
-And it can be expected, that it is higher than the optimized coupled relays rate.
-
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Limitcomparison.png}
@@ -80,65 +74,196 @@ And it can be expected, that it is higher than the optimized coupled relays rate
 \label{fig:limcomparison}
 \end{figure}
 
-In Figure~\ref{fig:limcomparison} this limit is shown by the black dashed line.
-It is a little bit higher than the fully cooperation relays performance.
+It has been shown that the multiport matching is the optimal setting for a matching network (without considering any coupling among the receivers, and any relays)~\cite{Nossek}.
+For the comparison with the coupled relays, the relays are, as in the previous section, assumed to be fully cooperating receiver antennas.
+However, the placing of the relays remains the same, i.e. no widely spread receivers are assumed.
+The number of observations one receiver has, is again $N_\text{Rx} + N_\text{Relays}$.
+And hence it can be expected, that it is higher than the optimized coupled relays rate.
+In Figure~\ref{fig:limcomparison} and the following, this limit is shown by the black dashed line.
+
 
 \section{Relay Placing}
 \label{sec:relay_placing}
 
 Before analyzing the solver with different settings, the placing of the relays around a receiver is discussed a bit more in detail.
 Figure~\ref{fig:cloud} shows, by which criteria, the relays were placed.
-The red solid line denotes a zone around the receiver, in which no relays must be placed.
+The red solid circle (with radius $d_\text{z}$) denotes a zone around the receiver, in which no relays must not be placed.
 The red dashed line shows the maximum distance at which the relays may be placed away from the receiver. 
 Within those two lines, the relays are thrown uniformly distributed.
-The blue line around the relay at the right bottom denotes a zone in which no other relay may be placed, i.e. the minimum distance between each relay.
+The blue circle (with radius $d_\text{Relay}$) around the relay at the right bottom denotes a zone in which no other relay may be placed, i.e. the minimum distance between each relay.
 If there is a violation by the relay distances, all the relays are thrown again.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/cloud.png}
+  \includegraphics[width=0.7\linewidth]{images/cloud.png}
 \caption{Placing the relays around a receiver uniformly distributed on a disk.}
 \label{fig:cloud}
 \end{figure}
 
 The minimum receiver distance and the minimum relay distance might differ, however, if not specially mentioned, they are assumed to be both $0.1\lambda$.
-
-
-
-\section{Relays to Zeroforce Interference}
-\label{sec:interf_fix}
-
-\subsection{One Interferer}
-\label{sec:1interf}
+By a smaller choice of the maximum distance, the relays can be placed more dense.
+When the maximum distance is set equal the minimum distance, the relays will be placed on a circle around the receiver.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/Relcomparison_1interferer.png}
-\caption{Sum rates for one interferer and one receiver with  $N_\text{Rel}\in\{1,2,3\}$.}
-\label{fig:relcomp_1}
+  \includegraphics[width=0.9\linewidth]{images/Dzcomparison.png}
+\caption{Optimized Sum Rates for different minimum distances between receiver and relays ($d_\text{z}$).}
+\label{fig:dz_comparison}
 \end{figure}
 
-\subsection{Two Interferer}
-\label{sec:2interf}
-\begin{figure}[h]
-\centering
-  \includegraphics[width=0.9\linewidth]{images/Relcomparison_2interferer.png}
-\caption{Sum rates for two interferer and one receiver with  $N_\text{Rel}\in\{2,3,4,5\}$.}
-\label{fig:relcomp_2}
-\end{figure}
-
-\subsection{Three Interferer}
-\label{sec:3interf}
-\begin{figure}[h]
-\centering
-  \includegraphics[width=0.9\linewidth]{images/Relcomparison_3interferer.png}
-\caption{Sum rates for three interferer and one receiver with $N_\text{Rel}\in\{4,5,6,7\}$.}
-\label{fig:relcomp_3}
-\end{figure}
-
-
-\section{Relay versus Rx Antenna Zeroforcing}
-\label{sec:rel_place}
+Figure~\ref{fig:dz_comparison} shows the performance of the optimized sum rate for $d_\text{z}\in\{0.1,0.2,0.3,0.4\}\cdot\lambda$ (red curves from right to left).
+For all the curves, the relays had the same minimum spacing, i.e. $d_\text{Relay}=0.1\cdot\lambda$.
+Obviously a higher rate can be achieved, when the relays are closer and thus the coupling is stronger.
+Therefore we will use in the following $d_\text{z}=0.1\cdot\lambda$.
 
 
 \section{Low SNR performance}
 \label{sec:low_snr}
+
+At first we want to analyze the optimization algorithm at different SNR levels.
+Later we will only look at a high SNR level, as our aim is to minimize the interference.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/Comparison_modvshighSNR.png}
+\caption{Comparison of the optimization algorithm at a moderate and high SNR level.}
+\label{fig:snrcomparison}
+\end{figure}
+
+Figure~\ref{fig:snrcomparison} shows the SINR- and SIR- rates at a moderate SNR level (blue curves) and at a high SNR level (red curves).
+As the achievable rate at a moderate SNR level (blue solid line) is less interference driven and more noise limited, the resulting SIR-rate (blue dashed curve) is also lower than the SIR-rate of the optimized achievable rate at a high SNR region (red dashed line).
+
+This shows for the moderate SNR level, that the optimization algorithm was matching the values of the relays and the matching network to amplify the signal and also the interference, than - like for the high SNR level - to blanket the interference.
+
+\section{Relays to Zero-force Interference}
+\label{sec:interf_fix}
+In the following, the number of relays required for an interference free connections will be analyzed.
+For the following plots, the number of receivers was set to one ($N_{R} = N_{R_x} = 1$) in order to increase the performance of the solver (c.f. Section~\ref{sec:stepwise}).
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{images/Relcomparison_1interferer.png}
+\caption{Sum rates for one interferer and one receiver with  $N_\text{Rel}\in\{1,2,3\}$.}
+\label{fig:relcomp_1}
+\end{figure}
+\subsection{One Interferer}
+\label{sec:1interf}
+To eliminate interference with two transmitter normally two observations are required.
+Figure~\ref{fig:relcomp_1} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{1,2,3\}$ (red curves from left to right).
+It is clear to see, that the higher the number of relays, the better the performance of the optimized system.
+The blue dashed lines show the rates considering only the SI-ratio (c.f. Equation~\eqref{eq:sir_rate}).
+The use of only one relay, leads only for 10\% of the cases to an interference free connection.
+Increasing the number of relays to two leads to an interference free connection of almost 80\% of the realizations, however, to achieve for almost all realizations a noise limited connection, three relays per receiver are required.
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.8\linewidth]{images/Relcomparison_2interferer.png}
+\caption{Sum rates for two interferer and one receiver with  $N_\text{Rel}\in\{2,3,4,5\}$.}
+\label{fig:relcomp_2}
+\end{figure}
+\subsection{Two Interferer}
+\label{sec:2interf}
+To eliminate interference with three transmitter normally three observations are required.
+Figure~\ref{fig:relcomp_2} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{2,3,4,5\}$ (red curves from left to right).
+And, as before, the blue dashed lines show the rates considering only the SI-ratio.
+
+
+We see, that for two relays per user, the interference limited rate behaves almost the same as the optimized achievable sum rate.
+For three relays per user, some realizations lead to an interference free connection.
+But only for five relays per user, over 90\% of the realizations can be driven into an low interference state.
+
+\subsection{Three Interferer}
+\label{sec:3interf}
+To eliminate interference with four transmitter normally four observations are required.
+Figure~\ref{fig:relcomp_3} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{4,5,6,7\}$ (red and blue dashed curves from left to right).
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.85\linewidth]{images/Relcomparison_3interferer.png}
+\caption{Sum rates for three interferer and one receiver with $N_\text{Rel}\in\{4,5,6,7\}$.}
+\label{fig:relcomp_3}
+\end{figure}
+
+We see, that for four relays per user, the interference limited rate behaves almost the same as the optimized achievable sum rate.
+For five and six relays per user, some realizations lead to an interference free connection.
+For seven relays per user, over 90\% of the realizations can be driven into an low interference state.
+
+Comparing this to the previous results with one and two interferer, we can see, that  the number of required relays to eliminate the interference grows not linearly as with the use of fully cooperating receivers.
+It looks like, that it requires at least twice the number of interferer ($N_\text{Relay} > N_\text{Interferer}\cdot2$) per user, to overcome the interference.
+
+\section{Relay versus Rx Antenna Zeroforcing}
+\label{sec:rel_rx_comp}
+
+In the following, we want to analyze what happens, if the number of relays plus receiver antennas is kept constant.
+First, we analyze the case of one receive/transmit pair, as this decreases the size of the problem by a factor of four.
+Behaviors as shown in Section~\ref{sec:stepwise} are therefore less likely to happen.
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/ConstNrelNrx8comparison_1Rx_onlySINR.png}
+\caption{Comparison of constant $N_\text{Relay} + N_{\text{Rx}} = 8$, with $N_\text{Relay}\in\{4,5,6,7\}$ and $N_{\text{Rx}}\in\{1,2,3,4\}$.}
+\label{fig:1user_const}
+\end{figure}
+\subsection{One User, Three Interferer}
+\label{sec:1user_const}
+Figure~\ref{fig:1user_const} shows the performance with three interferer and one transmit/receive pair.
+Obviously in the case where four receive antennas were used (yellow curve), the interference can be fully eliminated therefore it also shows the highest rate.
+However the performance is only $0.5 \left[\text{b/s/Hz}\right]$, if seven relays and only one receive antenna were used - for the values in between even less.
+
+\subsection{Prediction for four Users}
+\label{sec:const_prediction}
+
+By the results shown in the previous section, the performance of a four user system can now be predicted.
+A simlulation of a four user system with widely spread receivers should lead to the same results like summing up the previous curves four times.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/4user_inklpred.png}
+\caption{Plot of the 4 User System, with the predicted performance.}
+\label{fig:4user_pred}
+\end{figure}
+
+Figure~\ref{fig:4user_pred} shows the predicted performance (dashed lines) compared to the simulated performance (solid lines).
+The rates of the simulated realizations are hereby lower than the predicted behavior.
+For the simulation, the receivers were not place widely spaced apart, which is one reason for the lower rates, as the coupling among the receivers is diminishing the performance.
+The second reason is, as mention above, a lower performance of the optimization algorithm with a larger problem.
+Still we can conclude, that the optimal solution must be placed between the solid and the dashed curves.
+
+Additionally, by the black curves, theoretical limits of the sum rates are given.
+Because the predicted performance is not outperforming the theoretical limits, it consolidates, that the optimal solution lies around the predicted performance.
+
+
+
+\subsection{Four User MIMO}
+\label{sec:4user_const}
+
+TO-DO: Change the following plot!
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{images/ConstNrelNrx8comparison.png}
+\caption{Comparison of constant $N_\text{Relay} + N_{\text{Rx}} = 8$, with $N_\text{Relay}\in\{4,5,6,7\}$ and $N_{\text{Rx}}\in\{1,2,3,4\}$.}
+\label{fig:4user_const}
+\end{figure}
+
+\section{TDMA - Combination}
+\label{sec:tdma_combination}
+
+In the following a combination of the optimization method with currently existing interference avoiding methods is analyzed.
+As in the previous sections, TDMA is used as a reference.
+Using two slot TDMA, reduces the number of users per slot from four to two.
+Therefore, the results from Figure~\ref{fig:4user_const} can be used to compare them to TDMA applied on the results from Figure~\ref{fig:iniopt_comp}.
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{images/SlotTDMAcomparison_edited.png}
+\caption{Comparison of different slot TDMA approaches.}
+\label{fig:tdma_comb}
+\end{figure}
+
+
+Figure~\ref{fig:tdma_comb} shows in red the results of the four user MIMO system without TDMA.
+In blue the performance of the 2-slot TDMA approach applied on a four user system with only three relays per receiver is shown.
+
+
+
+
+
+
+
+
 

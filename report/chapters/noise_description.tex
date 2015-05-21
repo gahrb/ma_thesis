@@ -1,4 +1,5 @@
 \section{Noise Description}
+\label{sec:noise_description}
 
 As mentioned in~\cite{Yahia2013}, there are four main noise sources in the receiver.
 In the following each noise source will be described and its transfer function towards the loads will be derived. 
@@ -17,9 +18,8 @@ with $k_B$ the Boltzmann constant and $B_W$ the bandwidth.
 
 \subsubsection{Transfer Function of the Antenna Noise}
 \label{sec:antenna_noise_transf}
-As the antenna noise is picked up by the antennas in the same way as the signal, the transfer function remains the same as the one derived in Section~\ref{sec:transf} for the signal, e.g.
+As the antenna noise is picked up by the antennas in the same way as the signal, the transfer function remains the same as the one derived in Equation~\eqref{eq:transfer_function} for the signal, e.g.
 \begin{align}
-\mat{H}_{L,0} &= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0},\quad\text{including port reduction}\\\nonumber
 \mat{H}_{L,0} &= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0}\cdot\mat{H}_{0}.
 \end{align}
 
@@ -86,9 +86,9 @@ Therefore the transfer function becomes
 with 
 \begin{align}
 \label{eq:zeqlna2_down}
-\mat{\tilde{Z}}_{eqLNA_2} &= \mat{g} - \mat{d}\cdot(\mat{c} + \mat{\tilde{Z}}_{eqM_2})^{-1}\cdot\mat{e} = \mat{g}.
+\mat{\tilde{Z}}_{eqLNA_2} &= \mat{g} - \mat{d}\cdot(\mat{c} + \mat{\tilde{Z}}_{eqM_2})^{-1}\cdot\mat{e} = \mat{g},
 \end{align}
-However, under the unilateral assumption the input impedance reduces to $\mat{\tilde{Z}}_{eqLNA_2} = \mat{g}$.
+whereby the unilateral assumption ($\vec{d}=\mat{0}$) was applied.
 
 
 \subsection{Noise Coupling}
@@ -157,10 +157,10 @@ As we have multiple noise sources, first we will describe the noise output $\vec
 \text{and therefore}\qquad &\vec{u}_L = \vec{u}_{AR} + \vec{u}_{LNA_v} + \vec{u}_{LNA_c} + \vec{u}_{\tilde{n}}.
 \end{align}
 
-Because all the noise sources are uncorrelated, except for the LNA noise sources (Equation~\eqref{eq:lna_noise}), the noice covariance matrix can be written as:
+Because all the noise sources are uncorrelated, except for the LNA noise sources (c.f. Equation~\eqref{eq:cov_lna}), the noice covariance matrix for user "0" can be written as:
 \begin{align}
 \label{eq:exp_noise}\nonumber
-\mat{K}_n =\mathbb{E}[\vec{u}_L\vec{u}_L^H] = &\mat{H}_{L,0}\mathbb{E}[\vec{n}_{AR}\vec{n}_{AR}^H]\mat{H}_{L,0}^H + 
+\mat{K}_{n,0} =\mathbb{E}[\vec{u}_L\vec{u}_L^H] = &\mat{H}_{L,0}\mathbb{E}[\vec{n}_{AR}\vec{n}_{AR}^H]\mat{H}_{L,0}^H + 
 \mathbb{E}[\vec{u}_{LNA_v}\vec{u}_{LNA_v}^H] +
 \mathbb{E}[\vec{u}_{LNA_v}\vec{u}_{LNA_c}^H] +\\%\nonumber
 \quad&\mathbb{E}[\vec{u}_{LNA_c}\vec{u}_{LNA_v}^H] +
@@ -174,7 +174,7 @@ Because all the noise sources are uncorrelated, except for the LNA noise sources
 %\mat{H}_{L,n}\mathbb{E}[\vec{\tilde{v}}_{n}\vec{\tilde{v}}_{n}^H]\mat{H}_{L,n}^H .
 \end{align}
 
-For simplicity reasons, we will look in every summand seperately in the following.
+For simplicity reasons, we will look in every summand seperately in the following and neglect the indices for user "0".
 As $-\mat{H}_{L,LNA_v}\cdot\mat{\tilde{Z}}_{eqM_2} = \mat{H}_{L,LNA_c}$ and using~\eqref{eq:cov_ant},~\eqref{eq:cov_lna},~\eqref{eq:cov_down} and~\eqref{eq:gamma_properties}, it follows
 \begin{align}
 \nonumber
@@ -218,7 +218,7 @@ and for the downstream noise
 With these results we can form the final noise covariance matrix as 
 \begin{align}
 \label{eq:noise_cov}
-\mat{K}_n&= %\mat{H}_{L,0}\mat{R}_{na}\mat{H}_{L,0}^H + &\textit{Antenna noise}\\\nonumber
+\mat{K}_{n,0}&= %\mat{H}_{L,0}\mat{R}_{na}\mat{H}_{L,0}^H + &\textit{Antenna noise}\\\nonumber
 %&\qquad\mat{H}_{L,LNA_v}\beta(R_N^2\mat{I}_{N_r} + 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{eqM_2}\} + \mat{\tilde{Z}}_{eqM_2}\mat{\tilde{Z}}_{eqM_2}^H)\mat{H}_{L,LNA_v}^H+&\textit{LNA noise}\\
 %&\qquad\mat{H}_{L,n}\psi\mat{I}_{N_r}\mat{H}_{L,n}^H.&\textit{Downstream noise}
 \mat{H}_{L,0}\mathbb{E}[\vec{n}_{AR}\vec{n}_{AR}^H]\mat{H}_{L,0}^H +

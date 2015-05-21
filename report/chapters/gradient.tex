@@ -2,20 +2,14 @@
 
 In the following the derivation of the gradients will be given.
 In the first section the signal gradients will be derived, in the later the noise gradients.
-The gradients are derived to improve the achievable sum rate function of the system.
-It is given by
-\begin{align}
-\label{eq:sum_rate}
-r &= \text{log}_2\left(\text{det}\left(
-		\mat{K}_s\mat{K}_i^{-1}\mat{K}_n^{-1} + \mat{I}_{N_r}\right)\right)\\\nonumber 
-&= \text{log}_2\left(\text{det}\left(
-		\mat{K}_s+\mat{K}_i+\mat{K}_n\right)\right) -
-		\text{log}_2\left(\text{det}\left(\mat{K}_i+\mat{K}_n\right)\right),
-\end{align}
-where $\mat{K}_s, \mat{K}_i$ and $\mat{K}_n$ denote the signal, interference and noise covariance matrices derived in~\eqref{eq:sig_cov},~\eqref{eq:interf_cov}and~\eqref{eq:noise_cov}.
-
-We are interested in the gradient of the achievable sum rate with respect to the matching network and the passive antenna loads.
-Using the matrix relations from~\cite{Codebook12} the gradient becomes
+The gradients are derived to improve the achievable rates of the system (Equation~\eqref{eq:achiev_rate}).
+%\begin{align}
+%r_j = \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right) -
+%	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right).
+%\end{align}
+%where $\mat{K}_s, \mat{K}_i$ and $\mat{K}_n$ denote the signal, interference and noise covariance matrices derived in~\eqref{eq:sig_cov},~\eqref{eq:interf_cov}and~\eqref{eq:noise_cov}.
+We are interested in the gradient of the achievable rates with respect to the matching network and the passive antenna loads.
+Using the matrix relations from~\cite{Codebook12} the gradient becomes (neglecting the inidces for the user)
 \begin{align}
 \label{eq:gradient}\nonumber
 \frac{\partial r}{\partial\mat{Z}_{l,ij}} &= \frac{1}{\text{ln}(2)} 
@@ -28,7 +22,7 @@ Using the matrix relations from~\cite{Codebook12} the gradient becomes
  	\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}\right)\Bigg),
 \end{align}
 with $l\in\{11,12,22,\text{pass}\}$ denoting the sub-matrices of the matching network or the passive antenna loads and $i,j$ denoting the element in the i-th row and j-th column.
-In the following the gradient is split up in the signal and the noise part.
+In the following the gradient is split up in the signal, interference and the noise part.
 The derivatives for each covariance matrix will be derived.
 
 \section{Signal Gradient}
@@ -80,20 +74,38 @@ Last, the transfer function over the matching network is affected as follows
 \label{eq:HLNAM_sig_grad_22}
 \end{align}
 
-With these derivations, we can apply the chain rule on the transfer function in~\eqref{eq:transf} to get $\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}}$.
-
-
+With these derivations, we can apply the chain rule on the transfer function in Equation~\eqref{eq:transfer_function} to get 
+\begin{align}
+\label{eq:signal_gradient}
+\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}} &= \frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}\cdot \mat{H}_{0}^{\text{sp}}
+	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
+	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H + \\\nonumber
+&\qquad	\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}
+	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
+	\mat{H}_{0}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_{L,0}^H }{\partial\mat{Z}_{l,ij}}.
+\end{align}
 
 \section{Interference Gradient}
 \label{sec:interf_gradient}
 
-TO-DO
+As we saw in Equation~\eqref{eq:interf_cov}, that the interference is similar to the signal, the same derivatives as in Section~\ref{sec:signal_gradient} will apply on the interference.
+Leading to the gradient of the interference covariance matrix
+\begin{align}
+\label{eq:interf_gradient}
+\frac{\partial\mat{K}_i}{\partial\mat{Z}_{l,ij}} &= \sum_{j=1}^{N_{User}-1} 
+	\frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H + \\\nonumber
+ &\qquad \sum_{j=1}^{N_{User}-1} 
+	\mat{H}_{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_{L,0}^H}{\partial\mat{Z}_{l,ij}}.
+\end{align}
 
 \section{Noise Gradients}
 \label{sec:noise_gradient}
 
-As written in Section~\ref{sec:noise}, we have four noise sources.
-Because they sum up at the loads after the LNA, we can look at each noise transfer function seperately and analyze it on its own.
+As written in Section~\ref{sec:noise_description}, we have four noise sources, only the two LNA noise sources correlated with each other.
 
 \subsection{Antenna Noise Gradient}
 \label{sec:ant_noise_grad}
@@ -144,4 +156,5 @@ We can now write the gradient of the noise covariance matrix as
 %&\frac{\partial\mat{H}_{L,n}}{\partial\mat{Z}_{l,ij}}\psi\mat{I}_{N_r}\mat{H}_{L,n}^H+
 %\mat{H}_{L,n}\psi\mat{I}_{N_r}\frac{\partial\mat{H}_{L,n}}{\partial\mat{Z}_{l,ij}}^H.
 \end{align}
+
 

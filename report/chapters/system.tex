@@ -128,6 +128,7 @@ As the effect of coupling from one antenna to another is the same like the rever
 
 
 \subsubsection{The Matching Network}
+\label{sec:matching_network}
 Behind the each receiving antenna a matching network placed, to improve the performance of the receiver.
 For complexity and bandwith reasons ("WCNC - Paper"), single-port (SP) matching is assumed.
 The matching network has the form of 
@@ -143,6 +144,7 @@ Because we assume SP matching the submatrices become diagonal, with the addition
 
 
 \subsubsection{The Low-Noise-Amplifier}
+\label{sec:lna}
 In the LNA-block the received signal after the matching network gets amplified.
 As in the matchig network the LNA can be represented in the following way
 \begin{equation}
@@ -219,10 +221,9 @@ Denoting the transfer function form voltage $\vec{v}_j$ to voltage $\vec{v}_i$ a
 
 And the overall transferfunction
 \begin{align}
+\label{eq:transf_func}
 \mat{H}_{L,0'} &= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0'}.
 \end{align}
-
-
 
 \subsection{Port Reduction}
 \label{sec:port_reduction}
@@ -269,24 +270,26 @@ so that we get the system relations
 \end{align}
 
 The index "$O$" denotes hereby the open circuit ports, the index "$L$" the ports with a load attached.
-We assume, that there are $N_R$ antennas, whereby the first $Ni$ antennas are active, and the later ones are passive (and therefore modeled by a load).
-$\mat{Z}_{pass}$ denotes in the following the $N_r - N_i$ loads representing the passive antennas.
+The indices will change dependent on the user, however, without loss of generality, we will derive the port reduction only for user "0" in the following.
+We assume, that there are $N_R$ antennas, whereby the first $Ni$ antennas are active (i.e. are the receive antenna of user "0"), and the later ones are passive (i.e. the antennas of the relays and of the other users,) and therefore modeled by the impedances of the relays and the input impedance of the other users' antennas.
+$\mat{Z}_{\text{pass}}$ denotes in the following the $N_r - N_i$ impedances representing the passive antennas.
 Therefore it is a diagonal matrix.
 
 From Equation~\eqref{eq:ocl_matrix} and the property
 \begin{align}
-\vec{v}_{CL} &= \vec{v}_0[N_i+1:N_R]-\mat{Z}_{pass}\cdot\vec{i}_{CL}\quad\text{it follows,}\\
-\vec{i}_{CL} &= -(\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\cdot\vec{i}_{CO} -\\\nonumber
-&\qquad (\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_{0}[N_i+1:N_R]\\\nonumber\quad\text{and therefore,}&\\
-\vec{v}_{CO} &= (\mat{Z}_{OO}-\mat{Z}_{OL}(\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO})\cdot\vec{i}_{CO} -\\\nonumber&\qquad \mat{Z}_{OL}(\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_0[N_i+1:N_R].
+\vec{v}_{CL} &= \vec{v}_0[N_i+1:N_R]-\mat{Z}_{\text{pass}}\cdot\vec{i}_{CL}\quad\text{it follows,}\\
+\vec{i}_{CL} &= -(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\cdot\vec{i}_{CO} -\\\nonumber
+&\qquad (\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_{0}[N_i+1:N_R]\\\nonumber\quad\text{and therefore,}&\\
+\vec{v}_{CO} &= (\mat{Z}_{OO}-\mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO})\cdot\vec{i}_{CO} -\\\nonumber&\qquad \mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_0[N_i+1:N_R].
 \end{align}
-With this port reduction we have the new coupling matrix and the new voltage input as
+With this port reduction the equivalent coupling matrix and input voltage for user "0" become
 \begin{align}
-\mat{Z}_C^{'}&= \mat{Z}_{OO} - \mat{Z}_{OL}(\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\quad\text{and}\\
-\vec{v}_0^{'} &= \mat{H}_0 \cdot \vec{v_0}\\\nonumber
+\label{eq:port_reduction}
+\mat{Z}_C^{'}&= \mat{Z}_{OO} - \mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\quad\text{and}\\
+\vec{v}_0^{'} &= \mat{H}_0 \cdot\mat{H}_{0}^{\text{sp}}\cdot \vec{v_0}\\\nonumber
 &\text{with}\quad\mat{H}_0=
 \begin{bmatrix}
-\mat{I}_{N_i} & -\mat{Z}_{OL}(\mat{Z}_{pass} + \mat{Z}_{LL})^{-1}
+\mat{I}_{N_i} & -\mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}
 \end{bmatrix},
 \end{align}
 and so we can reduce the system shown in Figure~\ref{fig:port_reduction}, to the system shown in Figure~\ref{fig:receiver}.
@@ -296,10 +299,17 @@ and so we can reduce the system shown in Figure~\ref{fig:port_reduction}, to the
 To calculate the achievable sum rate of the systems (c.f. Section~\ref{sec:rates}), we need to derive the signal covariance matrix, defined as $\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}]$.
 
 We assume without loss of generality, that transmitter "0" is the corresponding partner of receiver "0".
-As in all the transfer functions from $\vec{v}_0$ to $\vec{v}_L^s$ only impedance matrices appear, the covariance matrix becomes
+The overall transfer functions from $\vec{v}_0$ to $\vec{v}_L^s$ therefore can be extended from Equation~\eqref{transf_func} to
+\begin{align}
+\label{eq:transfer_function}
+ \vec{v}_L^s&= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0'}
+		\cdot \mat{H}_0\cdot\mat{H}_{0}^{\text{sp}} \cdot\vec{v}_0,\\\nonumber
+ \vec{v}_L^s&=\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}\cdot\vec{v}_0,
+\end{align}
+and hence the signal covariance matrix becomes
 \begin{equation}
 \label{eq:sig_cov}
-\mat{K}_s=\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}] = 
+\mat{K}_{s,0}=\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}] = 
 	\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}
 	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
 	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H,
@@ -315,7 +325,7 @@ This means, that all signal parts arriving at the loads of receiver "0" must be 
 The interference covariance matrix hence becomes 
 \begin{equation}
 \label{eq:interf_cov}
-\mat{K}_i=\mathbb{E}[\vec{v}_L^i\vec{v}_L^{i^H}] = \sum_{j=1}^{N_{User}-1} 
+\mat{K}_{i,0}=\mathbb{E}[\vec{v}_L^i\vec{v}_L^{i^H}] = \sum_{j=1}^{N_{User}-1} 
 	\mat{H}_{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
 	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H.
@@ -329,6 +339,76 @@ The interference covariance matrix hence becomes
 \section{Rate Calculations}
 \label{sec:rates}
 
-TO-DO
+\subsection{Achievable Rate}
+\label{sec:achiev_rate}
+After the derivation of the signal, interference and noise covariance matrix, we can now describe the achievable rate for each connection pair.
+The achievable rate for user $j$ is described as
+\begin{align}
+\label{eq:achiev_rate}
+\nonumber
+r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}\mat{K}_{i,j}^{-1}\mat{K}_{n,j}^{-1}+\mat{I}_{N_r}\right)\right)\\
+ &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right).
+\end{align}
+
+Stacking the achievable rates per user into a vector, this leads to 
+\begin{equation}
+\label{eq:achiev_vec}
+\vec{r} =
+\begin{bmatrix}
+r_1 & r_2 & \cdots & r_N
+\end{bmatrix}^T.
+\end{equation}
+
+And by this vector we can describe the achievable sum rate as
+\begin{equation}
+\label{eq:achiev_sum_rate}
+r_{\text{Sum}} = ||\vec{r}||_1,
+\end{equation}
+with $||\cdot||_1$ the 1-norm, i.e. the sum of the elements of $\vec{r}$.
+
+\subsection{Interference Limited Rate}
+\label{sec:sir_rate}
+Another measure required in this thesis is the interference limited rate.
+It is calculated by only considering the signal and interference.
+Therefore neglecting the noise in Equation~\ref{eq:achiev_rate} leads to
+\begin{align}
+\label{eq:sir_rate}
+r_j &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}\right)\right).
+\end{align}
+
+This is helpful, to see how good the interference was removed by the optimization, which will be introduced in Chapter~\ref{sec:solver}.
+
+
+
+\subsection{TDMA Rate}
+\label{sec:tdma_rate}
+In the later sections the results achieved in this thesis will be compared to existing protocols eliminating interference, such as TDMA.
+Therefore in the following the the achievable rates for the TDMA protocol will be shown.
+
+As the time in TDMA is split up in slots in which each user is allowed to transmit without any interference, the achievable rate from Equation~\eqref{eq:achiev_rate} reduces to the interference free achievable rate of 
+\begin{align}
+\label{eq:tdma_achiev_rate}
+r_j  &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{n,j}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{n,j}\right)\right).
+\end{align}
+It is obvious, that with no interference, this rate will be higher than the achievable rate with interference.
+However each user is not allowed anymore, to use the full transmission period, but only a time slot of length $\frac{1}{N_\text{User}}\cdot T_0$, with $T_0$ the length of the full transmission period.
+Therefore the achievable sum rate can be written as
+\begin{align}
+\label{eq:tdma_achiev_sum_rate}
+\nonumber
+r_{\text{Sum}} &= \frac{1}{N_\text{User}}\cdot||\vec{r}||_1,\\
+&= \frac{1}{N_\text{User}}\cdot \sum_{j=0}^{N_\text{User}-1} r_j.
+\end{align}
+The term $\frac{1}{N_\text{User}}$ is hereby called "pre-log" factor and the reason why TDMA is not a good approach for a large number of users, as it increases linearly, however the rate per user increases only logarithmic.
+
+There are different approaches of using TDMA, such as allowing a small number of users at the same time to transmit during one time slot.
+This will lead to some interference but therefore also a smaller pre-log factor.
+Such an approach is used in the later chapters.
+
+
+
 
 
