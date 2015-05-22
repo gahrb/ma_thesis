@@ -87,32 +87,32 @@ For a multiport network, elements $V_1,V_2,I_1\quad\text{and}\quad I_2$ become v
 Looking from the left into the network with a load $R_L$ attached to port two, the equivalent input impedance becomes
 \begin{equation}
 \label{eq:eq_imp_load}
-\mat{Z}_{in_1} = \mat{Z}_{11} - \mat{Z}_{21}\cdot(\mat{Z}_{22} + R_L\cdot\mat{I})^{-1}\cdot \mat{Z}_{12}.
+\mat{Z}_{\text{eq}_1} = \mat{Z}_{11} - \mat{Z}_{21}\cdot(\mat{Z}_{22} + R_L\cdot\mat{I})^{-1}\cdot \mat{Z}_{12}.
 \end{equation}
 With no load attached on port two, the equivalent input impedance becomes
 \begin{equation}
 \label{eq:eq_imp_oc}
-\mat{Z}_{in_1} = \mat{Z}_{11}.
+\mat{Z}_{\text{eq}_1} = \mat{Z}_{11}.
 \end{equation}
 Last, having port one short-circuited and looking from port two into the network, the equivalent network impedance becomes
 \begin{equation}
 \label{eq:eq_imp_sc}
-\mat{Z}_{in_2} = \mat{Z}_{22} - \mat{Z}_{12}\cdot(\mat{Z}_{11})^{-1}\cdot \mat{Z}_{21}.
+\mat{Z}_{\text{eq}_2} = \mat{Z}_{22} - \mat{Z}_{12}\cdot(\mat{Z}_{11})^{-1}\cdot \mat{Z}_{21}.
 \end{equation}
 For reciprocal (multiport-)networks (\textit{RLC}-Networks, containing only passive elements), $\mat{Z}_{12} = \mat{Z}_{21}^T$.
 
 \subsection{Receiver Blocks}
 \begin{figure}[h]
 \centering
-  \includegraphics[width=\linewidth]{images/Receiver.png}
-\caption{The receiver, with the coupling network $\mat{Z}_C$, the SP-matching network $\mat{Z}_M$, the LNA, and loads attached to the LNA.}
+  \includegraphics[width=0.9\linewidth]{images/Receiver.png}
+\caption{The receiver, with the coupling network $\mat{Z}_\text{C}$, the SP-matching network $\mat{Z}_\text{M}$, the LNA, and loads attached to the LNA.}
 \label{fig:receiver}
 \end{figure}
 The receiver (as shown in Figure~\ref{fig:receiver}) consists of three blocks.
 From left to right:
 \begin{enumerate}
-\item{the coupling network ($\mat{Z}_C$),}
-\item{the matching network ($\mat{Z}_M$), and}
+\item{the coupling network ($\mat{Z}_\text{C}$),}
+\item{the matching network ($\mat{Z}_\text{M}$), and}
 \item{the low-noise-amplifier ($\mat{LNA}$).}
 \end{enumerate}
  
@@ -126,22 +126,29 @@ The strength of the coupling between two antennas depends on the spacing between
 In the following a unform spacing of the antennas is assumed.
 As the effect of coupling from one antenna to another is the same like the reverse, the impedance matrix $\mat{Z}_C$ becomes symmetric.
 
+The coupling among the antennas is calculated by the "EWA"-Toolbox~\cite{Orfanidis}.
+The theory of it can be found in~\cite[Chapter 23]{Orfanidis}.
 
 \subsubsection{The Matching Network}
 \label{sec:matching_network}
-Behind the each receiving antenna a matching network placed, to improve the performance of the receiver.
-For complexity and bandwith reasons ("WCNC - Paper"), single-port (SP) matching is assumed.
+In order to improve the performance of the receiver, a matching network placed after each receiving antenna.
+For complexity and bandwith reasons, single-port (SP) matching is assumed~\cite{Yahia2013}.
 The matching network has the form of 
 \begin{equation}
-\mat{Z}_M=
+\mat{Z}_\text{M}=
 \begin{bmatrix}
-\mat{Z}_{M11} & \mat{Z}_{M12} \\
-\mat{Z}_{M21} & \mat{Z}_{M22}
+\mat{Z}_\text{M11} & \mat{Z}_\text{M12} \\
+\mat{Z}_\text{M21} & \mat{Z}_\text{M22}
 \end{bmatrix}.
 \end{equation}
-For a matching network to be lossles it must be pure imaginary and symmetric\cite{Nossek}.
-Because we assume SP matching the submatrices become diagonal, with the additional property of $\mat{Z}_{M12} = \mat{Z}_{M21}^T \implies \mat{Z}_{M12} = \mat{Z}_{M21}$.
-
+For a matching network to be lossles it must be pure imaginary and symmetric~\cite{Nossek}.
+Because we assume SP matching the submatrices become diagonal, with the choice of a reciprocal network, additionally following property holds: $\mat{Z}_\text{M12} = \mat{Z}_\text{M21}^T \implies \mat{Z}_\text{M12} = \mat{Z}_\text{M21}$.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.7\linewidth]{images/T-Network.png}
+\caption{Schematic of a reciprocal T-network.}
+\label{fig:t_netw}
+\end{figure}
 
 \subsubsection{The Low-Noise-Amplifier}
 \label{sec:lna}
@@ -159,39 +166,39 @@ Additionally, matrix $\mat{d}$ is an all-zeros matrix if the unilateral assumtio
 
 \subsection{Transfer Function of the Receiver}
 \label{sec:transf}
-The main interest lies in the transfer function of the input voltages $\vec{v}_0$ to the voltage measured at the loads (in Figure~\ref{fig:receiver}) $\vec{v}_L$.
+The main interest lies in the transfer function of the input voltages $\vec{v}_0$ to the voltage measured at the loads (in Figure~\ref{fig:receiver}) $\vec{v}_\text{L}$.
 In the following the transferfunction over each block of the receiver will be derived.
-We use the termination: $\vec{v}_i$ is the voltage on the left of the block $i$ (i.e. $v_{M}$ is the voltage on the left ports of the matching network).
+We use the termination: $\vec{v}_i$ is the voltage on the left of the block $i$ (i.e. $v_\text{M}$ is the voltage on the left ports of the matching network).
 Additionally, we see the left ports as input ports and the right ports as output ports of each block.
 
 For the derivation of the transferfunction we need four equivalent impedance matrices, namely
 \begin{enumerate}
-\item{$\mat{Z}_{eqM_1}$, the impedance matrix looking from the left into the matching network,}
-\item{$\mat{Z}_{eqM_2}$, the impedance matrix looking from the right into the matching network,}
-\item{$\mat{Z}_{eqLNA_1}$, the impedance matrix looking from the left into the LNA, and}
-\item{$\mat{Z}_{eqLNA_2}$, the impedance matrix looking from the right into the LNA.}
+\item{$\mat{Z}_{\text{eqM}_1}$, the impedance matrix looking from the left into the matching network,}
+\item{$\mat{Z}_{\text{eqM}_2}$, the impedance matrix looking from the right into the matching network,}
+\item{$\mat{Z}_{\text{eqLNA}_1}$, the impedance matrix looking from the left into the LNA, and}
+\item{$\mat{Z}_{\text{eqLNA}_2}$, the impedance matrix looking from the right into the LNA.}
 \end{enumerate}
 
-To calculate $\mat{Z}_{eqM_1}$ and $\mat{Z}_{eqLNA_1}$, we use Equation~\eqref{eq:eq_imp_load} and get the following
+To calculate $\mat{Z}_{\text{eqM}_1}$ and $\mat{Z}_{\text{eqLNA}_1}$, we use Equation~\eqref{eq:eq_imp_load} and get the following
 \begin{align}
 \label{eq:zeqm1}
-\mat{Z}_{eqM_1} &= \mat{Z}_{M11} - \mat{Z}_{M21}\cdot(\mat{Z}_{M22} + \mat{Z}_{eqLNA_1})^{-1}\cdot\mat{Z}_{M12},\\
+\mat{Z}_{\text{eqM}_1} &= \mat{Z}_\text{M11} - \mat{Z}_\text{M21}\cdot(\mat{Z}_\text{M22} + \mat{Z}_{\text{eqLNA}_1})^{-1}\cdot\mat{Z}_\text{M12},\\
 \label{eq:zeqlna1}
-\mat{Z}_{eqLNA_1} &= \mat{c} - \mat{e}\cdot(R_L\mat{I}_{N_r} + \mat{g})^{-1}\cdot\mat{d} = \mat{c}.
+\mat{Z}_{\text{eqLNA}_1} &= \mat{c} - \mat{e}\cdot(R_L\mat{I}_{N_R} + \mat{g})^{-1}\cdot\mat{d} = \mat{c}.
 \end{align}
 
 As we step through the receiver blocks from left to right, we always have the parallel voltages applied to each receiver block on the left.
-Therefore the equivalent input impedances $\mat{Z}_{eqM_2}$ and $\mat{Z}_{eqLNA_2}$ can be derived using Equation~\eqref{eq:eq_imp_oc} and lead to the following
+Therefore the equivalent input impedances $\mat{Z}_{\text{eqM}_2}$ and $\mat{Z}_{\text{eqLNA}_2}$ can be derived using Equation~\eqref{eq:eq_imp_oc} and lead to the following
 \begin{align}
 \label{eq:zeqm2}
-\mat{Z}_{eqM_2} &= \mat{Z}_{M22} - \mat{Z}_{M12}\cdot(\mat{Z}_{M11})^{-1}\cdot\mat{Z}_{M21},\\
+\mat{Z}_{\text{eqM}_2} &= \mat{Z}_\text{M22} - \mat{Z}_\text{M12}\cdot(\mat{Z}_\text{M11})^{-1}\cdot\mat{Z}_\text{M21},\\
 \label{eq:zeqlna2}
-\mat{Z}_{eqLNA_2} &= \mat{g} - \mat{d}\cdot(\mat{c})^{-1}\cdot\mat{e} = \mat{g}.
+\mat{Z}_{\text{eqLNA}_2} &= \mat{g} - \mat{d}\cdot(\mat{c})^{-1}\cdot\mat{e} = \mat{g}.
 \end{align}
 
 To get the parallel input voltage on the left of the matching network, we use the principle of a voltage divider as
 \begin{equation}
-\vec{v_M} = \mat{Z}_{eqM_1}\cdot(\mat{Z}_{eqM_1} + \mat{Z}_{C})^{-1} \cdot \vec{v_0}
+\vec{v_M} = \mat{Z}_{\text{eqM}_1}\cdot(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C})^{-1} \cdot \vec{v_0}
 \end{equation}
 
 To transfer the voltages from the left ports to the right ports of each block we proceed for each block in the following: 
@@ -202,27 +209,27 @@ To transfer the voltages from the left ports to the right ports of each block we
 \end{enumerate}
 For the matching network, it follows:
 \begin{align}
-\vec{i_M} &= \mat{Z}_{M11}^{-1}\cdot\vec{v_M},\\
-\vec{v}_{LNA_{series}} &= \mat{Z}_{M12}\cdot\vec{i_M} = \mat{Z}_{M12} \mat{Z}_{M11}^{-1}\cdot\vec{v_M},\\
-\vec{v}_{LNA} &= \mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1}+\mat{Z}_{eqM_2})^{-1}\cdot\vec{v}_{LNA_{series}}\\\nonumber
-&=\mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1}+\mat{Z}_{eqM_2})^{-1}\mat{Z}_{M12} \mat{Z}_{M11}^{-1}\cdot\vec{v_M},
+\vec{i_M} &= \mat{Z}_\text{M11}^{-1}\cdot\vec{v_M},\\
+\vec{v}_{\text{LNA}_\text{series}} &= \mat{Z}_\text{M12}\cdot\vec{i_M} = \mat{Z}_\text{M12} \mat{Z}_\text{M11}^{-1}\cdot\vec{v_M},\\
+\vec{v}_\text{LNA} &= \mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1}+\mat{Z}_{\text{eqM}_2})^{-1}\cdot\vec{v}_{\text{LNA}_\text{series}}\\\nonumber
+&=\mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1}+\mat{Z}_{\text{eqM}_2})^{-1}\mat{Z}_\text{M12} \mat{Z}_\text{M11}^{-1}\cdot\vec{v}_\text{M},
 \end{align}
 and equivalent for the LNA block
 \begin{align}
-\vec{v_{L}}&=R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R}+\mat{Z}_{LNA_2})^{-1}\mat{Z}_{LNA12}\mat{Z}_{LNA11}^{-1}\cdot\vec{v}_{LNA}.
+\vec{v_{L}}&=R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R}+\mat{Z}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot\mat{c}^{-1}\cdot\vec{v}_\text{LNA}.
 \end{align}
 Therefore we have three transfer functions to characterize our system.
 Denoting the transfer function form voltage $\vec{v}_j$ to voltage $\vec{v}_i$ as $\mat{H}_{i,j}$ (i.e. $\vec{v}_i = \mat{H}_{i,j} \cdot\vec{v}_j$), it follows
 \begin{align}
-\mat{H}_{M,0'} &= \mat{Z}_{eqM_1}\cdot(\mat{Z}_{eqM_1} + \mat{Z}_{C})^{-1}, \\
-\mat{H}_{LNA,M} &= \mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1}+\mat{Z}_{eqM_2})^{-1}\mat{Z}_{M12} \mat{Z}_{M11}^{-1},\quad\text{and}\\
-\mat{H}_{L,LNA} &= R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R}+\mat{Z}_{eqLNA_2})^{-1}\mat{Z}_{LNA12}\mat{Z}_{LNA11}^{-1}.
+\mat{H}_\text{M,0'} &= \mat{Z}_{\text{eqM}_1}\cdot(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C})^{-1}, \\
+\mat{H}_\text{LNA,M} &= \mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1}+\mat{Z}_{\text{eqM}_2})^{-1}\mat{Z}_\text{M12} \mat{Z}_\text{M11}^{-1},\quad\text{and}\\
+\mat{H}_\text{L,LNA} &= R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R}+\mat{Z}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot\mat{c}^{-1}.
 \end{align}
 
 And the overall transferfunction
 \begin{align}
 \label{eq:transf_func}
-\mat{H}_{L,0'} &= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0'}.
+\mat{H}_\text{L,0'} &= \mat{H}_\text{L,LNA}\cdot\mat{H}_\text{LNA,M}\cdot\mat{H}_\text{M,0'}.
 \end{align}
 
 \subsection{Port Reduction}
@@ -240,14 +247,14 @@ We do the port reduction, because we are interested in the signal only at the lo
 The signal picked up at relay antennae or not considered receivers contributes to the considered receiver by the coupling between the antennae, as described in Section~\ref{sec:coupling_network}.
 Passive antennas (e.g. relay antennas) can be modeled by connecting a load directly onto the coupling network as shown in Figure~\ref{fig:port_reduction}.
 Undesired receivers can be equivalently modelled, however in this case, the load corresponds to the equivalent input impedance, when looking from the left into the matching network (as in Equation~\eqref{eq:zeqm1}).
-In the following, $\vec{v}_C$ denotes the voltages on the ports between the coupling matrix $\mat{Z}_C$ and the voltage sources $\vec{v}_0$, the same for the currents.
+In the following, $\vec{v}_\text{C}$ denotes the voltages on the ports between the coupling matrix $\mat{Z}_\text{C}$ and the voltage sources $\vec{v}_0$, the same for the currents.
 As we are not interested in the input/output-relation of these passive antennas, a port reduction is performed.
-For the port reduction, the coupling matrix $\mat{Z}_C$ can be represented by four submatrices
+For the port reduction, the coupling matrix $\mat{Z}_\text{C}$ can be represented by four submatrices
 \begin{equation}
-\mat{Z}_C=
+\mat{Z}_\text{C}=
 \begin{bmatrix}
-\mat{Z}_{OO} & \mat{Z}_{OL}\\
-\mat{Z}_{LO} & \mat{Z}_{LL}
+\mat{Z}_\text{OO} & \mat{Z}_\text{OL}\\
+\mat{Z}_\text{LO} & \mat{Z}_\text{LL}
 \end{bmatrix},
 \end{equation}
 so that we get the system relations
@@ -255,17 +262,17 @@ so that we get the system relations
 \begin{align}
 \label{eq:ocl_matrix}
 \begin{bmatrix}
-\vec{v}_{CO} \\
-\vec{v}_{CL}
+\vec{v}_\text{CO} \\
+\vec{v}_\text{CL}
 \end{bmatrix}
 =
 \begin{bmatrix}
-\mat{Z}_{OO} & \mat{Z}_{OL}\\
-\mat{Z}_{LO} & \mat{Z}_{LL}
+\mat{Z}_\text{OO} & \mat{Z}_\text{OL}\\
+\mat{Z}_\text{LO} & \mat{Z}_\text{LL}
 \end{bmatrix}\cdot
 \begin{bmatrix}
-\vec{i}_{CO} \\
-\vec{i}_{CL}
+\vec{i}_\text{CO} \\
+\vec{i}_\text{CL}
 \end{bmatrix}.
 \end{align}
 
@@ -277,44 +284,44 @@ Therefore it is a diagonal matrix.
 
 From Equation~\eqref{eq:ocl_matrix} and the property
 \begin{align}
-\vec{v}_{CL} &= \vec{v}_0[N_i+1:N_R]-\mat{Z}_{\text{pass}}\cdot\vec{i}_{CL}\quad\text{it follows,}\\
-\vec{i}_{CL} &= -(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\cdot\vec{i}_{CO} -\\\nonumber
-&\qquad (\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_{0}[N_i+1:N_R]\\\nonumber\quad\text{and therefore,}&\\
-\vec{v}_{CO} &= (\mat{Z}_{OO}-\mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO})\cdot\vec{i}_{CO} -\\\nonumber&\qquad \mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\cdot\vec{v}_0[N_i+1:N_R].
+\vec{v}_\text{CL} &= \vec{v}_0[N_i+1:N_R]-\mat{Z}_{\text{pass}}\cdot\vec{i}_\text{CL}\quad\text{it follows,}\\
+\vec{i}_\text{CL} &= -(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\cdot\vec{i}_\text{CO} -\\\nonumber
+&\qquad (\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\cdot\vec{v}_{0}[N_i+1:N_R]\\\nonumber\quad\text{and therefore,}&\\
+\vec{v}_\text{CO} &= (\mat{Z}_\text{OO}-\mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO})\cdot\vec{i}_\text{CO} -\\\nonumber&\qquad \mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\cdot\vec{v}_0[N_i+1:N_R].
 \end{align}
 With this port reduction the equivalent coupling matrix and input voltage for user "0" become
 \begin{align}
 \label{eq:port_reduction}
-\mat{Z}_C^{'}&= \mat{Z}_{OO} - \mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}\mat{Z}_{LO}\quad\text{and}\\
+\mat{Z}_C^{'}&= \mat{Z}_\text{OO} - \mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\quad\text{and}\\
 \vec{v}_0^{'} &= \mat{H}_0 \cdot\mat{H}_{0}^{\text{sp}}\cdot \vec{v_0}\\\nonumber
 &\text{with}\quad\mat{H}_0=
 \begin{bmatrix}
-\mat{I}_{N_i} & -\mat{Z}_{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_{LL})^{-1}
+\mat{I}_{N_i} & -\mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}
 \end{bmatrix},
 \end{align}
 and so we can reduce the system shown in Figure~\ref{fig:port_reduction}, to the system shown in Figure~\ref{fig:receiver}.
 
 \subsection{Signal Covariance Matrix}
 \label{sec:sig_cov}
-To calculate the achievable sum rate of the systems (c.f. Section~\ref{sec:rates}), we need to derive the signal covariance matrix, defined as $\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}]$.
+To calculate the achievable sum rate of the systems (c.f. Section~\ref{sec:rates}), we need to derive the signal covariance matrix, defined as $\mathbb{E}[\vec{v}_\text{L}^s\vec{v}_\text{L}^{s^H}]$.
 
 We assume without loss of generality, that transmitter "0" is the corresponding partner of receiver "0".
-The overall transfer functions from $\vec{v}_0$ to $\vec{v}_L^s$ therefore can be extended from Equation~\eqref{transf_func} to
+The overall transfer functions from $\vec{v}_0$ to $\vec{v}_\text{L}^s$ therefore can be extended from Equation~\eqref{eq:transf_func} to
 \begin{align}
 \label{eq:transfer_function}
- \vec{v}_L^s&= \mat{H}_{L,LNA}\cdot\mat{H}_{LNA,M}\cdot\mat{H}_{M,0'}
+ \vec{v}_\text{L}^s&= \mat{H}_\text{L,LNA}\cdot\mat{H}_\text{LNA,M}\cdot\mat{H}_\text{M,0'}
 		\cdot \mat{H}_0\cdot\mat{H}_{0}^{\text{sp}} \cdot\vec{v}_0,\\\nonumber
- \vec{v}_L^s&=\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}\cdot\vec{v}_0,
+ &=\mat{H}_\text{L,0}\cdot \mat{H}_{0}^{\text{sp}}\cdot\vec{v}_0,
 \end{align}
 and hence the signal covariance matrix becomes
 \begin{equation}
 \label{eq:sig_cov}
-\mat{K}_{s,0}=\mathbb{E}[\vec{v}_L^s\vec{v}_L^{s^H}] = 
-	\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}
+\mat{K}_{s,0}=\mathbb{E}[\vec{v}_\text{L}^s\vec{v}_\text{L}^{s^H}] = 
+	\mat{H}_\text{L,0}\cdot \mat{H}_{0}^{\text{sp}}
 	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
-	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H,
+	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,
 \end{equation}
-where $\mat{H}_{L,0}$ is the transfer function including any port reduction at the receiver and $\mat{H}_{0}^{\text{sp}}$ the transferfunction over the spatial channel derived in Equation~\eqref{eq:spatial_channel} for transmitter "0".
+where $\mat{H}_\text{L,0}$ is the transfer function including any port reduction at the receiver and $\mat{H}_{0}^{\text{sp}}$ the transferfunction over the spatial channel derived in Equation~\eqref{eq:spatial_channel} for transmitter "0".
 
 \subsection{Interference Covariance Matrix}
 \label{sec:int_cov}
@@ -325,10 +332,10 @@ This means, that all signal parts arriving at the loads of receiver "0" must be 
 The interference covariance matrix hence becomes 
 \begin{equation}
 \label{eq:interf_cov}
-\mat{K}_{i,0}=\mathbb{E}[\vec{v}_L^i\vec{v}_L^{i^H}] = \sum_{j=1}^{N_{User}-1} 
-	\mat{H}_{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+\mat{K}_{i,0}=\mathbb{E}[\vec{v}_\text{L}^i\vec{v}_\text{L}^{i^H}] = \sum_{j=1}^{N_\text{User}-1} 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
-	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H.
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H.
 \end{equation}
 
 
@@ -346,7 +353,7 @@ The achievable rate for user $j$ is described as
 \begin{align}
 \label{eq:achiev_rate}
 \nonumber
-r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}\mat{K}_{i,j}^{-1}\mat{K}_{n,j}^{-1}+\mat{I}_{N_r}\right)\right)\\
+r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}\mat{K}_{i,j}^{-1}\mat{K}_{n,j}^{-1}+\mat{I}_{N_R}\right)\right)\\
  &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right) -
 	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right).
 \end{align}
@@ -363,7 +370,7 @@ r_1 & r_2 & \cdots & r_N
 And by this vector we can describe the achievable sum rate as
 \begin{equation}
 \label{eq:achiev_sum_rate}
-r_{\text{Sum}} = ||\vec{r}||_1,
+r_\text{Sum} = ||\vec{r}||_1,
 \end{equation}
 with $||\cdot||_1$ the 1-norm, i.e. the sum of the elements of $\vec{r}$.
 
@@ -399,7 +406,7 @@ Therefore the achievable sum rate can be written as
 \begin{align}
 \label{eq:tdma_achiev_sum_rate}
 \nonumber
-r_{\text{Sum}} &= \frac{1}{N_\text{User}}\cdot||\vec{r}||_1,\\
+r_\text{Sum} &= \frac{1}{N_\text{User}}\cdot||\vec{r}||_1,\\
 &= \frac{1}{N_\text{User}}\cdot \sum_{j=0}^{N_\text{User}-1} r_j.
 \end{align}
 The term $\frac{1}{N_\text{User}}$ is hereby called "pre-log" factor and the reason why TDMA is not a good approach for a large number of users, as it increases linearly, however the rate per user increases only logarithmic.

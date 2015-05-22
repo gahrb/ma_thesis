@@ -29,9 +29,9 @@ The derivatives for each covariance matrix will be derived.
 \label{sec:signal_gradient}
  For the signal covariance matrix, we see from Equation~\eqref{eq:sig_cov}, that we can take the derivative of each sub transfer function and place them together afterwards by the chain rule.
 First of all, we check which sub transfer functions are affected by the gradient.
-We see that for the matching network sub matrices, we need to take the derivative of the transfer functions $\mat{H}_{LNA,M}$ and $\mat{H}_{M,0}$.
+We see that for the matching network sub matrices, we need to take the derivative of the transfer functions $\mat{H}_\text{LNA,M}$ and $\mat{H}_\text{M,0}$.
 For the passive antenna loads $\mat{Z}_\text{pass}$ obviously $\mat{H}_{0}$ for the port reduction is affected.
-Additionally $\mat{H}_{M,0}$ is affected because it contains $\mat{Z}_{C'}$.
+Additionally $\mat{H}_\text{M,0}$ is affected because it contains $\mat{Z}_\text{C'}$.
 
 For the following $\mat{J}_{ij}$ denotes the single entry matrix, with respect to the i-th row and the j-th column.
 If follows for the port reduction transfer function
@@ -39,50 +39,69 @@ If follows for the port reduction transfer function
 \label{eq:H0_sig_grad}
 \frac{\partial\mat{H}_{0}}{\partial\mat{Z}_{\text{pass},ij}}&=
 \begin{bmatrix}
-\mat{0}_{N_i} & \mat{Z}_{OL}(\mat{Z}_\text{pass}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}
+\mat{0}_{N_i} & \mat{Z}_\text{OL}(\mat{Z}_\text{pass}+\mat{Z}_\text{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1}
 \end{bmatrix}
 \end{align}
 with $\mat{0}_{N_i}$ the $N_i$ by $N_i$ all-zeros matrix.
 For the voltage divider before the matching network it follows,
 \begin{align}
 \label{eq:HM0_sig_grad}
-\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{11,ij}}&=
-\mat{J}_{ij}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1} - \mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\mat{J}_{ij}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1},\\\nonumber
-\text{with}\quad&\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M12}} = \mat{J}_{ij}^T(\mat{Z}_{M22} + \mat{Z}_{eqLNA_1})^{-1}\mat{Z}_{M12} + \mat{Z}_{M12}^T(\mat{Z}_{M22} + \mat{Z}_{eqLNA_1})^{-1}\mat{J}_{ij},\\
-\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{12,ij}}&=
-\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M12}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1} -
-\mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M12}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1},\\\nonumber
-\text{with}\quad&\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M22}} = \mat{Z}_{M12}^T(\mat{Z}_{M22} + \mat{Z}_{eqLNA_1})^{-1}\mat{J}_{ij}^T(\mat{Z}_{M22} + \mat{Z}_{eqLNA_1})^{-1}\mat{Z}_{M12},\\
-\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{22,ij}}&=
-\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M22}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1} -
-\mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{eqM_1}}{\partial\mat{Z}_{M22}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1},\\\nonumber
-\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
-\mat{Z}_{OL}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO}\\
-\frac{\partial\mat{H}_{M,0}}{\partial\mat{Z}_{\text{pass},ij}}&=
--\mat{Z}_{eqM_1}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}}(\mat{Z}_{eqM_1} + \mat{Z}_{C'})^{-1}.
+\frac{\partial\mat{H}_\text{M,0}}{\partial\mat{Z}_{11,ij}}&=
+\mat{J}_{ij}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1} - \mat{Z}_{\text{eqM}_1}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1},\\\nonumber
+\text{with}\quad&\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M12}} = 
+	\mat{J}_{ij}^T(\mat{Z}_\text{M22} + \mat{Z}_{\text{eqLNA}_1})^{-1}\mat{Z}_\text{M12} + 
+	\mat{Z}_\text{M12}^T(\mat{Z}_\text{M22} + \mat{Z}_{\text{eqLNA}_1})^{-1}\mat{J}_{ij}, \\\nonumber
+\frac{\partial\mat{H}_\text{M,0}}{\partial\mat{Z}_{12,ij}}&=
+\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M12}}
+	(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1} +\\
+  &\qquad- \mat{Z}_{\text{eqM}_1}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1}
+	\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M12}}
+	(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1},\\\nonumber
+\text{with}\quad&\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M22}} = 
+\mat{Z}_\text{M12}^T(\mat{Z}_\text{M22} + \mat{Z}_{\text{eqLNA}_1})^{-1}
+	\mat{J}_{ij}^T(\mat{Z}_\text{M22} + \mat{Z}_{\text{eqLNA}_1})^{-1}\mat{Z}_\text{M12},\\\nonumber
+\frac{\partial\mat{H}_\text{M,0}}{\partial\mat{Z}_{22,ij}}&=
+\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M22}}
+	(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1} +\\
+  &\qquad -\mat{Z}_{\text{eqM}_1}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1}
+	\frac{\partial\mat{Z}_{\text{eqM}_1}}{\partial\mat{Z}_\text{M22}}
+	(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1},\\\nonumber
+\text{and with}\quad&\frac{\partial\mat{Z}_\text{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
+\mat{Z}_\text{OL}(\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\\
+\frac{\partial\mat{H}_\text{M,0}}{\partial\mat{Z}_{\text{pass},ij}}&=
+-\mat{Z}_{\text{eqM}_1}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1}\frac{\partial\mat{Z}_\text{C'}}{\partial\mat{Z}_{\text{pass},ij}}(\mat{Z}_{\text{eqM}_1} + \mat{Z}_\text{C'})^{-1}.
 \end{align}
 Last, the transfer function over the matching network is affected as follows
 \begin{align}
 \label{eq:HLNAM_sig_grad}
-\frac{\partial\mat{H}_{LNA,M}}{\partial\mat{Z}_{11,ij}}&=
--\mat{H}_{LNA,M}\mat{J}_{ij}\mat{Z}_{M11}^{-1}\mat{Z}_{M12}(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}\mat{Z}_{M12}\mat{Z}_{M11}^{-1}-\mat{H}_{LNA,M}\mat{J}_{ij}\mat{Z}_{M11}^{-1}\\\nonumber
-\frac{\partial\mat{H}_{LNA,M}}{\partial\mat{Z}_{12,ij}}&=
-\mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}(-\mat{J}_{ij}^T\mat{Z}_{M11}^{-1}\mat{Z}_{M12} - \mat{Z}_{M12}^T\mat{Z}_{M11}^{-1}\mat{J}_{ij})\cdot\\
-&\qquad(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}\mat{Z}_{M12}\mat{Z}_{M11}^{-1} + \mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}\mat{J}_{ij}\mat{Z}_{M11}^{-1},\\
-\frac{\partial\mat{H}_{LNA,M}}{\partial\mat{Z}_{22,ij}}&=
-\mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}\mat{J}_{ij}(\mat{Z}_{eqLNA_1} + \mat{Z}_{eqM_2})^{-1}\mat{Z}_{M12}\mat{Z}_{M11}^{-1}
+\nonumber
+\frac{\partial\mat{H}_\text{LNA,M}}{\partial\mat{Z}_{11,ij}}&=
+-\mat{H}_\text{LNA,M}\mat{J}_{ij}\mat{Z}_\text{M11}^{-1}\mat{Z}_\text{M12}
+	(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}
+	\mat{Z}_\text{M12}\mat{Z}_\text{M11}^{-1} +\\
+  &\qquad- \mat{H}_\text{LNA,M}\mat{J}_{ij}\mat{Z}_\text{M11}^{-1}\\\nonumber
+\frac{\partial\mat{H}_\text{LNA,M}}{\partial\mat{Z}_{12,ij}}&=
+	-\mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}
+	\mat{J}_{ij}^T\mat{Z}_\text{M11}^{-1}\mat{Z}_\text{M12} - 
+	\mat{Z}_\text{M12}^T\mat{Z}_\text{M11}^{-1}\mat{J}_{ij}\cdot\\\nonumber
+  &\qquad(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}
+	\mat{Z}_\text{M12}\mat{Z}_\text{M11}^{-1} + \\
+  &\qquad\mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}
+	\mat{J}_{ij}\mat{Z}_\text{M11}^{-1},\\
+\frac{\partial\mat{H}_\text{LNA,M}}{\partial\mat{Z}_{22,ij}}&=
+\mat{Z}_{\text{eqLNA}_1}(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{eqLNA}_1} + \mat{Z}_{\text{eqM}_2})^{-1}\mat{Z}_\text{M12}\mat{Z}_\text{M11}^{-1}
 \label{eq:HLNAM_sig_grad_22}
 \end{align}
 
 With these derivations, we can apply the chain rule on the transfer function in Equation~\eqref{eq:transfer_function} to get 
 \begin{align}
-\label{eq:signal_gradient}
-\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}} &= \frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}\cdot \mat{H}_{0}^{\text{sp}}
+\label{eq:signal_gradient}\nonumber
+\frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}} &= \frac{\partial\mat{H}_\text{L,0}}{\partial\mat{Z}_{l,ij}}\cdot \mat{H}_{0}^{\text{sp}}
 	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
-	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H + \\\nonumber
-&\qquad	\mat{H}_{L,0}\cdot \mat{H}_{0}^{\text{sp}}
+	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H + \\
+&\qquad	\mat{H}_\text{L,0}\cdot \mat{H}_{0}^{\text{sp}}
 	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
-	\mat{H}_{0}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_{L,0}^H }{\partial\mat{Z}_{l,ij}}.
+	\mat{H}_{0}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_\text{L,0}^H }{\partial\mat{Z}_{l,ij}}.
 \end{align}
 
 \section{Interference Gradient}
@@ -92,14 +111,14 @@ As we saw in Equation~\eqref{eq:interf_cov}, that the interference is similar to
 Leading to the gradient of the interference covariance matrix
 \begin{align}
 \label{eq:interf_gradient}
-\frac{\partial\mat{K}_i}{\partial\mat{Z}_{l,ij}} &= \sum_{j=1}^{N_{User}-1} 
-	\frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+\frac{\partial\mat{K}_i}{\partial\mat{Z}_{l,ij}} &= \sum_{j=1}^{N_\text{User}-1} 
+	\frac{\partial\mat{H}_\text{L,0}}{\partial\mat{Z}_{l,ij}} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
-	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_{L,0}^H + \\\nonumber
- &\qquad \sum_{j=1}^{N_{User}-1} 
-	\mat{H}_{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H + \\\nonumber
+ &\qquad \sum_{j=1}^{N_\text{User}-1} 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
-	\mat{H}_{j}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_{L,0}^H}{\partial\mat{Z}_{l,ij}}.
+	\mat{H}_{j}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_\text{L,0}^H}{\partial\mat{Z}_{l,ij}}.
 \end{align}
 
 \section{Noise Gradients}
@@ -112,49 +131,60 @@ As written in Section~\ref{sec:noise_description}, we have four noise sources, o
 As the antenna noise is picked up at the same place as the signal, its gradient is also the same as the signal covariance gradient.
 The formulas from~\eqref{eq:H0_sig_grad} to ~\eqref{eq:HLNAM_sig_grad_22} apply in the same manner to the antenna noise transfer functions.
 Therefore they are omitted here.
-We only note, that the trasfer functions $\mat{H}_{0}$, $\mat{H}_{M,0}$ and $\mat{H}_{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}$, with $l\in\{11,12,22,\text{pass}\}$.
+We only note, that the trasfer functions $\mat{H}_{0}$, $\mat{H}_\text{M,0}$ and $\mat{H}_\text{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}}$, with $l\in\{11,12,22,\text{pass}\}$.
 
 \subsection{LNA Noise Gradient}
 \label{sec:lna_noise_grad}
 
-Looking at the transfer function of the two LNA noise sources, we see that neither $\mat{H}_{L,LNA}$ nor $\mat{Z}_{eqLNA_1}$ are affected by the derivations.
-Only $\mat{\tilde{Z}}_{eqM_2}$ and therefore $\mat{H}_{L,LNA_v}$ have to be taken into account.
+Looking at the transfer function of the two LNA noise sources, we see that neither $\mat{H}_\text{L,LNA}$ nor $\mat{Z}_{\text{eqLNA}_1}$ are affected by the derivations.
+Only $\mat{\tilde{Z}}_{\text{eqM}_2}$ and therefore $\mat{H}_{\text{L,LNA}_v}$ have to be taken into account.
 It follows,
 \begin{align}
 \label{eq:HLNAM_sig_grad}
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{11,ij}}&=
-\mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{J}_{ij}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1},\\
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{12,ij}}&=
--\mat{J}_{ij}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{Z}_{M21} - \mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{J}_{ij}^T,\\
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{22,ij}}&=\mat{J}_{ij},\\\nonumber
-\text{and with}\quad&\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
-\mat{Z}_{OL}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_{LL})^{-1}\mat{Z}_{LO},\\
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{\text{pass},ij}}&=
-\mat{Z}_{M12}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\frac{\partial\mat{Z}_{C'}}{\partial\mat{Z}_{\text{pass},ij}}(\mat{Z}_{M11} + \mat{Z}_{C'})^{-1}\mat{Z}_{M21},\\\nonumber\qquad&\text{which results in}\\
-\frac{\mat{H}_{L,LNA_v}}{\partial\mat{Z}_{l,ij}}&=-\mat{H}_{L,LNA}\mat{Z}_{eqLNA_1}(\mat{Z}_{eqLNA_1} + \mat{\tilde{Z}}_{eqM_2})^{-1}\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{l,ij}}(\mat{Z}_{eqLNA_1} + \mat{\tilde{Z}}_{eqM_2})^{-1}.
+\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{11,ij}}&=
+\mat{Z}_\text{M12} (\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1}
+	\mat{J}_{ij}(\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1},\\
+\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{12,ij}}&=
+-\mat{J}_{ij} (\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1} \mat{Z}_\text{M21} 
+	-\mat{Z}_\text{M12} (\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1} \mat{J}_{ij}^T,\\
+\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{22,ij}}&=\mat{J}_{ij},\\\nonumber
+\text{and with}\quad&
+\frac{\partial\mat{Z}_\text{C'}}{\partial\mat{Z}_{\text{pass},ij}} = 
+\mat{Z}_\text{OL} (\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1} \mat{J}_{ij}
+	(\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1} \mat{Z}_\text{LO},\\
+\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{\text{pass},ij}}&=
+\mat{Z}_\text{M12} (\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1}
+	\frac{\partial\mat{Z}_\text{C'}}{\partial\mat{Z}_{\text{pass},ij}}
+	(\mat{Z}_\text{M11} + \mat{Z}_\text{C'})^{-1}\mat{Z}_\text{M21},\\\nonumber
+\qquad&\text{which results in}\\
 \label{eq:HLNAM_sig_grad_22}
+\frac{\mat{H}_{\text{L,LNA}_v}}{\partial\mat{Z}_{l,ij}}&=
+-\mat{H}_\text{L,LNA} \mat{Z}_{\text{eqLNA}_1} 
+	(\mat{Z}_{\text{eqLNA}_1} + \mat{\tilde{Z}}_{\text{eqM}_2})^{-1}
+		\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{l,ij}}
+	(\mat{Z}_{\text{eqLNA}_1} + \mat{\tilde{Z}}_{\text{eqM}_2})^{-1}.
 \end{align}
 
 
 \subsection{Downstream Noise Gradient}
 \label{sec:down_noise_grad}
-Last, we see, that the transfer function of the downstream noise $\mat{H}_{L,\tilde{n}}$ is not affected by any of the derivations above under the unilateral assumption.
-Otherwise, $\mat{\tilde{Z}}_{eqLNA_2}$ is a function of the matching network and the passive antenna loads. It follows,
+Last, we see, that the transfer function of the downstream noise $\mat{H}_{\text{L},\tilde{n}}$ is not affected by any of the derivations above under the unilateral assumption.
+Otherwise, $\mat{\tilde{Z}}_{\text{eqLNA}_2}$ is a function of the matching network and the passive antenna loads. It follows,
 
 \subsection{Noise Gradient}
 We can now write the gradient of the noise covariance matrix as
 \begin{align}
 \label{eq:noise_grad}\nonumber
 \frac{\partial\mat{K}_n}{\partial\mat{Z}_{l,ij}} &= 
-\frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}\mat{R}_{na}\mat{H}_{L,0}^H +\mat{H}_{L,0}\mat{R}_{na} \frac{\partial\mat{H}_{L,0}}{\partial\mat{Z}_{l,ij}}^H
+\frac{\partial\mat{H}_\text{L,0}}{\partial\mat{Z}_{l,ij}}\mat{R}_\text{na}\mat{H}_\text{L,0}^H +\mat{H}_\text{L,0}\mat{R}_\text{na} \frac{\partial\mat{H}_\text{L,0}}{\partial\mat{Z}_{l,ij}}^H
 \\\nonumber
-&\frac{\partial\mat{H}_{L,LNA_v}}{\partial\mat{Z}_{l,ij}}\beta\left(R_N^2\mat{I}_{N_r} - 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{eqM_2}\} + \mat{\tilde{Z}}_{eqM_2}\mat{\tilde{Z}}_{eqM_2}^H\right)\mat{H}_{L,LNA_v}^H+
+&\frac{\partial\mat{H}_{\text{L,LNA}_v}}{\partial\mat{Z}_{l,ij}}\beta\left(R_N^2\mat{I}_{N_R} - 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\} + \mat{\tilde{Z}}_{\text{eqM}_2}\mat{\tilde{Z}}_{\text{eqM}_2}^H\right)\mat{H}_{\text{L,LNA}_v}^H+
 \\\nonumber
-&\mat{H}_{L,LNA_v}\beta\left(2 R_N\frac{\partial\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{eqM_2}\}}{\partial\mat{Z}_{l,ij}} +
-\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{l,ij}}\mat{\tilde{Z}}_{eqM_2}^H + \mat{\tilde{Z}}_{eqM_2}\left(\frac{\partial\mat{\tilde{Z}}_{eqM_2}}{\partial\mat{Z}_{l,ij}}\right)^H\right)\mat{H}_{L,LNA_v}^H+\\
-&\mat{H}_{L,LNA_v}\beta\left(R_N^2\mat{I}_{N_r} - 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{eqM_2}\} + \mat{\tilde{Z}}_{eqM_2}\mat{\tilde{Z}}_{eqM_2}^H\right)\frac{\partial\mat{H}_{L,LNA_v}}{\partial\mat{Z}_{l,ij}}^H.%+\\\nonumber
-%&\frac{\partial\mat{H}_{L,n}}{\partial\mat{Z}_{l,ij}}\psi\mat{I}_{N_r}\mat{H}_{L,n}^H+
-%\mat{H}_{L,n}\psi\mat{I}_{N_r}\frac{\partial\mat{H}_{L,n}}{\partial\mat{Z}_{l,ij}}^H.
+&\mat{H}_{\text{L,LNA}_v}\beta\left(2 R_N\frac{\partial\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\}}{\partial\mat{Z}_{l,ij}} +
+\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{l,ij}}\mat{\tilde{Z}}_{\text{eqM}_2}^H + \mat{\tilde{Z}}_{\text{eqM}_2}\left(\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{l,ij}}\right)^H\right)\mat{H}_{\text{L,LNA}_v}^H+\\
+&\mat{H}_{\text{L,LNA}_v}\beta\left(R_N^2\mat{I}_{N_R} - 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\} + \mat{\tilde{Z}}_{\text{eqM}_2}\mat{\tilde{Z}}_{\text{eqM}_2}^H\right)\frac{\partial\mat{H}_{\text{L,LNA}_v}}{\partial\mat{Z}_{l,ij}}^H.%+\\\nonumber
+%&\frac{\partial\mat{H}_\text{L,n}}{\partial\mat{Z}_{l,ij}}\psi\mat{I}_{N_R}\mat{H}_\text{L,n}^H+
+%\mat{H}_\text{L,n}\psi\mat{I}_{N_R}\frac{\partial\mat{H}_\text{L,n}}{\partial\mat{Z}_{l,ij}}^H.
 \end{align}
 
 
