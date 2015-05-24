@@ -2,22 +2,26 @@
 
 \section{Conclusion}
 \label{sec:conclusion}
-This thesis showed that the use of passive relays with an optimal choice of relay and matching network impedances can improve the achievable rates significantly, so that current interference eliminating protocols are outperformed.
+This thesis showed that the use of passive relays with an optimal choice of relay and matching network impedances can improve the achievable rates significantly.
+It was shown, that current interference eliminating protocols are outperformed by this method.
 
-The results were compared to receiver structures with widely spaced antennas and optimal choices of the matching network with the same number of antennas as ...
-Rates close to these limits were achieved.
+Different solver approaches were introduced with promising results.
+For the method of gradient search the partial derivatives of the achievable rate were derived for any noise contribution, spatial channel realization and any interference.
+
+The results were compared to receiver structures with widely spaced antennas and optimal choices of the matching network.
+With just one receive antenna, rates close to these limits were achieved.
+These results were given for  different number of passive relays, receiving antennas per user, users, relay placings, and input powers.
+Further, a lower bound of required number of relays was given to achieve a low interference link for all users in such a network.
 
 
 \section{Future Work}
 \label{sec:outlook}
-Because this thesis looked into the achievable improvements by the use of passive relays and showed that this method is an auspicious method in diminishing interference for dense networks, the feasibility remains to be prooven.
+Because this thesis looked into the achievable improvements by the use of passive relays and showed that this method is an auspicious method in diminishing interference for dense networks, the feasibility remains to be proven.
 
-That the method will be implemented one day, the results must be scaled to larger systems.
-Further the time to optimize  the network for one setting must be decreased dramatically.
-Therefore different solver approaches must be found and analyzed.
+The results must be scaled to larger systems and the speed of the solver to find a satisfyingly good result must be improved.
+Therefore maybe different solver approaches could be the solution.
 
-An analysis of the optimal impedance values would most certainly lead to a better understanding of the whole problem.
-Maybe correlations to the antenna placing can be found.
+An analysis of the optimal impedance values would most certainly lead to a better understanding.
+Maybe correlations to the antenna placing could be found and a better optimization routine with educated initial guesses could be found.
 
 The choice of complex components at the relays (i.e. lossy relays), must be further explored, as it gives a higher degree of freedom for the solution finding.
-

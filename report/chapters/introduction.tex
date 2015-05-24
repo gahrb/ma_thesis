@@ -1,41 +1,48 @@
 \chapter{Introduction}
 \label{sec:introduction}
 
-Future wireless networks are assumed to be of higher density at the receiver side, as more and more devices with access to the internet are appearing on the market, and more and more types of devices are staffed with moduels wich are able to connect to the internet (internet of things~IoT).
-Examples for such scenarios are cellular networks in an urban area, wireless networks in public spaces as concert halls, or seonsor networks.
+Future wireless networks are assumed to be of higher density at the receiver side, as more and more devices with access to the Internet are appearing on the market, and more and more types of devices are staffed with modules which are able to connect to the Internet (Internet of things~IoT)~\cite{rusek13}.
+Examples for such scenarios are cellular networks in an urban area, wireless networks in public spaces as concert halls, or sensor networks.
 
 Such networks mainly suffer from two rate limiting  effects: fading and interference.
-When the effect of fading is mostly solved by MIMO-techinques, the interference is the remaining bottleneck to achieve high data rates.
-Current methods to overcome interference are protocals like TDMA, FDMA or CDMA.
-The downside of those protocals is the unique allocation of a user to a specific time or frequency slot, hence the blocking of all other users for this period.
-More advanced techniques use multiple antennas as in the case of fading, to achieve multiple observations of the incoming signals and therefore the ability to zeroforce the interfering signals.
-This, however, is only possible, if the number of antennas per receiver is larger than the number of interfering signal streams~\ref{sec:zeroforcing}
- - in high density networks nearly impossible, or very expensive as the size of the receiver structure grows rapidly.
+When the effect of fading is mostly solved by MIMO-techniques, the interference is the remaining bottleneck to achieve high data rates.
+Current methods to overcome interference are protocols like TDMA, FDMA or CDMA.
+The downside of those protocols is the unique allocation of a user to a specific time or frequency slot, hence the blocking of all other users for this period.
+More advanced techniques use multiple antennas as in the case of fading, to achieve multiple observations of the incoming signals and therefore the ability to zero force the interfering signals.
+This, however, is only possible, if the number of antennas per receiver is larger than the number of interfering signal streams - in high density networks nearly impossible, or very expensive as the size of the receiver structure grows rapidly~\cite{rusek13}.
 
 In this thesis the use of passive relays, i.e. antennae with pure imaginary impedances attached is introduced.
 As they are placed very closely (in terms of wavelengths) around the receivers, they interact by the effect of coupling with the receivers.
-By the choice of the impedances, the strengh of coupling can be changed.
+By the choice of the impedances, the strenght of coupling can be changed.
 With an increasing number of such passive relays, the coupling can be used to steer the signal towards the receiver and block the interference.
 
 \section{Motivation and Goals}
 \label{sec:motivation}
 
-The achievable rate of a connection pair is propotional to the signal to noise and interference ration (SINR)~\eqref{eq:sinr}.
+The achievable rate of a connection pair is proportional to the signal to noise and interference ration (SINR).
 In a high power region the effect of noise can be neglected as the interference is the main diminishing factor.
 Therefore an interference-free connection is the main goal.
 
-As the method of using passive relays only by their coupling is a new way of adressing the problem of interference, this thesis will look more into the achievable improvements than into the feasibility of the method.
-To achieve the highest possible rate for any realization, the shape of the problem will be analyzed and different solver methods will be introduced and compared.
-
+As the method of using passive relays only by their coupling is a new way of addressing the problem of interference, this thesis will look more into the achievable improvements than into the practical feasibility of the method.
+To achieve the highest possible rate for any realization, the shape of the problem will be analyzed and different solver methods will be introduced and compared with each other.
+The achievable rates shall be given for different settings and topologies, in order to beeing able to judge for which settings this method is suitable, and for which not.
 
 \section{State of the Art}
 \label{sec:SoA}
 
-TBD...
+In~\cite{rusek13} F. Rusek et al. write about scaling up MIMO systems.
+Therefore they look at transmitters and receivers of hundreds antennas and more.
+Among other things they look therefore also into mutual coupling and spatial correlation of such large antenna arrays.
 
-\cite{Nossek}
-\cite{Yahia2013}
-\cite{rusek13}
+In~\cite{Nossek} M. Ivrlac and J. Nossek approach compact antenna arrays by a new way of description.
+The description given is also usable for this thesis with some adaption.
+Additionally they find an optimal setting for the matching network on the receiver side, the so called multi-port matching.
+This multi-port matching will be used in this thesis to serve as an upper limit for the method which is used to maximize the achievable rate.
+
+Last, in~\cite{Yahia2013} Y. Hassan and A. Wittneben develop a gradient-search algorithm to design the matching network for achievable rate maximization of multi user MIMO systems.
+The settings in this thesis are similar to the ones in~\cite{Yahia2013}.
+New is the fact of using passive relays to amplify the signal at the receiver.
+
 
 
 
@@ -45,15 +52,19 @@ TBD...
 In the following chapter the whole system will be described.
 The effect of coupling will be analyzed and the overall transfer function - from the transmitter to the receiver will be stated.
 All the noise sources appearing in the systems and their transfer function will be shown and derived.
-The transfer functions will be splitted up into smaller, simpler (sub-) functions, so that the effect of coupling and the interference can be better described and analyzed.
+The transfer functions will be split up into smaller, simpler (sub-) functions, so that the effect of coupling and the interference can be better described and analyzed.
 
 As one of the solver methods is gradient search, in the third chapter the analytical gradients will be derived - for the signal, the interference and the noise part.
-The gradient is dependent on the covariance matrix, therefore they will be derived as well for the signal, interference and noise contributions at the reciever.
+The gradient is dependent on the covariance matrix, therefore they will be derived as well for the signal, interference and noise contributions at the receiver.
 
-Last, the different solver methods will be evaluated.
+In the fourth chapter different solver methods will be introduced and compared to each other.
+Beside the method of gradient search, there will be heuristic algorithms introduced.
+Further improvements, in precision and speed, of the solver performance will be introduced.
+
+Last, the results of the solver methods will be evaluated.
 The results will be compared versus the number of relays used in a setup,
-versus different types of placings of the relays and versus different numbers of connection pairs.
-Additionally theoretical limits of the setups will be derived and the results will be compared to current protocols which overcome interference (TDMA).
+versus different types of placings of the relays and versus different numbers users.
+Additionally, theoretical limits of the setups will be derived and the results will be compared to current protocols which overcome interference (such as TDMA).
 
 
 

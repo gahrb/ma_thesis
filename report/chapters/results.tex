@@ -1,11 +1,11 @@
-\chapter{Results}
+\chapter{Simulation Results}
 \label{sec:results}
 
 In the following, the results of the thesis will be discussed.
-The performance of the optimization routine will be shown for different settings, i.e. for different number of relays, receiving antennas per user, users, relay placings, ...
+The performance of the optimization routine will be shown for different settings, i.e. for different number of relays, receiving antennas per user, users, relay placings, and input powers.
 If not any further mentioned, the same settings will be used, as in Section~\ref{sec:solver}, i.e.
-we will look at a 2x2 MIMO system with one receive antenna per user and three relays, as shown in Figure~\ref{fig:antenna_placing}.
-The relays in this system will be loss less, i.e. the impedance will be pure imaginary.
+we will look at a two user system with one receive antenna and three relays per user, as shown in Figure~\ref{fig:antenna_placing}.
+The relays in this system will be lossless, i.e. the impedance will be pure imaginary.
 
 \section{Introduction of Measures for Comparison}
 \label{sec:measures}
@@ -14,7 +14,7 @@ Additionally theoretical performance limits will be shown, in order to see by ho
 
 \subsection{Uncoupled Relay Rates}
 One of the logical performances to compare the use of loaded antennas to, is the same setting without any coupling among the relays.
-Logically, the "uncoupled relays rate" should be smaller than including and adapting the coupling to our needs.
+Logically, the "uncoupled relays rate" should be smaller than including the relays and adapting their impedances to our needs.
 If no higher rate can be achieved, the whole idea of using passive relays would fail.
 \begin{figure}[h]
 \centering
@@ -24,7 +24,9 @@ If no higher rate can be achieved, the whole idea of using passive relays would 
 \end{figure}
 
 In Figure~\ref{fig:coupledcomparison}, the green solid line shows the performance if no coupling among the relays and receivers exist.
-It is clear, that the rates including relay coupling (red solid line) are much larger than without any coupling.
+It is clear, that the rates including relay coupling (red solid line) are much larger.
+Therefore this method is suitable to improve the achievable rates.
+
 
 \subsection{TDMA Rates}
 The next performance, the optimized rates are compared to are the TDMA rates for the equivalent setup.
@@ -131,38 +133,43 @@ As the achievable rate at a moderate SNR level (blue solid line) is less interfe
 
 This shows for the moderate SNR level, that the optimization algorithm was matching the values of the relays and the matching network to amplify the signal and also the interference, than - like for the high SNR level - to blanket the interference.
 
-\section{Relays to Zero-force Interference}
+\section{Number of Relays to Eliminate Interference}
 \label{sec:interf_fix}
 In the following, the number of relays required for an interference free connections will be analyzed.
 For the following plots, the number of receivers was set to one ($N_{R} = N_{R_x} = 1$) in order to increase the performance of the solver (c.f. Section~\ref{sec:stepwise}).
 
+In the following sections the term "\textit{interference free}" will be used a couple of times.
+Hereby only a reduced interference is meant.
+Full interference elimination as in a MIMO system with more receive antennas than interferer will not be reached.
+However when the term is used, the interference will be to low, that the effect of noise will be the same or even a stronger diminishing factor.
+
+\subsection{One Interferer}
+\label{sec:1interf}
+To eliminate interference with two transmitters normally two observations are required.
+Figure~\ref{fig:relcomp_1} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{1,2,3\}$ (red curves from left to right).
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/Relcomparison_1interferer.png}
 \caption{Sum rates for one interferer and one receiver with  $N_\text{Rel}\in\{1,2,3\}$.}
 \label{fig:relcomp_1}
 \end{figure}
-\subsection{One Interferer}
-\label{sec:1interf}
-To eliminate interference with two transmitter normally two observations are required.
-Figure~\ref{fig:relcomp_1} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{1,2,3\}$ (red curves from left to right).
 It is clear to see, that the higher the number of relays, the better the performance of the optimized system.
 The blue dashed lines show the rates considering only the SI-ratio (c.f. Equation~\eqref{eq:sir_rate}).
 The use of only one relay, leads only for 10\% of the cases to an interference free connection.
-Increasing the number of relays to two leads to an interference free connection of almost 80\% of the realizations, however, to achieve for almost all realizations a noise limited connection, three relays per receiver are required.
+Increasing the number of relays to two leads to an interference free connection of almost 80\% of the realizations, however, to achieve for almost all realizations a noise limited connection at least three relays per receiver are required.
 
+
+\subsection{Two Interferer}
+\label{sec:2interf}
+To eliminate interference with three transmitters normally three observations are required.
+Figure~\ref{fig:relcomp_2} shows the performance of a transmit/receiver pair with two interferer and $N_\text{Rel}\in\{2,3,4,5\}$ (red curves from left to right).
+And, as before, the blue dashed lines show the rates considering only the SI-ratio.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/Relcomparison_2interferer.png}
 \caption{Sum rates for two interferer and one receiver with  $N_\text{Rel}\in\{2,3,4,5\}$.}
 \label{fig:relcomp_2}
 \end{figure}
-\subsection{Two Interferer}
-\label{sec:2interf}
-To eliminate interference with three transmitter normally three observations are required.
-Figure~\ref{fig:relcomp_2} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{2,3,4,5\}$ (red curves from left to right).
-And, as before, the blue dashed lines show the rates considering only the SI-ratio.
-
 
 We see, that for two relays per user, the interference limited rate behaves almost the same as the optimized achievable sum rate.
 For three relays per user, some realizations lead to an interference free connection.
@@ -170,8 +177,8 @@ But only for five relays per user, over 90\% of the realizations can be driven i
 
 \subsection{Three Interferer}
 \label{sec:3interf}
-To eliminate interference with four transmitter normally four observations are required.
-Figure~\ref{fig:relcomp_3} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{4,5,6,7\}$ (red and blue dashed curves from left to right).
+To eliminate interference with four transmitters normally four observations are required.
+Figure~\ref{fig:relcomp_3} shows the performance of a transmit/receiver pair with three interferer and $N_\text{Rel}\in\{4,5,6,7\}$ (red and blue dashed curves from left to right).
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.85\linewidth]{images/Relcomparison_3interferer.png}
@@ -228,10 +235,10 @@ Because the predicted performance is not outperforming the theoretical limits, i
 
 
 
-\subsection{Four User MIMO}
+\subsection{Four User System}
 \label{sec:4user_const}
 
-Finally we want to analyze the relay and matching network optimization of a four user MIMO system.
+Finally we want to analyze the relay and matching network optimization of a four user system.
 Figure~\ref{fig:4user_sumrate} shows the sum rate of the optimized system (red solid curve) compared to the rates we introduced in the beginning of this chapter.
 \begin{figure}[h]
 \centering
