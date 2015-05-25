@@ -204,7 +204,7 @@ so that we get the system relations
 The index "O" denotes hereby the ports of the required receiver branches, which are open circuited, the index "L" the ports of the non-required receivers and the relays (i.e. the ports with an impedance attached or loaded, respectively).
 The indices will change dependent on the user, however without loss of generality, we will derive the port reduction only for user "0" in the following.
 We assume, that there are $N_R \cdot N_{Rx}$ antennas, whereby the first $N_{Rx}$ antennas are active (i.e. are the receive antenna of user "0"), and the later ones are passive (i.e. the antennas of the relays and of the other users).
-$\mat{Z}_{\text{pass}}$ denotes in the following the $N_{Rel}$ impedances representing the relays, hence a diagonal matrix.
+$\mat{Z}_{\text{pass}}$ denotes in the following the $(N_{R}-1)\cdot N_{Rx}$ equivalent input impedances of the non-required receivers and the $N_{Rel}$ impedances representing the relays, placed on the diagonal of a $(N_{R}-1)\cdot N_{Rx}+N_{Rel}$ square matrix.
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=0.75\textwidth]{images/Port_reduction.png}
@@ -223,7 +223,7 @@ From Equation~\eqref{eq:ocl_matrix} and the property
 With this port reduction the equivalent coupling matrix and input voltage for user "0" become
 \begin{align}
 \label{eq:port_reduction}
-\mat{Z}_C^{'}&= \mat{Z}_\text{OO} - \mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\quad\text{and}\\
+\mat{Z}_\text{C}^{'}&= \mat{Z}_\text{OO} - \mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\quad\text{and}\\
 \vec{v}_0^{'} &= \mat{H}_0^{\text{pr}} \cdot\mat{H}_{0}^{\text{sp}}\cdot \vec{v_0}\\\nonumber
 &\text{with}\quad\mat{H}_0^{\text{pr}}=
 \begin{bmatrix}
