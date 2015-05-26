@@ -13,8 +13,9 @@ This, however, is only possible, if the number of antennas per receiver is large
 
 In this thesis the use of passive relays, i.e. antennae with pure imaginary impedances attached is introduced.
 As they are placed very closely (in terms of wavelengths) around the receivers, they interact by the effect of coupling with the receivers.
-By the choice of the impedances, the strenght of coupling can be changed.
+By the choice of the impedances, the strength of coupling can be changed.
 With an increasing number of such passive relays, the coupling can be used to steer the signal towards the receiver and block the interference.
+A full channel knowledge is assumed, of the spatial channel and the coupling matrix, in order to match the relay impedances.
 
 \section{Motivation and Goals}
 \label{sec:motivation}
@@ -43,16 +44,27 @@ Last, in~\cite{Yahia2013} Y. Hassan and A. Wittneben develop a gradient-search a
 The settings in this thesis are similar to the ones in~\cite{Yahia2013}.
 New is the fact of using passive relays to amplify the signal at the receiver.
 
+Although only TDMA was mentioned so far, further approaches on interference elimination methods exist.
+In ~\cite{Berger05}, the concept of Distributive Spatial Multiplexing, was introduced.
+It tries to zero force interference by the use of amplify and forward relays.
+By the choice of different amplify gains for each relay the interference can be eliminated at each receiver.
+However, in contrast to the approach in this thesis, the relays require an input power to amplify the signal.
 
+In~\cite{Bains08} and~\cite{Lau12}, the effect of parasitic antennas (antennas with an impedance attached, as the passive relays in this thesis) is explored.
+In~\cite{Bains08}, they use passive relays in order to steer the antenna gain.
+They achieve a 360$^\circ$ beam, so that the receive antenna can be pointed towards the transmitter.
+In~\cite{Lau12} two antennas were uncoupled from each other, by placing parasitic scatterer in the middle.
+This however eliminates interference only for spatially orthogonal channels.
 
 
 \section{Outline}
 \label{sec:outline}
 
 In the following chapter the whole system will be described.
-The effect of coupling will be analyzed and the overall transfer function - from the transmitter to the receiver will be stated.
+The effect of coupling will be analyzed and the overall transfer function - from the transmitter to the receiver - will be stated.
+A description of the spatially correlated interference channel will be given.
 All the noise sources appearing in the systems and their transfer function will be shown and derived.
-The transfer functions will be split up into smaller, simpler (sub-) functions, so that the effect of coupling and the interference can be better described and analyzed.
+The transfer functions will be split up into smaller, simpler sub functions, so that the effect of coupling and the interference can be better described and analyzed.
 
 As one of the solver methods is gradient search, in the third chapter the analytical gradients will be derived - for the signal, the interference and the noise part.
 The gradient is dependent on the covariance matrix, therefore they will be derived as well for the signal, interference and noise contributions at the receiver.
@@ -61,11 +73,12 @@ In the fourth chapter different solver methods will be introduced and compared t
 Beside the method of gradient search, there will be heuristic algorithms introduced.
 Further improvements, in precision and speed, of the solver performance will be introduced.
 
-Last, the results of the solver methods will be evaluated.
+The results of the solver methods will be evaluated in the fifth chapter.
 The results will be compared versus the number of relays used in a setup,
 versus different types of placings of the relays and versus different numbers users.
 Additionally, theoretical limits of the setups will be derived and the results will be compared to current protocols which overcome interference (such as TDMA).
 
+Last, a conclusion and an outlook on possible future work will be given.
 
 
 
