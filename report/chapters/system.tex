@@ -373,6 +373,14 @@ r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}\mat{K}_{i,j}^{-1}\mat{K}_
 	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right).
 \end{align}
 
+\begin{align}
+\label{eq:achiev_rate}
+\nonumber
+r_0 &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,0}\mat{K}_{i,0}^{-1}\mat{K}_{n,0}^{-1}+\mat{I}_{N_R}\right)\right)\\
+ &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,0}+\mat{K}_{i,0}+\mat{K}_{n,0}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,0}+\mat{K}_{n,0}\right)\right).
+\end{align}
+
 Stacking the achievable rates per user into a vector, leads to 
 \begin{equation}
 \label{eq:achiev_vec}

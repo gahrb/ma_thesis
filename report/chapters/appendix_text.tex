@@ -21,3 +21,53 @@ We see, that the performance is lower than the performance of the loss less rela
 This leads to the conclusion, that the performance of the solver is worse, when the degree of freedom is larger.
 Approaches to prevent the solver in running into these lower rates would be a pre-optimization of the loss less relays and afterwards performing an optimization with lossy relays using the results from the red curve as initial values.
 
+
+
+\chapter{Nossek}
+\label{sec:nossek}
+
+
+Description according to Nossek's way~\cite{Nossek}:
+
+Describing the relays by the Matching Network
+
+\begin{align}
+\label{eq:nossek_matching}
+\mat{Z}_\text{M11}[N_R\cdot N_{Rx}+\left(1:N_\text{Relay}\right)] &= \text{diag}\left(\vec{s}\right)\\
+\mat{Z}_\text{M12}[N_R\cdot N_{Rx}+\left(1:N_\text{Relay}\right)] &= 
+	\mat{Z}_\text{M21}^T[N_R\cdot N_{Rx}+\left(1:N_\text{Relay}\right)] = \mat{0}\\
+\mat{Z}_\text{M22}[N_R\cdot N_{Rx}+\left(1:N_\text{Relay}\right)] &= \text{undef.}\\
+\mat{Z}_\text{M11} &=
+\begin{bmatrix}
+\mat{Z}_\text{M11}^{old} & \mat{0}\\
+\mat{0}	& \text{diag}\left(\mat{s}\right)
+\end{bmatrix}\\
+\mat{Z}_\text{M12}&=
+\begin{bmatrix}
+\mat{Z}_\text{M12}^{old} & \mat{0}\\
+\mat{0}	& \mat{0}
+\end{bmatrix}
+\end{align}
+
+this leads to the input impedance
+\begin{align}
+\label{eq:nossek_matching}
+\mat{Z}_\text{inM}[N_R\cdot N_{Rx}+\left(1:N_\text{Relay}\right)] &= \text{diag}\left(\mat{s}\right)
+\end{align}
+
+
+
+The transfer matrix
+\begin{align}
+\label{eq:nossek_transf}
+\mat{H}_\text{L,0} &= \frac{z_l d}{z_l + g}\mat{D}\mat{F}_R,\quad\text{with}\\
+\mat{D} &= \left(c\mat{I} + \mat{Z}_R\right)^{-1},\\
+\mat{F}_R &= \mat{Z}_\text{M12}^T\left(\mat{Z}_\text{M11}+\mat{Z}_\text{C}\right)^{-1},\quad\text{and}\\
+\mat{Z}_R &= \mat{Z}_\text{M22} + \mat{F}_R\mat{Z}_\text{M12}
+\end{align}
+
+\begin{align}
+\vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\vec{v}_o\\
+\vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\mat{H}_{j}^{\text{sp}}\cdot\vec{v}_j
+\end{align}
+
