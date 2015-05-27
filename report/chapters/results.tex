@@ -239,7 +239,8 @@ Because the predicted performance is not outperforming the theoretical limits, i
 \label{sec:4user_const}
 
 Finally we want to analyze the relay and matching network optimization of a four user system.
-Figure~\ref{fig:4user_sumrate} shows the sum rate of the optimized system (red solid curve) compared to the rates we introduced in the beginning of this chapter.
+Two different realizations and antenna placings can be seen in Figure~\ref{fig:4user_placing}.
+The achievable rates after optimization will be analyzed in the following for such placings.
 \begin{figure}[h]
 \centering
   \includegraphics[width=\linewidth]{images/4user_sumrate.png}
@@ -247,6 +248,7 @@ Figure~\ref{fig:4user_sumrate} shows the sum rate of the optimized system (red s
 \label{fig:4user_sumrate}
 \end{figure}
 
+Figure~\ref{fig:4user_sumrate} shows the sum rate of the optimized system (red solid curve) compared to the rates we introduced in the beginning of this chapter.
 We see, that the uncoupled rate, i.e. each receiver has only one receive antenna and no relays, and the TDMA rate (under sum power constraint) are outperformed by far.
 Further we see, that the noise free rate (dashed blue line) is always larger by  at least  $10 \left[\text{b/s/Hz}\right]$, which lets us conclude, that the interference cancellation was performed well, i.e. that we are in an interference free region for at least some users.
 The black curves denoting the fully cooperative relays limit and the multi-port matching limit (dashed curve) are between $5 \left[\text{b/s/Hz}\right]$ and $10 \left[\text{b/s/Hz}\right]$ bits per second larger than the optimized sum rate.
@@ -254,22 +256,39 @@ From Figure~\ref{fig:relcomp_3} we know, that the limits are around $2 \left[\te
 This shows, that at the median for four users, the optimization algorithm performs almost as good as for one user, however the lower rates seem to suffer from a bad optimization.
 
 \paragraph{}
-
-We saw in Figure~\ref{fig:relcomp_3} that it requires at least seven relays for one user to eliminate the interference from three users.
-Figure~\ref{fig:4user_userrate} shows the rates for each transmit/receive pair by the red solid curves.
-Again, the black dashed curves denote the multi-port matching rates, the green solid lines denote the performance if the relays were uncoupled, and the blue solid line shows the TDMA rate for each user under the sum power constraint.
 \begin{figure}[h]
 \centering
   \includegraphics[width=\linewidth]{images/4user_userrate.png}
 \caption{The user rates for  four users with seven relays each.}
 \label{fig:4user_userrate}
 \end{figure}
+We saw in Figure~\ref{fig:relcomp_3} that it requires at least seven relays for one user to eliminate the interference from three users.
+Figure~\ref{fig:4user_userrate} shows the rates for each transmit/receive pair by the red solid curves.
+Again, the black dashed curves denote the multi-port matching rates, the green solid lines denote the performance if the relays were uncoupled, and the blue solid line shows the TDMA rate for each user under the sum power constraint.
+
 
 We observe at first, that the uncoupled rate as well as the TDMA rate are outperformed by around $5 \left[\text{b/s/Hz}\right]$ for the three top users at the median.
 The lowest user however is - contradicting to the results from Section~\ref{sec:3interf} - not interference free for almost 50\% of the cases.
 For 10\% of the cases it even shows a worse performance than the TDMA rate.
 It seems, that this user is for some realizations blocked, in order to enhance the other three users.
 This might be the optimal solution, it might however also be, that the solver did not reach the best optimum.
+
+To explore this a little bit further, Figure~\ref{fig:4user_placing} shows typical placings when the minimum user rate could be improved strongly on the left and when the rate could only be improved a little on the right.
+Both subplots show a field of size $2\lambda \times 2\lambda$.
+For the left subplot, the receivers have a larger distance between each other and the relay belongings to the receiver can be easy distinguished - they are more or less nicely separated.
+This also accounts for receiver one and three in the subplot on the right, however receiver two and four are not so nicely separated anymore.
+Additionally their distance is smaller than $0.5\lambda$.
+This leads to a stronger coupling between the receiving elements of receiver two and four.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.95\linewidth]{images/Antenna_placing_4user.png}
+\caption{Two different antenna placings, the left leads to a big improvement, the right to a small improvement.}
+\label{fig:4user_placing}
+\end{figure}
+
+For the optimization this means, that if one receiver and its relays are optimized, their coupling might diminish the rate of the other receiver severely.
+This effect can be seen as an additional interferer.
+Any poor channel realization can lead than to a case, where the second receiver rate can not be optimized significantly anymore.
 
 
 \section{TDMA - Combination}
@@ -278,7 +297,7 @@ This might be the optimal solution, it might however also be, that the solver di
 In the following a combination of the optimization method with currently existing interference avoiding methods is analyzed.
 As in the previous sections, TDMA is used as a reference.
 Using two slot TDMA, reduces the number of users per slot from four to two.
-Therefore, the results from Figure~\ref{fig:4user_const} can be used to compare them to TDMA applied on the results from Figure~\ref{fig:iniopt_comp}.
+Therefore, the results from Figure~\ref{fig:4user_sumrate} can be used to compare them to TDMA applied on the results from Figure~\ref{fig:iniopt_comp}.
 The combination of TDMA and the optimization introduced in this thesis leads additionally to half the problem size, therefore results closer to the (corresponding) optimum can be expected from 2-slot TDMA, than from the pure optimization.
 
 \begin{figure}[h]

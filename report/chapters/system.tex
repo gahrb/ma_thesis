@@ -327,7 +327,7 @@ The overall transfer functions from $\vec{v}_0$ to $\vec{v}_\text{L}^s$ therefor
 and hence the signal covariance matrix becomes
 \begin{equation}
 \label{eq:sig_cov}
-\mat{K}_{s,0}=\mathbb{E}[\vec{v}_\text{L}^s\vec{v}_\text{L}^{s^H}] = 
+\mat{K}_{\text{s},0}=\mathbb{E}[\vec{v}_\text{L}^s\vec{v}_\text{L}^{s^H}] = 
 	\mat{H}_\text{L,0}\cdot \mat{H}_{0}^{\text{sp}}
 	\cdot\mathbb{E}[\vec{v}_0\vec{v}_0^H]\cdot
 	\mat{H}_{0}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,
@@ -343,7 +343,7 @@ This means, that all signal parts arriving at the loads of receiver "0" must be 
 The interference covariance matrix hence becomes 
 \begin{align}
 \label{eq:interf_cov}\nonumber
-\mat{K}_{i,0}=\mathbb{E}[\vec{v}_\text{L}^i\vec{v}_\text{L}^{i^H}] &= \sum_{j=1}^{N_\text{User}-1} 
+\mat{K}_{\text{i},0}=\mathbb{E}[\vec{v}_\text{L}^i\vec{v}_\text{L}^{i^H}] &= \sum_{j=1}^{N_\text{User}-1} 
 	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
 	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,\\
@@ -368,17 +368,20 @@ The achievable rate for user $j$ is described as
 \begin{align}
 \label{eq:achiev_rate}
 \nonumber
-r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,j}\mat{K}_{i,j}^{-1}\mat{K}_{n,j}^{-1}+\mat{I}_{N_R}\right)\right)\\
- &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right) -
-	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}+\mat{K}_{n,j}\right)\right).
+r_j &= \text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},j}\left(\mat{K}_{\text{i},j}+\mat{K}_{\text{n},j}\right)^{-1}+\mat{I}_{N_R}\right)\right)\\
+ &=\text{log}_2\left(
+	\text{det}\left(\mat{K}_{\text{s},j}+
+		\mat{K}_{\text{i},j}+\mat{K}_{\text{n},j}\right)\right) -
+	\text{log}_2\left(\text{det}\left(\mat{K}_{\text{i},j}+\mat{K}_{\text{n},j}\right)\right).
 \end{align}
 
 \begin{align}
 \label{eq:achiev_rate}
-\nonumber
-r_0 &= \text{log}_2\left(\text{det}\left(\mat{K}_{s,0}\mat{K}_{i,0}^{-1}\mat{K}_{n,0}^{-1}+\mat{I}_{N_R}\right)\right)\\
- &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,0}+\mat{K}_{i,0}+\mat{K}_{n,0}\right)\right) -
-	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,0}+\mat{K}_{n,0}\right)\right).
+r_0 &= \text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},0}\left(\mat{K}_{\text{i},0}+\mat{K}_{\text{n},0}\right)^{-1}+\mat{I}_{N_R}\right)\right)\\
+ &=\text{log}_2\left(
+	\text{det}\left(\mat{K}_{\text{s},0}+
+		\mat{K}_{\text{i},0}+\mat{K}_{\text{n},0}\right)\right) -
+	\text{log}_2\left(\text{det}\left(\mat{K}_{\text{i},0}+\mat{K}_{\text{n},0}\right)\right).
 \end{align}
 
 Stacking the achievable rates per user into a vector, leads to 
@@ -386,7 +389,7 @@ Stacking the achievable rates per user into a vector, leads to
 \label{eq:achiev_vec}
 \vec{r} =
 \begin{bmatrix}
-r_1 & r_2 & \cdots & r_N
+r_0 & r_1 & \cdots & r_{N_\text{User}-1}
 \end{bmatrix}^T.
 \end{equation}
 
@@ -397,6 +400,11 @@ r_\text{Sum} = ||\vec{r}||_1,
 \end{equation}
 with $||\cdot||_1$ the 1-norm, i.e. the sum of the elements of $\vec{r}$.
 
+\begin{equation}
+\label{eq:achiev_sum_rate}
+\max_{\mat{Z}_\text{M}}\left(r_\text{Sum}\right) = \max_{\mat{Z}_\text{M}}\left(\sum_{j=0}^{N_\text{User}-1} r[j]\right),
+\end{equation}
+
 \subsection{Interference Limited Rate}
 \label{sec:sir_rate}
 Another measure required in this thesis is the interference limited rate.
@@ -404,8 +412,8 @@ It is calculated by only considering the signal and interference.
 Therefore neglecting the noise in Equation~\ref{eq:achiev_rate} leads to
 \begin{align}
 \label{eq:sir_rate}
-r_j &=\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{i,j}\right)\right) -
-	     	\text{log}_2\left(\text{det}\left(\mat{K}_{i,j}\right)\right).
+r_j &=\text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},j}+\mat{K}_{\text{i},j}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{\text{i},j}\right)\right).
 \end{align}
 
 This is helpful, to see how good the interference was removed by the optimization, which will be introduced in Chapter~\ref{sec:solver}.
@@ -421,8 +429,8 @@ As the time in TDMA is split up in slots in which each user is allowed to transm
 \begin{align}
 \label{eq:tdma_achiev_rate}
 r_j  &=\frac{1}{N_\text{User}}\cdot\left(
-		\text{log}_2\left(\text{det}\left(\mat{K}_{s,j}+\mat{K}_{n,j}\right)\right) -
-	     	\text{log}_2\left(\text{det}\left(\mat{K}_{n,j}\right)\right)\right).
+		\text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},j}+\mat{K}_{\text{n},j}\right)\right) -
+	     	\text{log}_2\left(\text{det}\left(\mat{K}_{\text{n},j}\right)\right)\right).
 \end{align}
 It is obvious, that with no interference, this rate would be higher than the achievable rate with interference, if the factor of $\frac{1}{N_\text{User}}$ was not considered.
 However each user is not allowed anymore, to use the full transmission period, but only a time slot of length $\frac{1}{N_\text{User}}\cdot T_0$, with $T_0$ the length of the full transmission period.
