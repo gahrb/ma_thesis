@@ -39,17 +39,17 @@ Describing the relays by the Matching Network
 \mat{Z}_\text{M22}[\text{M}+\left(1:N_\text{Relay}\right)] &= \text{undef.}\\
 \mat{Z}_\text{M11} &=
 \begin{bmatrix}
-\mat{M}_\text{1,11} & \cdots & \mat{0}&\\
- \vdots & \ddots & \vdots & \mat{0}\\
- \mat{0}& \cdots & \mat{M}_\text{M,11}&\\
+\text{M}_\text{1,11} & \cdots & 0 &\\
+ \vdots & \ddots & \vdots & \mat{0} \\
+ 0 & \cdots & \text{M}_\text{M,11}&\\
  & \mat{0}& & \text{diag}\left(\mat{s}\right)
 \end{bmatrix}\\
 \mat{Z}_\text{M12}&=
 \begin{bmatrix}
-\mat{M}_\text{1,12} & \cdots& \mat{0}&\\
+\text{M}_\text{1,12} & \cdots& 0&\\
 \vdots & \ddots & \vdots & \mat{0}\\
-\mat{0} & \cdots & \mat{M}_\text{M,12}&\\
-& \mat{0} &	& \mat{0}
+0 & \cdots & \text{M}_\text{M,12}&\\
+& \mat{0} &	& 0\cdot\mat{I}_{N_\text{Relays}}
 \end{bmatrix}
 \end{align}
 
@@ -71,7 +71,56 @@ The transfer matrix
 \end{align}
 
 \begin{align}
-\vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\vec{v}_o\\
+\vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\vec{v}_o + \vec{n}\\
 \vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\mat{H}_{j}^{\text{sp}}\cdot\vec{v}_j
+\end{align}
+
+
+
+MU-MIMO TF
+
+\begin{align}
+\label{eq:nossek_transf}
+\vec{y}_i &= \mat{A}_{i,i}\vec{x}_i + 
+	\sum_{j=0,j\neq i}^{N_\text{User}-1} \mat{A}_{i,j}\vec{x}_j + \vec{n}\\
+\mat{A} &= \mat{H}_\text{L,0}\cdot\mat{H}^{\text{sp}}
+\end{align}
+
+User 0 achievable rate:
+\begin{align}
+\label{eq:achiev_rate}
+r_i &= \text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},i}\left(\mat{K}_{\text{i},i}+\mat{K}_{\text{n},i}\right)^{-1}+\mat{I}_{N_R}\right)\right)\\
+ &=\text{log}_2\left(
+	\text{det}\left(\mat{K}_{\text{s},i}+
+		\mat{K}_{\text{i},i}+\mat{K}_{\text{n},i}\right)\right) -
+	\text{log}_2\left(\text{det}\left(\mat{K}_{\text{i},i}+\mat{K}_{\text{n},i}\right)\right).
+\end{align}
+
+Signal Cov
+\begin{align}
+\mat{K}_{\text{s},i}=\mathbb{E}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{i}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{i}\vec{v}_{i}^H] \cdot 
+	\mat{H}_{i}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,\\
+\mat{K}_{\text{s},i}=\mathbb{E}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{i}^{\text{sp}} \cdot  
+	\mat{H}_{i}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H\cdot P_i
+\end{align}
+Interference Cov
+\begin{align}
+\mat{K}_{\text{i},i}=\mathbb{E}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,\\
+	&= \mat{H}_\text{L,0} \left(\sum_{j=1}^{N_\text{User}-1} 
+	\cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \mat{H}_\text{L,0}^H,\\
+\mat{K}_{\text{i},i}=\mathbb{E}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
+	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H\cdot P_j,\\
+	&= \mat{H}_\text{L,0} \left(\sum_{j=1}^{N_\text{User}-1} 
+	\cdot \mat{H}_{j}^{\text{sp}} \cdot
+	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \mat{H}_\text{L,0}^H\cdot P_j
 \end{align}
 
