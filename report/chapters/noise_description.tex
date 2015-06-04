@@ -3,6 +3,25 @@
 
 As mentioned in~\cite{Yahia2013}, there are four main noise sources in the receiver.
 In the following each noise source will be described and its transfer function towards the loads will be derived. 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=\textwidth]{images/Full_Receiver_noise.png}
+\caption{Overview of the system including noise sources.}
+\label{fig:receiver_noise}
+\end{center}
+\end{figure}
+
+Figure~\ref{fig:receiver_noise} gives an overview of the different noise sources.
+Important hereby is, that the first three noise sources ($\vec{n}_\text{AR}$, $\vec{v}_\text{LNA}$ and $\vec{i}_\text{LNA}$) also contribute to the other receivers by the coupling.
+Only the downstream noise $\vec{\tilde{v}}_n$ is contributing just to its receiver, because of the unilateral assumption of the LNA.
+
+In the following, the transfer functions for the different noise sources will be derived, so that in the end, the total noise contribution at the receiver can be expressed as
+\begin{align}\nonumber
+\label{eq:noise_contrib}
+\vec{u}_\text{L} &= \vec{u}_\text{AR} + \vec{u}_{\text{LNA}_v} + \vec{u}_{\text{LNA}_c} + \vec{u}_{\tilde{n}},\\
+&= f(\vec{n}_\text{AR}) + g(\vec{v}_\text{LNA}) + h(\vec{i}_\text{LNA}) + k(\vec{\tilde{v}}_\text{n}),
+\end{align}
+with $f,g,h,$ and $k$ as the transfer functions for each noise source.
 
 \subsection{Antenna Noise}
 \label{sec:antenna_noise}
@@ -20,26 +39,35 @@ with $k_B$ the Boltzmann constant and $B_W$ the bandwidth.
 \label{sec:antenna_noise_transf}
 As the antenna noise is picked up by the antennas in the same way as the signal, the transfer function remains the same as the one derived in Equation~\eqref{eq:transfer_function} for the signal, e.g.
 \begin{align}
-\mat{H}_\text{L,0} &= \mat{H}_\text{L,LNA}\cdot\mat{H}_\text{LNA,M}\cdot\mat{H}_\text{M,0}\cdot\mat{H}_{0}.
+\mat{H}_\text{L,i} &= \mat{H}_\text{L,LNA}\cdot\mat{H}_\text{LNA,M}\cdot\mat{H}_\text{M,O'} \cdot \mat{H}_i^{\text{pr}}.
 \end{align}
 
 \subsection{LNA Noise}
 \label{sec:lna_noise}
 
 The LNA introduces the third noise source.
-From the discussion in~\cite{Nossek}, the noise of the LNA is modeled by a series of voltages and parallel currents at the input of the LNA.
+From the discussion in~\cite{Nossek}, the noise of the LNA is modeled by a series of voltages and parallel currents at the input of the LNA Block.
 The noise sources have the following statistical properties,
 \begin{align}
 \label{eq:cov_lna}
-\mathbb{E}[\vec{i}_\text{LNA}\vec{i}_\text{LNA}^H] &= \beta \mat{I}_{N_R},\\\nonumber
-\mathbb{E}[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H] &= \beta R_n^2\mat{I}_{N_R},\quad\text{and}\\\nonumber
-\mathbb{E}[\vec{v}_\text{LNA}\vec{i}_\text{LNA}^H] &= \rho \beta R_n\mat{I}_{N_R},
+\mathbb{E}[\vec{i}_\text{LNA}\vec{i}_\text{LNA}^H] &= \beta \mat{I}_{N_\text{R}N_\text{Rx}},\\\nonumber
+\mathbb{E}[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H] &= \beta R_n^2\mat{I}_{N_\text{R}N_\text{Rx}},\quad\text{and}\\\nonumber
+\mathbb{E}[\vec{v}_\text{LNA}\vec{i}_\text{LNA}^H] &= \rho \beta R_n\mat{I}_{N_\text{R}N_\text{Rx}},
 \end{align}
 with $\rho$ and $\beta$ as correlation coefficients.
 
 \subsubsection{Transfer Function of the LNA Noise}
 \label{sec:antenna_noise_transf}
 As written above, we have two noise sources, the serial voltage sources and the parallel current sources.
+For both of them, we need to consider, that at the loads, we have noise contribution of the LNA of the own receiver branch and LNA noise of the other receiver branches, by the coupling.
+Therefore two transfer functions will be derived in the following:
+\begin{enumerate}
+\item The indirect - a transfer function towards the antenna, and
+\item The direct - a transfer function towards the loads.
+\end{enumerate}
+With the indirect transfer function derived, we can (as in the previous section) concatenate the transfer function of the signal, to get the LNA noise contribution of the other receivers. 
+
+\paragraph{Direct LNA Noise Contribution:}
 First we will transfer the current source into a voltage source in series as we then can use the same transfer function for the voltage and the transferred current sources.
 To do so, we need the equivalent input impedances looking from the left into the LNA block and from the right into the matching network.
 The equivalent input impedance for the LNA network $\mat{Z}_{\text{eqLNA}_1}$ was already derived in~\eqref{eq:zeqlna1}.
@@ -56,142 +84,150 @@ Transferring the current source into a series of voltages gives us
 
 and therefore a transfer function of
 \begin{equation}
-\mat{H}_{\text{L,LNA}_v} = R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1},
+\mat{H}_\text{L,LNAv,dir} = R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1},
 \end{equation}
 for the series voltages and
-\begin{equation}
-\mat{H}_{\text{L,LNA}_c} = -R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1}\mat{\tilde{Z}}_{\text{eqM}_2},
-\end{equation}
+\begin{align}\nonumber
+\mat{H}_\text{L,LNAc,dir} &= -R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1}\mat{\tilde{Z}}_{\text{eqM}_2},\\
+ &= - \mat{H}_\text{L,LNAv,dir}\cdot \mat{\tilde{Z}}_{\text{eqM}_2},
+\end{align}
 for the LNA noise currents.
+Both transfer functions assume user $i$ to be the receiver.
+It is clear to see, that both transfer functions are of size $\mathbb{C}^{N_\text{Rx}\times N_\text{Rx}}$
 
+\paragraph{Indirect LNA Noise Contribution:}
+In a second step we transfer the LNA-voltage and -current sources, respectively to parallel voltage sources at the antennas, so that the transfer function derived in Equation~\eqref{eq:transf_func} can be applied.
+In the following, all the indices are neglected for simplicity reasons.
+For the transfer functions towards the antennas, we consider all the ports of the passive receivers.
+Therefore we are looking at matrices of size $\mathbb{C}^{(N_\text{R}-1)N_\text{Rx}\times (N_\text{R}-1)N_\text{Rx}}$.
 
+By multiplying the LNA-current noise source by the equivalent input impedance of the LNA
+\begin{align}
+\vec{v}_\text{LNAc} = \mat{Z}_{\text{eqLNA1}} \vec{i}_\text{LNA},
+\end{align}
+it is transferred to a series voltage, just like the LNA-voltage noise.
+Now we only need to find the transfer function for the LNA-voltage source $\vec{v}_\text{LNAv}$.
+The transfer function over the matching network is given by
+\begin{align}
+\label{eq:lnanoise_to_input}
+\mat{H}_\text{O,LNA} = \mat{Z}_\text{M12}(\mat{Z}_\text{M22}+\mat{Z}_{\text{eqLNA1}})^{-1}.
+\end{align}
+This leads to the overall indirect LNA noise transfer functions of
+\begin{align}
+\label{eq:lnavolt_transf}
+\mat{H}_\text{L,LNAv,ind} &= \mat{H}_\text{L,i}\cdot\mat{H}_\text{O,LNA},\quad\text{for the voltage sources, and}\\
+\label{eq:lnacurr_transf}
+\mat{H}_\text{L,LNAc,ind} &= \mat{H}_\text{L,i}\cdot\mat{H}_\text{O,LNA}\cdot\mat{Z}_{\text{eqLNA1}},\quad\text{for the current sources}.
+\end{align}
+Looking at the size of the matrices, we see, that the $\mat{H}_\text{O,LNA}$ as well as $\mat{Z}_{\text{eqLNA1}}$ are of size $\mathbb{C}^{(N_\text{R}-1)N_\text{Rx}\times (N_\text{R}-1)N_\text{Rx}}$ and therefore the overall transfer function is of size $\mathbb{C}^{N_\text{Rx}\times (N_\text{R}-1)N_\text{Rx}}$.
 
 \subsection{Downstream Noise}
 \label{sec:down_noise}
-The last noise source is the downstream noise, generated by all the circuitry after the LNA~\cite{Hughes2012} and modeled by voltage sources $\vec{\tilde{v}}_n$ in series to the loads.
+The last noise source is the downstream noise, generated by all the circuitry after the LNA~\cite{Hughes2012} and modeled by voltage sources $\vec{\tilde{v}}_\text{n}$ in series to the loads.
 With the statistical property
 \begin{equation}
 \label{eq:cov_down}
-\mathbb{E}[\vec{\tilde{v}}_n\vec{\tilde{v}}_n^H] = \psi\mat{I}_{N_R}.
+\mathbb{E}[\vec{\tilde{v}}_\text{n}\vec{\tilde{v}}_\text{n}^H] = \psi\cdot\mat{I}_{N_\text{R}N_\text{Rx}}.
 \end{equation}
 
 \subsubsection{Transfer Function of the Downstream Noise}
 \label{sec:down_noise_transf}
 For the transfer function of the downstream noise we need a simple voltage divider of the loads and the equivalent input impedance $\mat{\tilde{Z}}_{\text{eqLNA}_2}$ looking from the right into the LNA block.
-Note, that this is NOT the same input impedance as in~\eqref{eq:zeqlna2}.
-Therefore the transfer function becomes
 \begin{equation}
-\mat{H}_\text{L,n} = R_L\mat{I}_{N_R}(R_L\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1},
+\mat{H}_\text{L,n} = R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1},
 \end{equation}
 with 
 \begin{align}
 \label{eq:zeqlna2_down}
 \mat{\tilde{Z}}_{\text{eqLNA}_2} &= \mat{g} - \mat{d}\cdot(\mat{c} + \mat{\tilde{Z}}_{\text{eqM}_2})^{-1}\cdot\mat{e} = \mat{g},
 \end{align}
-whereby the unilateral assumption ($\vec{d}=\mat{0}$) was applied.
+whereby the unilateral assumption ($\vec{d}=\mat{0}$) was applied, and hence $\mat{\tilde{Z}}_{\text{eqLNA}_2}=\mat{Z}_{\text{eqLNA}_2}$ from Equation~\eqref{eq:zeqlna2}.
 
-
-\subsection{Noise Coupling}
-\label{sec:noise_coupling}
-
-So far we transferred the noise from it's source to the loads behind the LNA block.
-However additionally to the direct path, we need to take the noise of different receiver branches into account.
-Therefore we transfer the noise sources to series voltages next to the antenna voltages, so that we can use the transfer functions derived in Chapter~\ref{sec:network_description}.
-
-As in the previous Section, we consider again the four noise types.
-For the antenna noise, we note, that we do not need to derive a transfer function.
-In a first step we transfer the LNA-current noise source and the downstream noise to the LNA-voltage noise source.
-Therefore the LNA-current noise source is multiplied by the equivalent input impedance of the LNA
+For the downstream noise we note, that under the unilateral assumption, the transferred noise towards the antennas is zero, because
 \begin{align}
-\vec{v}_\text{LNAc} = \mat{Z}_{\text{eqLNA}_1} \vec{i}_\text{LNA}.
+\vec{v}_\text{LNAn} = \mat{d}(\mat{g}+R_\text{L}\mat{I}_{N_R})^{-1} \tilde{\vec{v}}_{v}=0,
 \end{align}
-For the downstream noise we note, that under the unilateral assumption, the transferred noise is zero, else
-\begin{align}
-\vec{v}_\text{LNAn} = \mat{d}(\mat{g}+R_L\mat{I}_{N_R})^{-1} \tilde{\vec{v}}_{v}.
-\end{align}
-
-Now we only need to find the transfer function for the LNA-voltage source $\vec{v}_\text{LNAv}$.
-The transfer function over the matching network is given by
-\begin{align}
-\label{eq:noise_to_input}
-\mat{H}_\text{0,LNA} = \mat{Z}_\text{M12}(\mat{Z}_\text{M22}+\mat{Z}_{\text{eqLNA}_1})^{-1}.
-\end{align}
-
-
-
+when $\mat{d}=0$.
+Therefore, the downstream noise does only contribute to its own receiver branch, and hence $\mat{H}_\text{L,n}$ is of size $\mathbb{C}^{N_\text{Rx}\times N_\text{Rx}}$.
 
 \subsection{Noise Covariance Matrix}
 \label{sec:sig_cov}
-
-\begin{figure}[h]
-\begin{center}
-\includegraphics[width=0.75\textwidth]{images/matrix_shaping.png}
-\caption{An example of the matrix shaping function. On the left the matrix shaped by $\Gamma(\cdot)$ on the right the matrix shaped by $\Gamma(\cdot)^{-1}$. The sub matrices $\mat{A},\mat{B}$ and $\mat{C}$ are square matrices and lie on the diagonal.}
-\label{fig:matrix_shaping}
-\end{center}
-\end{figure}
-
-As in Chapter~\ref{sec:network_description}, we will derive the noise covariance matrix.
-To do so, we introduce the function $\Gamma(\cdot)$, which reshapes the matrices to our needs.
-For example Equation~\eqref{eq:noise_to_input} must only be applied on the noise sources of the receivers, which shall be reduced, however a multiplication of the transfer matrix with the full noise vector is desired.
-Let further $\Gamma(\cdot)^{-1}$, denote the function, which shapes the matrices only to the branches which are not reduced.
-We note the following properties of the function:
-\begin{align}
-\label{eq:gamma_properties}\nonumber
-\Gamma(\mat{A})\cdot\Gamma(\mat{B}) &= \Gamma(\mat{A}\cdot\mat{B}),\\\nonumber
-\Gamma(\mat{A}^{H}) &= \Gamma(\mat{A})^{H},\\\nonumber
-\Gamma(\mat{A})\cdot\Gamma(\mat{B})^{-1} &= \mat{0},\quad\text{and}\\
-\forall \mat{A},\mat{B},\quad\text{which form a}&\text{ valid matrix multiplication}\quad\mat{A}\cdot\mat{B}.
-\end{align}
-Note that the first two properties are also valid for $\Gamma(\cdot)^{-1}$.
-Additionally for diagonal matrices the following property holds $\Gamma(\mat{A})+\Gamma(\mat{A})^{-1} = \mat{A}$.
-
-As we have multiple noise sources, first we will describe the noise output $\vec{u}_L$ for each noise source, i.e.:
+In the following we will describe the whole system by its noise transfer functions.
+We thereby use the index $i$ for the branches of the active receivers and index $j$ for the branches of the passive receiver, i.e. the branches which contributed only by their coupling.
+With the transfer functions derived for each noise source, we can finally express each noise contribution at the loads as stated in Equation~\eqref{eq:noise_contrib} by
 \begin{align}
 \label{eq:noise_output}
 \nonumber
 \vec{u}_\text{AR} &= \mat{H}_\text{L,0}\cdot\vec{n}_\text{AR},\\\nonumber 
-\vec{u}_{\text{LNA}_v} &= \left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\vec{v}_\text{LNA},\\\nonumber
-\vec{u}_{\text{LNA}_c} &= \left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA}\mat{Z}_{\text{eqLNA}_1})+\Gamma(\mat{H}_{\text{L,LNA}_c})^{-1}\right)\cdot\vec{i}_\text{LNA},\\\nonumber
-\vec{u}_{\tilde{n}} &= \left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA}\cdot\mat{d}(\mat{g}+R_L\mat{I}_{N_R})^{-1})+\Gamma(\mat{H}_\text{L,n})^{-1}\right)\cdot\vec{\tilde{v}}_{n},\\
-\text{and therefore}\qquad &\vec{u}_L = \vec{u}_\text{AR} + \vec{u}_{\text{LNA}_v} + \vec{u}_{\text{LNA}_c} + \vec{u}_{\tilde{n}}.
+\vec{u}_{\text{LNA}_v} &= 
+	\mat{H}_\text{L,LNAv,ind}\cdot\vec{v}_{\text{LNA},j}+
+	\mat{H}_\text{L,LNAv,dir}\cdot\vec{v}_{\text{LNA},i},\\\nonumber
+\vec{u}_{\text{LNA}_c} &= 
+	\mat{H}_\text{L,LNAc,ind}\cdot\vec{i}_{\text{LNA},j}+
+	\mat{H}_\text{L,LNAc,dir}\cdot\vec{i}_{\text{LNA},i},\\\nonumber
+\vec{u}_{\tilde{n}} &= \mat{H}_\text{L,n}\cdot\vec{\tilde{v}}_{n},\\
+\text{and therefore}\qquad &\vec{u}_\text{L} = \vec{u}_\text{AR} + \vec{u}_{\text{LNA}_v} + \vec{u}_{\text{LNA}_c} + \vec{u}_{\tilde{n}}.
 \end{align}
 
-Because all the noise sources are uncorrelated, except for the LNA noise sources (c.f. Equation~\eqref{eq:cov_lna}), the noice covariance matrix for user "0" can be written as:
+Because all the noise sources are uncorrelated, except for the LNA noise sources (c.f. Equation~\eqref{eq:cov_lna}), the noice covariance matrix can be written as:
 \begin{align}
 \label{eq:exp_noise}\nonumber
-\mat{K}_\text{n,0} =\mathbb{E}[\vec{u}_L\vec{u}_L^H] = &\mat{H}_\text{L,0}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,0}^H + 
+\mat{K}_\text{n,i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] &=
+\mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H]+ 
 \mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] +
 \mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_c}^H] +\\%\nonumber
 \quad&\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +
 \mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H] +
-\mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H]
-%\\\nonumber
-%&\mat{H}_{L,LNA_v}\mathbb{E}[\vec{v}_{LNA}\vec{v}_{LNA}^H]\mat{H}_{L,LNA_v}^H -\\\nonumber
-%&\mat{H}_{L,LNA_v}\mathbb{E}[\vec{v}_{LNA}\vec{i}_{LNA}^H]\mat{H}_{L,LNA_c}^H -
-%\mat{H}_{L,LNA_c}\mathbb{E}[\vec{i}_{LNA}\vec{v}_{LNA}^H]\mat{H}_{L,LNA_v}^H + \\
-%&\mat{H}_{L,LNA_c}\mathbb{E}[\vec{i}_{LNA}\vec{i}_{LNA}^H]\mat{H}_{L,LNA_c}^H +
-%\mat{H}_{L,n}\mathbb{E}[\vec{\tilde{v}}_{n}\vec{\tilde{v}}_{n}^H]\mat{H}_{L,n}^H .
+\mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H].
+%\mat{K}_\text{n,i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] = &\mat{H}_\text{L,i}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,i}^H + 
+%\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] +
+%\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_c}^H] +\\%\nonumber
+%\quad&\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +
+%\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H] +
+%\mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H].
 \end{align}
 
-For simplicity reasons, we will look in every summand seperately in the following and neglect the indices for user "0".
-As $-\mat{H}_{\text{L,LNA}_v}\cdot\mat{\tilde{Z}}_{\text{eqM}_2} = \mat{H}_{\text{L,LNA}_c}$ and using~\eqref{eq:cov_ant},~\eqref{eq:cov_lna},~\eqref{eq:cov_down} and~\eqref{eq:gamma_properties}, it follows
+For simplicity reasons, we will look in every summand separately in the following.
+For the antenna noise it follows therefore
+\begin{align}
+\mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H] = 
+	\mat{H}_\text{L,i}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,i}^H 
+	= \mat{H}_\text{L,i} \mat{R}_\text{na} \mat{H}_\text{L,i}^H,
+\end{align}
+using~\eqref{eq:cov_ant}, with $\mat{R}_\text{na}$ of size $\mathbb{R}^{ N_\text{R}\cdot\left(N_\text{Rx}+N_\text{Rel}\right)\times N_\text{R}\cdot\left(N_\text{Rx}+N_\text{Rel}\right)}$ and hence, by the shape of $\mat{H}_\text{L,i}$, $\mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H]$ becomes a matrix of size $\mathbb{C}^{ N_\text{Rx}\times N_\text{Rx}}$.
+
+
+For the LNA voltage noise, using~\eqref{eq:cov_lna}, it follows
 \begin{align}
 \nonumber
-\mat{K}_{n_{\text{LNA}_{vv}}} &= \mathbb{E}\left[\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\cdot\right.\\\nonumber
-&\qquad\left.\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\right]\\\nonumber
-&=\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\mathbb{E}\left[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\right]\cdot\\\nonumber
-&\qquad\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\\
-&=\beta R_n^2\left(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{0,LNA}^H+\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right),
+\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] &= %\mathbb{E}\left[\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\cdot\right.\\\nonumber
+%&\qquad\left.\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\right]\\\nonumber
+%&=\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\mathbb{E}\left[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\right]\cdot\\\nonumber
+%&\qquad\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\\\nonumber
+%&=\beta R_n^2\left(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{0,LNA}^H+\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right),\\\nonumber
+\mathbb{E}[\left(\mat{H}_\text{L,LNAv,ind}\cdot\vec{v}_{\text{LNA},j}+\mat{H}_\text{L,LNAv,dir}\cdot\vec{v}_{\text{LNA},i}\right)\cdot\\
+&\qquad\left(\mat{H}_\text{L,LNAv,ind}\cdot\vec{v}_{\text{LNA},j}+\mat{H}_\text{L,LNAv,dir}\cdot\vec{v}_{\text{LNA},i}\right)^H],
 \end{align}
-for the LNA-voltage source and
+by the fact, that $\vec{v}_{\text{LNA},j}$ and $\vec{v}_{\text{LNA},i}$ are independent of each other (c.f. Equation~\eqref{eq:cov_lna}), the cross terms cancel out an hence,
 \begin{align}
 \nonumber
-\mat{K}_{n_{\text{LNA}_{cc}}} &= 
-\beta \biggl(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{Z}_{\text{eqLNA}_1}\mat{Z}_{\text{eqLNA}_1}^H\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{0,LNA}^H+\\
-&\qquad\left.\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{\tilde{Z}}_{\text{eqM}_2}\mat{\tilde{Z}}_{\text{eqM}_2}^H\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right),
+\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H]&=
+	\mat{H}_\text{L,LNAv,ind}\cdot
+	\mathbb{E}[\vec{v}_{\text{LNA},j}\vec{v}_{\text{LNA},j}^H]\cdot
+	\mat{H}_\text{L,LNAv,ind}^H+\\\nonumber
+&\qquad \mat{H}_\text{L,LNAv,dir}\cdot
+	\mathbb{E}[\vec{v}_{\text{LNA},i}\vec{v}_{\text{LNA},i}^H]\cdot
+	\mat{H}_\text{L,LNAv,dir}^H\\
+&=\left(\mat{H}_\text{L,LNAv,ind}\cdot\mat{H}_\text{L,LNAv,ind}^H+
+	\mat{H}_\text{L,LNAv,dir}\cdot\mat{H}_\text{L,LNAv,dir}^H\right)\cdot \beta R_n^2.
 \end{align}
-for the LNA-current source.
+for the LNA-voltage source and similar for the current source
+\begin{align}
+\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H]&= 
+\left(\mat{H}_\text{L,LNAc,ind}\cdot\mat{H}_\text{L,LNAc,ind}^H+
+	\mat{H}_\text{L,LNAc,dir}\cdot\mat{H}_\text{L,LNAc,dir}^H\right)\cdot \beta.
+\end{align}
+
 For the cross terms it follows
 \begin{align}
 \nonumber
