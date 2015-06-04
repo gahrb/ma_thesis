@@ -296,7 +296,7 @@ This shows, that the poor results of the Simulated Annealing algorithm does not 
 Second, it shows that the performance of GlobalSearch is quite good, as any post refinement of gradient search does not lead to any significant improvement.
 
 
-\subsection{Stepwise Relay Improvements}
+\subsection{Stepwise Optimization}
 \label{sec:stepwise}
 In the previous Sections, we saw the performance of different methods for three relays per user.
 The number of relays was kept small for the analysis of the algorithms, so that complexity effects diminishing the performance were avoided.
@@ -321,7 +321,7 @@ Therefore one approach to prevent GlobalSearch of running into a low rate, is to
 The blue curve shows to result of the optimization, when GlobalSearch is allowed to optimize only two relays.
 Once finished, two additional relays are considered so that in total four relays per user are optimized.
 This is repeated until the total number of relays is reached (in this case four times, $N_{\text{Rep}} = \lceil\frac{N_{\text{Relays}}}{N_{\text{Step}}}\rceil = \lceil\frac{7}{2}\rceil=4$).
-This leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relay steps ($ N_{\text{Step}}$) will lead (most probably) to a better result, but also to a larger number of repetitions and therefore it will take a lot longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
+This leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relay steps ($ N_{\text{Step}}$) will lead probably to a better result, but also to a larger number of repetitions and therefore it will take a lot longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
 
 \begin{figure}[h]
 \centering
@@ -339,6 +339,22 @@ Therefore $N_{\text{Rep}} = 3$ had to be taken.
 As for $N_{\text{Step}}=4$, $N_{\text{Step}}=5$ and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), it leads almost to the same result.
 It can also be seen, that none of the stepwise optimized solvers has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
 
+
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.6\linewidth]{images/stepwise_comparison.png}
+\caption{Comparison of optimizing the relays stepwise versus optimizing each user per step.}
+\label{fig:uservsrelay_stepwise}
+\end{figure}
+A second approach is to optimize one user and its relays per step.
+This reduces the size of the problem to $N_\text{R}\cdot N_\text{Rx}+N_\text{Rel}$ for each optimization step.
+The number of optimization steps is increased by $N_\text{R}$.
+Additionally after optimizing each user a final step might be included, where the whole system is refined.
+
+Figure~\ref{fig:uservsrelay_stepwise} shows the performance of this method for a $2\times2$ system with three relays per user.
+The blue solid curve denotes the performance of optimizing the system directly.
+The red solid curve shows the performance of optimizing each user on its own and additionally optimizing the whole system in a refinement step afterwards.
+It can be seen that optimizing each user in advance of optimizing the whole system, leads to a slight improvement, even for this small system.
 
 %The main difference are the rates below $12 \left[\text{b/s/Hz}\right]$ (logarithmic scaled subplot).
 %Whenever the step to increase the number of relays was chosen to be even (i.e. on both sides of the relay were the same number of relays optimized), the rates were higher.
