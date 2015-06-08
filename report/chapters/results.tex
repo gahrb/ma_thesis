@@ -6,22 +6,26 @@ The performance of the optimization routine will be shown for different settings
 If not any further mentioned, the same settings will be used, as in Section~\ref{sec:solver}, i.e.
 we will look at a two user system with one receive antenna and three relays per user, as shown in Figure~\ref{fig:antenna_placing}.
 The relays in this system will be lossless, i.e. the impedance will be pure imaginary.
+Additionally only s noise contribution of the circuitry after the LNA, i.e. only downstream noise (c.f. Equation~\eqref{eq:noise_contrib}) will be considered.
+Therefore, because of the unilateral assumption, the noise contribution will be i.i.d. and independent of the matching network or the relays.
+Hence, the optimization algorithm is only able to adapt the signal and the interference.
 
 \section{Introduction of Measures for Comparison}
 \label{sec:measures}
 To be able to rate the results, on how good they are, the performance will be compared to TDMA.
 Additionally theoretical performance limits will be shown, in order to see by how much the performance could be pushed at maximum.
-
-\subsection{Uncoupled Relay Rates}
-One of the logical performances to compare the use of loaded antennas to, is the same setting without any coupling among the relays.
-Logically, the "uncoupled relays rate" should be smaller than including the relays and adapting their impedances to our needs.
-If no higher rate can be achieved, the whole idea of using passive relays would fail.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.7\linewidth]{images/Coupledcomparison.png}
 \caption{Comparison of uncoupled relays and optimized coupled relays.}
 \label{fig:coupledcomparison}
 \end{figure}
+
+\subsection{Uncoupled Relay Rates}
+One of the logical performances to compare the use of loaded antennas to, is the same setting without any coupling among the relays.
+Logically, the "uncoupled relays rate" should be smaller than including the relays and adapting their impedances to our needs.
+If no higher rate can be achieved, the whole idea of using passive relays would fail.
+
 
 In Figure~\ref{fig:coupledcomparison}, the green solid line shows the performance if no coupling among the relays and receivers exist.
 It is clear, that the rates including relay coupling (red solid line) are much larger.
@@ -48,7 +52,7 @@ Of course this comparison is more dependent on the choice of the settings (espec
 \subsection{Noise-free Rates}
 \label{sec:sir}
 As we are addressing the problem of interference, a good measure is the noise-free rate (short: SIR-rate).
-It is calculated similar to the SINR-rate from Equation~\eqref{eq:achiev_rate}, however it only considers the interference and not the noise.
+It is calculated similar to the SINR-rate, however it only considers the interference and not the noise (c.f. Equation~\eqref{eq:sir_rate}).
 As we said, in high SNR regime, the interference is the main diminishing factor for the rates (c.f. Section~\ref{sec:rates}), the SIR-rates will give us a indicator, on how good we optimized the relays.
 Example curves of the SIR-rates (blue dashed lines) can be seen in Figures~\ref{fig:relcomp_1}~to~\ref{fig:relcomp_3}.
 
@@ -124,7 +128,7 @@ Later we will only look at a high SNR level, as our aim is to minimize the inter
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Comparison_modvshighSNR.png}
-\caption{Comparison of the optimization algorithm at a moderate and high SNR level.}
+\caption{Comparison of the optimization algorithm at a moderate and high SNR level and the comparison to the noise free (SIR) rates.}
 \label{fig:snrcomparison}
 \end{figure}
 

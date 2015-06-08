@@ -50,11 +50,11 @@ From the discussion in~\cite{Nossek}, the noise of the LNA is modeled by a serie
 The noise sources have the following statistical properties,
 \begin{align}
 \label{eq:cov_lna}
-\mathbb{E}[\vec{i}_\text{LNA}\vec{i}_\text{LNA}^H] &= \beta \mat{I}_{N_\text{R}N_\text{Rx}},\\\nonumber
-\mathbb{E}[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H] &= \beta R_n^2\mat{I}_{N_\text{R}N_\text{Rx}},\quad\text{and}\\\nonumber
-\mathbb{E}[\vec{v}_\text{LNA}\vec{i}_\text{LNA}^H] &= \rho \beta R_n\mat{I}_{N_\text{R}N_\text{Rx}},
+\mathbb{E}[\vec{i}_\text{LNA}\vec{i}_\text{LNA}^H] &= \beta \cdot \mat{I}_{N_\text{R}N_\text{Rx}},\\\nonumber
+\mathbb{E}[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H] &= \beta \cdot R_n^2\mat{I}_{N_\text{R}N_\text{Rx}},\quad\text{and}\\\nonumber
+\mathbb{E}[\vec{v}_\text{LNA}\vec{i}_\text{LNA}^H] &= \rho \beta \cdot R_n\mat{I}_{N_\text{R}N_\text{Rx}},
 \end{align}
-with $\rho$ and $\beta$ as correlation coefficients.
+with $\rho$ and $\beta \cdot$ as correlation coefficients.
 
 \subsubsection{Transfer Function of the LNA Noise}
 \label{sec:antenna_noise_transf}
@@ -84,10 +84,12 @@ Transferring the current source into a series of voltages gives us
 
 and therefore a transfer function of
 \begin{equation}
+\label{eq:lnavdir}
 \mat{H}_\text{L,LNAv,dir} = R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1},
 \end{equation}
 for the series voltages and
 \begin{align}\nonumber
+\label{eq:lnacdir}
 \mat{H}_\text{L,LNAc,dir} &= -R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1}\mat{e}\cdot(\mat{c}+\mat{\tilde{Z}}_{\text{eqM}_2})^{-1}\mat{\tilde{Z}}_{\text{eqM}_2},\\
  &= - \mat{H}_\text{L,LNAv,dir}\cdot \mat{\tilde{Z}}_{\text{eqM}_2},
 \end{align}
@@ -114,10 +116,9 @@ The transfer function over the matching network is given by
 \end{align}
 This leads to the overall indirect LNA noise transfer functions of
 \begin{align}
-\label{eq:lnavolt_transf}
+\label{eq:lnaind}\nonumber
 \mat{H}_\text{L,LNAv,ind} &= \mat{H}_\text{L,i}\cdot\mat{H}_\text{O,LNA},\quad\text{for the voltage sources, and}\\
-\label{eq:lnacurr_transf}
-\mat{H}_\text{L,LNAc,ind} &= \mat{H}_\text{L,i}\cdot\mat{H}_\text{O,LNA}\cdot\mat{Z}_{\text{eqLNA1}},\quad\text{for the current sources}.
+\mat{H}_\text{L,LNAc,ind} &= \mat{H}_\text{L,LNAv,ind}\cdot\mat{Z}_{\text{eqLNA1}},\quad\text{for the current sources}.
 \end{align}
 Looking at the size of the matrices, we see, that the $\mat{H}_\text{O,LNA}$ as well as $\mat{Z}_{\text{eqLNA1}}$ are of size $\mathbb{C}^{(N_\text{R}-1)N_\text{Rx}\times (N_\text{R}-1)N_\text{Rx}}$ and therefore the overall transfer function is of size $\mathbb{C}^{N_\text{Rx}\times (N_\text{R}-1)N_\text{Rx}}$.
 
@@ -134,6 +135,7 @@ With the statistical property
 \label{sec:down_noise_transf}
 For the transfer function of the downstream noise we need a simple voltage divider of the loads and the equivalent input impedance $\mat{\tilde{Z}}_{\text{eqLNA}_2}$ looking from the right into the LNA block.
 \begin{equation}
+\label{eq:down_tf}
 \mat{H}_\text{L,n} = R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} + \mat{\tilde{Z}}_{\text{eqLNA}_2})^{-1},
 \end{equation}
 with 
@@ -169,6 +171,7 @@ With the transfer functions derived for each noise source, we can finally expres
 \text{and therefore}\qquad &\vec{u}_\text{L} = \vec{u}_\text{AR} + \vec{u}_{\text{LNA}_v} + \vec{u}_{\text{LNA}_c} + \vec{u}_{\tilde{n}}.
 \end{align}
 
+As each vector is of size $\mathbb{C}^{ N_\text{Rx}\times 1}$, the noise covariance matrix, described in the following will be of size $\mathbb{C}^{ N_\text{Rx}\times N_\text{Rx}}$.
 Because all the noise sources are uncorrelated, except for the LNA noise sources (c.f. Equation~\eqref{eq:cov_lna}), the noice covariance matrix can be written as:
 \begin{align}
 \label{eq:exp_noise}\nonumber
@@ -200,11 +203,7 @@ using~\eqref{eq:cov_ant}, with $\mat{R}_\text{na}$ of size $\mathbb{R}^{ N_\text
 For the LNA voltage noise, using~\eqref{eq:cov_lna}, it follows
 \begin{align}
 \nonumber
-\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] &= %\mathbb{E}\left[\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\cdot\right.\\\nonumber
-%&\qquad\left.\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\right]\\\nonumber
-%&=\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)\cdot\mathbb{E}\left[\vec{v}_\text{LNA}\vec{v}_\text{LNA}^H\right]\cdot\\\nonumber
-%&\qquad\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_\text{0,LNA})+\Gamma(\mat{H}_{\text{L,LNA}_v})^{-1}\right)^H\\\nonumber
-%&=\beta R_n^2\left(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{0,LNA}^H+\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right),\\\nonumber
+\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] &= 
 \mathbb{E}[\left(\mat{H}_\text{L,LNAv,ind}\cdot\vec{v}_{\text{LNA},j}+\mat{H}_\text{L,LNAv,dir}\cdot\vec{v}_{\text{LNA},i}\right)\cdot\\
 &\qquad\left(\mat{H}_\text{L,LNAv,ind}\cdot\vec{v}_{\text{LNA},j}+\mat{H}_\text{L,LNAv,dir}\cdot\vec{v}_{\text{LNA},i}\right)^H],
 \end{align}
@@ -219,7 +218,7 @@ by the fact, that $\vec{v}_{\text{LNA},j}$ and $\vec{v}_{\text{LNA},i}$ are inde
 	\mathbb{E}[\vec{v}_{\text{LNA},i}\vec{v}_{\text{LNA},i}^H]\cdot
 	\mat{H}_\text{L,LNAv,dir}^H\\
 &=\left(\mat{H}_\text{L,LNAv,ind}\cdot\mat{H}_\text{L,LNAv,ind}^H+
-	\mat{H}_\text{L,LNAv,dir}\cdot\mat{H}_\text{L,LNAv,dir}^H\right)\cdot \beta R_n^2.
+	\mat{H}_\text{L,LNAv,dir}\cdot\mat{H}_\text{L,LNAv,dir}^H\right)\cdot \beta \cdot R_n^2.
 \end{align}
 for the LNA-voltage source and similar for the current source
 \begin{align}
@@ -228,45 +227,69 @@ for the LNA-voltage source and similar for the current source
 	\mat{H}_\text{L,LNAc,dir}\cdot\mat{H}_\text{L,LNAc,dir}^H\right)\cdot \beta.
 \end{align}
 
-For the cross terms it follows
+The remaining terms for the LNA noise contribution are the cross terms.
+For them it follows,
 \begin{align}
 \nonumber
-\mat{K}_{n_{\text{LNA}_{vc}}} &= \rho\beta R_n
-\left(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{Z}_{\text{eqLNA}_1}^H\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{L,0}^H + 
-\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{\tilde{Z}}_{\text{eqM}_2}^H\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right)\\\nonumber
-&\quad+
-\rho^*\beta R_n
-\left(\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mat{Z}_{\text{eqLNA}_1}\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{L,0}^H + 
-\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mat{\tilde{Z}}_{\text{eqM}_2}\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right)\\\nonumber
-&= 2 \beta R_n\biggl(
-\mat{H}_\text{L,0}\cdot\Gamma\left(\mat{H}_\text{0,LNA}\mathbb{R}\left\{\rho^*\mat{Z}_{\text{eqLNA}_1}\right\}\mat{H}_\text{0,LNA}^H\right)\mat{H}_\text{L,0}^H + \\
-&\quad\left.\Gamma\left(\mat{H}_{\text{L,LNA}_v}\mathbb{R}\left\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\right\}\mat{H}_{\text{L,LNA}_v}^H\right)^{-1}\right),
+\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +&
+\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H] = 
+	\mat{H}_\text{L,LNAv,dir} 
+	\cdot\rho\beta \cdot R_n \cdot
+	\mat{H}_\text{L,LNAc,dir}^H +\\\nonumber
+&\quad	\mat{H}_\text{L,LNAc,dir} 
+	\cdot\rho^*\beta \cdot R_n \cdot
+	\mat{H}_\text{L,LNAv,dir}^H +\\\nonumber
+&\quad	\mat{H}_\text{L,0}\cdot\mat{H}_\text{L,LNAv,ind} 
+	\cdot\rho\beta \cdot R_n \cdot
+	\mat{H}_\text{L,LNAc,ind}^H\mat{H}_\text{L,0}^H + \\\nonumber
+&\quad	\mat{H}_\text{L,0}\cdot\mat{H}_\text{L,LNAc,ind} 
+	\cdot\rho^*\beta \cdot R_n \cdot
+	\mat{H}_\text{L,LNAv,ind}^H\mat{H}_\text{L,0}^H\\\nonumber
+&= \beta \cdot R_n\biggl(
+	-\mat{H}_\text{L,LNAv,dir} \left(\rho\mat{\tilde{Z}}_{\text{eqM}_2}^H+
+	\mat{\tilde{Z}}_{\text{eqM}_2}\rho^*\right) \mat{H}_\text{L,LNAv,dir}+\\\nonumber
+&\quad	\mat{H}_\text{L,LNAv,ind} \left(\rho\mat{Z}_{\text{eqLNA}_1}^H+
+	\mat{Z}_{\text{eqLNA}_1}\rho^*\right) \mat{H}_\text{L,LNAv,ind}\biggr)\\\nonumber
+&= 2\beta \cdot R_n\biggl(
+	-\mat{H}_\text{L,LNAv,dir} \cdot\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\}\cdot
+	\mat{H}_\text{L,LNAv,dir}+\\
+&\quad	\mat{H}_\text{L,LNAv,ind} \cdot\mathbb{R}\{\rho^*\mat{Z}_{\text{eqLNA}_1}\}\cdot
+	\mat{H}_\text{L,LNAv,ind}\biggr),
 \end{align}
-and for the downstream noise
+where Equations~\eqref{eq:cov_lna},~\eqref{eq:lnacdir} and~\eqref{eq:lnaind} where used.
+
+Finally, there is only the downstream noise contribution left.
+Because of the unilateral assumption, this becomes less complex, i.e.
 \begin{align}
 \nonumber
-\mat{K}_{n_{\tilde{n}\tilde{n}}}
-&=\psi\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_{0,\tilde{n}})+
-	\Gamma(\mat{H}_{\text{L},\tilde{n}})^{-1}\right)\cdot
-\left(\Gamma(\mat{H}_{\text{0},\tilde{n}})^H\cdot\mat{H}_\text{L,0}^H+
-	\Gamma(\mat{H}_{\text{L},\tilde{n}}^H)^{-1}\right)\\
-&=\psi\left(\mat{H}_\text{L,0}\cdot\Gamma(\mat{H}_{\text{0},\tilde{n}}
-	\mat{H}_{\text{0},\tilde{n}}^H)\cdot\mat{H}_{\text{L},0}^H + 
-	\Gamma(\mat{H}_{\text{L},\tilde{n}}\mat{H}_{\text{L},\tilde{n}}^H)^{-1}\right).
+\mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H]&=
+\psi\left(\mat{H}_\text{L,n}\cdot\mat{H}_\text{L,n}^H\right),
 \end{align}
+where the statistical property of the downstream noise from Equation~\eqref{eq:cov_down} was used.
 
 With these results we can form the final noise covariance matrix as 
 \begin{align}
-\label{eq:noise_cov}
-\mat{K}_{n,0}&= %\mat{H}_{L,0}\mat{R}_{na}\mat{H}_{L,0}^H + &\textit{Antenna noise}\\\nonumber
-%&\qquad\mat{H}_{L,LNA_v}\beta(R_N^2\mat{I}_{N_r} + 2 R_N\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{eqM_2}\} + \mat{\tilde{Z}}_{eqM_2}\mat{\tilde{Z}}_{eqM_2}^H)\mat{H}_{L,LNA_v}^H+&\textit{LNA noise}\\
-%&\qquad\mat{H}_{L,n}\psi\mat{I}_{N_r}\mat{H}_{L,n}^H.&\textit{Downstream noise}
-\mat{H}_\text{L,0}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,0}^H +
-\mat{K}_{n_{\text{LNA}_{vv}}}+
-\mat{K}_{n_{\text{LNA}_{cc}}}+
-\mat{K}_{n_{\text{LNA}_{vc}}}+
-\mat{K}_{n_{\tilde{n}\tilde{n}}}.
+\label{eq:noise_cov}\nonumber
+\mat{K}_{\text{n},i}%&= 
+%	\mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H]+
+%	\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H]+
+%	\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H]+\\\nonumber
+%&\quad	\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +
+%	\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H] +
+%	\mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H]\\\nonumber
+&=\mat{H}_\text{L,i} \mat{R}_\text{na} \mat{H}_\text{L,i}^H+\\\nonumber
+&\quad	\beta \cdot R_n^2\cdot \left(\mat{H}_\text{L,LNAv,ind}\cdot\mat{H}_\text{L,LNAv,ind}^H+
+	\mat{H}_\text{L,LNAv,dir}\cdot\mat{H}_\text{L,LNAv,dir}^H\right)+\\\nonumber
+&\quad	\beta \cdot \left(\mat{H}_\text{L,LNAc,ind}\cdot\mat{H}_\text{L,LNAc,ind}^H+
+	\mat{H}_\text{L,LNAc,dir}\cdot\mat{H}_\text{L,LNAc,dir}^H\right)+\\\nonumber
+&\quad	2\beta \cdot R_n\biggl(
+	-\mat{H}_\text{L,LNAv,dir} \cdot\mathbb{R}\{\rho^*\mat{\tilde{Z}}_{\text{eqM}_2}\}\cdot
+	\mat{H}_\text{L,LNAv,dir}+\\\nonumber
+&\quad	\mat{H}_\text{L,LNAv,ind} \cdot\mathbb{R}\{\rho^*\mat{Z}_{\text{eqLNA}_1}\}\cdot
+	\mat{H}_\text{L,LNAv,ind}\biggr)+\\
+&\quad	\psi\left(\mat{H}_\text{L,n}\cdot\mat{H}_\text{L,n}^H\right).
 \end{align}
+According to the noise vector sizes given in the beginning of this section, the noise covariance matrix is of size $\mathbb{C}^{N_\text{Rx}\times N_\text{Rx}}$.
 
 
 

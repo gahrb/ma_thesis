@@ -322,7 +322,7 @@ and therefore the overall transfer function
 \mat{H}_{\text{L},i} &= 
 	\mat{H}_\text{L,LNA}\cdot\mat{H}_\text{LNA,M}\cdot\mat{H}_\text{M,O'}\cdot\mat{H}_i^\text{pr}.
 \end{align}
-including a port reduction towards receiver "i".
+including a port reduction towards receiver "$i$".
 As the first three sub transfer functions ($\mat{H}_\text{L,LNA}$, $\mat{H}_\text{LNA,M}$ and $\mat{H}_\text{M,0'}$) are of size
 $\mathbb{C}^{N_\text{Rx}\times N_\text{Rx}}$, the overall transfer function is of size
 $\mathbb{C}^{N_\text{Rx}\times N_\text{R}\cdot\left(N_\text{Rx}+N_\text{Rel}\right)}$.
@@ -413,10 +413,10 @@ with $||\cdot||_1$ the 1-norm, i.e. the sum of the elements of $\vec{r}$.
 \max_{\mat{Z}_\text{M}}\left(r_\text{Sum}\right) = \max_{\mat{Z}_\text{M}}\left(\sum_{j=0}^{N_\text{User}-1} r[j]\right),
 \end{equation}
 
-\subsection{Interference Limited Rate}
+\subsection{Interference Limited or Noise Free Rate}
 \label{sec:sir_rate}
-Another measure required in this thesis is the interference limited rate.
-It is calculated by only considering the signal and interference.
+Another measure required in this thesis is the interference limited or noise free rate.
+It is calculated by only considering signal and interference power at the loads.
 Therefore neglecting the noise in Equation~\ref{eq:achiev_rate} leads to
 \begin{align}
 \label{eq:sir_rate}
@@ -425,7 +425,7 @@ r_j &=\text{log}_2\left(\text{det}\left(\mat{K}_{\text{s},j}+\mat{K}_{\text{i},j
 \end{align}
 
 This is helpful, to see how good the interference was removed by the optimization, which will be introduced in Chapter~\ref{sec:solver}.
-
+The noise free rate also will be denoted as SIR-rate.
 
 
 \subsection{TDMA Rate}

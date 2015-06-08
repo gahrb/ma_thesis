@@ -16,16 +16,14 @@ r_1 & r_2 & \cdots & r_N
 
 To optimize the rates, different approaches are possible.
 \begin{itemize}
-\item Optimize the minimum rate, i.e. $\text{max}\left(\text{min}(\vec{r})\right)$ (maxmin),
-\item Optimize the mean rate, i.e. $\text{max}\left(\sum(\vec{r})\right)$ (maxsum), and
-\item Optimize the maximum rate, i.e. $\text{max}\left(\text{max}(\vec{r})\right)$ (maxmax).
+\item Optimize the minimum rate, i.e. $\text{max}\left(\text{min}(\vec{r})\right)$ (maxmin), and
+\item Optimize the mean rate, i.e. $\text{max}\left(\sum(\vec{r})\right)$ (maxsum)
 \end{itemize}
 
 This is done using the LP-norm ($||\vec{r}||_p$)~\cite[p.853]{Kreyszig}.
 By setting $p = -\text{Inf}$, the "maxmin" method is achieved.
-Setting $p = 1$, the "maxsum" method is applied and setting $p = +\text{Inf}$, the "maxmax" method is applied.
-For all values in between, the utility function "tends" to optimize the maximum and minimum value respectively.
-
+Setting $p = 1$, the "maxsum" method is applied
+For all values in between, the utility function "tends" to optimize the sum and the minimum value respectively.
 In the following we restrict ourselves to the "maxsum" method.
 As the other methods easily can be applied and will lead to a similarly good result without loss of generality.
 
@@ -103,15 +101,21 @@ The complexity of this system is therefore $N_\text{var} =  1\cdot 2\cdot 3 + 3\
 \label{sec:grads_solver}
 
 Despite this large number of variables and the non-convexity of the utility function, the first approach remains a gradient search.
-Figure~\ref{fig:grad_search} shows the typical behaviour of the gradient search versus the iteration steps.
+Figure~\ref{fig:grad_search} shows the typical behavior of the gradient search versus the iteration steps.
 In the following, different methods are described, to improve the algorithm.
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.5\linewidth]{images/rvsgradCnt_7rel_18dB_6.png}
+  \includegraphics[width=0.8\linewidth]{images/rvsgradCnt_7rel_18dB_6.png}
 \caption{The sum rate over the gradient search iterations.}
 \label{fig:grad_search}
 \end{figure}
+
+From Figure~\ref{fig:grad_search}, it is also obvious to see, why the method of gradient search was taken despite the non-convexity of the problem:
+The rate is tripled after seven steps, and after 100 steps the rate is improved by a factor of four.
+Afterwards only small improvements can be achieved, which leads to the assumption, that a sufficiently good local maximum can be found very fast.
+If after such a small number of steps no good result can be achieved, it leads to the assumption, that the initial value was poorly chosen, hence with a different initialization a better result might be achieved.
+This is also shown in the following section.
 
 \subsection{Choice of Initial Values}
 \label{sec:grads_ini}
@@ -131,19 +135,20 @@ The initial values were drawn uniformly at random for $Z_{\text{Rel}}[i]\in[-600
 
 It is obvious and clear to see, that the larger the number of initializations, the better the result.
 However, even with 25 and 60 initializations, there improvement is still immense, which shows, that the number of initializations must be a lot larger than twice the input vector length.
-A good tradeoff between a decent optimization and a comparable small runtime of the optimization is achieved by a choice of four times the input vector length.
-
-\subsection{Adaptive Step Size}
-\label{sec:grads_stepsize}
-The performance of the gradient search routine is improved by the use of an adaptive step size.
-For each calculated gradient, the step taken into the direction of the gradient is increased until the new rate value is smaller than the previous calculated value as shown in Figure~\ref{fig:stepsize}.
-Therefore the number of time-expensive gradient calculations is reduced immense.
+A good tradeoff between a decent optimization and a comparable small run time of the optimization is achieved by a choice of four times the input vector length.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.5\linewidth]{images/stepsize_scheme.png}
 \caption{Schematic of the adaptive step size algorithm.}
 \label{fig:stepsize}
 \end{figure}
+
+\subsection{Adaptive Step Size}
+\label{sec:grads_stepsize}
+The performance of the gradient search routine is improved by the use of an adaptive step size.
+For each calculated gradient, the step taken into the direction of the gradient is increased until the new rate value is smaller than the previous calculated value as shown in Figure~\ref{fig:stepsize}.
+Therefore the number of time-expensive gradient calculations is reduced immense.
+
 
 
 \subsection{Conjugate Gradient}
@@ -160,7 +165,7 @@ Conjugate gradient routines like "Fletcher-Reeves" or "Polak-Ribi\`{e}re" lead t
 
 Like Polak-Ribi\`{e}re, the Fletcher-Reeves method updates the conjugate direction according to 
 \begin{equation}
-\vec{s}_n = \vec{g}_n + \beta_n\cdot\vec{g}_{n-1},
+\vec{s}_n = \vec{g}_n + \beta_n\cdot\vec{s}_{n-1},
 \label{eq:conj_update}
 \end{equation}
 where $\vec{g}$ denotes the gradient.
@@ -284,7 +289,7 @@ When the problem of gradient search is, that it may run into non optimal local m
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.7\linewidth]{images/Postrefinementcomparison.png}
+  \includegraphics[width=0.9\linewidth]{images/Postrefinementcomparison.png}
 \caption{Comparison the heuristic solvers with and without a post refinement by gradient search.}
 \label{fig:postrefinement}
 \end{figure}
@@ -300,7 +305,7 @@ Second, it shows that the performance of GlobalSearch is quite good, as any post
 \label{sec:stepwise}
 In the previous Sections, we saw the performance of different methods for three relays per user.
 The number of relays was kept small for the analysis of the algorithms, so that complexity effects diminishing the performance were avoided.
-Increasing the number of relays might result in worse sum rates.
+Increasing the number of relays might result in worse sum rates as the complexity of the system correlates with the number of required initial values to achieve similar good results, hence the run time of the solver must be increased, or the precision is decreased.
 Therefore we will have a look at the performance of the optimization and how it can be pushed in the following.
 For the results shown below, the number of relays were increased to seven, if not mentioned specifically.
 
@@ -342,7 +347,7 @@ It can also be seen, that none of the stepwise optimized solvers has a significa
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.6\linewidth]{images/stepwise_comparison.png}
+  \includegraphics[width=0.8\linewidth]{images/stepwise_comparison.png}
 \caption{Comparison of optimizing the relays stepwise versus optimizing each user per step.}
 \label{fig:uservsrelay_stepwise}
 \end{figure}
