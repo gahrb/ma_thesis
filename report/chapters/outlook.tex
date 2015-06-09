@@ -3,25 +3,35 @@
 \section{Conclusion}
 \label{sec:conclusion}
 This thesis showed that the use of passive relays with an optimal choice of relay and matching network impedances can improve the achievable rates significantly.
-It was shown, that current interference eliminating protocols are outperformed by this method.
+It was not only shown, that current interference eliminating protocols are outperformed by this method, but also that any combination with methods like TDMA lead to far better results than without using passive relays.
 
-Different solver approaches were introduced with promising results.
-For the method of gradient search the partial derivatives of the achievable rate were derived for any noise contribution, spatial channel realization and any interference.
+For the optimization of the relay loads and the matching network of the receivers, different solver approaches were introduced with promising results.
+For the method of gradient search the partial derivatives of the achievable user rates and the achievable sum rate were derived for any noise contribution, any spatial channel realization and  different antenna topologies.
+The introduced optimization methods were further improved by the use of an adaptive step size, conjugate gradients method, and heuristic solvers.
+Their performance was further optimized, by a better choice of initial values, a post refinement of the solution and a stepwise optimization. 
 
-The results were compared to receiver structures with widely spaced antennas and optimal choices of the matching network.
+The results of the optimization routine were compared to receiver structures with widely spaced antennas and optimal choices of the matching network assuming the relays to be fully cooperative receiving antennae.
+These results were given for  different number of passive relays, receiving antennae per user, users, relay placings, and input powers.
 With just one receive antenna, rates close to these limits were achieved.
-These results were given for  different number of passive relays, receiving antennas per user, users, relay placings, and input powers.
-Further, a lower bound of required number of relays was given to achieve a low interference link for all users in such a network.
+A lower bound of the required number of relays was given to achieve a low interference link for all users in  a network.
+This lower bound was then compared to a four user system and evaluated.
+To achieve this lower bound, the noise-free rates of the systems were calculated and analyzed.
 
+Further, it was shown, that by keeping the sum of relays and receivers fixed leads to similar good results independent of whether more receivers and less relays or less receivers and more relays were used.
+Hence increasing the number of relays leads to almost the same improvements as increasing the number of receivers per user.
 
 \section{Future Work}
 \label{sec:outlook}
-Because this thesis looked into the achievable improvements by the use of passive relays and showed that this method is an auspicious method in diminishing interference for dense networks, the feasibility remains to be proven.
-
-The results must be scaled to larger systems and the speed of the solver to find a satisfyingly good result must be improved.
+Because this thesis looked into the achievable improvements by the use of passive relays and showed that this method is an auspicious method in diminishing interference for dense networks, the practical feasibility remains to be proven.
+For that, the system must be scaled to larger numbers of users and hence relays and the speed of the solver to find a satisfyingly good result must be improved.
 Therefore maybe different solver approaches could be the solution.
+As the coupling is dependent on the distances among the antennae, a way to determine each antenna position must be found.
 
-An analysis of the optimal impedance values would most certainly lead to a better understanding.
-Maybe correlations to the antenna placing could be found and a better optimization routine with educated initial guesses could be found.
+Further, an analysis of the optimal impedance values would most certainly lead to a better understanding and maybe also for a good choice of initial values, so that a normal gradient search routine with less initializations could be used.
+Maybe correlations of the impedance values to the antenna placing could be found and hence again a better optimization routine with educated initial guesses could be found.
 
 The choice of complex components at the relays (i.e. lossy relays), must be further explored, as it gives a higher degree of freedom for the solution finding.
+However this also requires a better performance of the solver routine, in speed and precision.
+
+Finally, a real system setup, for correctness validation of the solver and the system would give certainty, that the approach of eliminating interference by the use of passive relays is a reasonable approach.
+

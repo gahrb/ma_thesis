@@ -317,7 +317,7 @@ This shows, that the GlobalSeach optimization might not perform very good on lar
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.7\linewidth]{images/Relstepcomparison_edited.png}
+  \includegraphics[width=0.9\linewidth]{images/Relstepcomparison_edited.png}
 \caption{Comparison of the number of step wise optimization.}
 \label{fig:nrel7}
 \end{figure}
@@ -344,22 +344,25 @@ Therefore $N_{\text{Rep}} = 3$ had to be taken.
 As for $N_{\text{Step}}=4$, $N_{\text{Step}}=5$ and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), it leads almost to the same result.
 It can also be seen, that none of the stepwise optimized solvers has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
 
-
-\begin{figure}[h]
-\centering
-  \includegraphics[width=0.8\linewidth]{images/stepwise_comparison.png}
-\caption{Comparison of optimizing the relays stepwise versus optimizing each user per step.}
-\label{fig:uservsrelay_stepwise}
-\end{figure}
 A second approach is to optimize one user and its relays per step.
 This reduces the size of the problem to $N_\text{R}\cdot N_\text{Rx}+N_\text{Rel}$ for each optimization step.
 The number of optimization steps is increased by $N_\text{R}$.
 Additionally after optimizing each user a final step might be included, where the whole system is refined.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/stepwise_comparison.png}
+\caption{Comparison of optimizing the relays stepwise versus optimizing each user per step.}
+\label{fig:uservsrelay_stepwise}
+\end{figure}
 
 Figure~\ref{fig:uservsrelay_stepwise} shows the performance of this method for a $2\times2$ system with three relays per user.
 The blue solid curve denotes the performance of optimizing the system directly.
 The red solid curve shows the performance of optimizing each user on its own and additionally optimizing the whole system in a refinement step afterwards.
 It can be seen that optimizing each user in advance of optimizing the whole system, leads to a slight improvement, even for this small system.
+
+For both cases - the user stepwise optimization and the relay stepwise optimization - a lower sum rate limit constraint is set after each step.
+With this inequality constraint, the heuristic algorithm is prevented in running into a lower rate than in the previous step.
+
 
 %The main difference are the rates below $12 \left[\text{b/s/Hz}\right]$ (logarithmic scaled subplot).
 %Whenever the step to increase the number of relays was chosen to be even (i.e. on both sides of the relay were the same number of relays optimized), the rates were higher.
