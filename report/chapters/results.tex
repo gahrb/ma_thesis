@@ -53,7 +53,7 @@ Of course this comparison is more dependent on the choice of the settings (espec
 \label{sec:sir}
 As we are addressing the problem of interference, a good measure is the noise-free rate (short: SIR-rate).
 It is calculated similar to the SINR-rate, however it only considers the interference and not the noise (c.f. Equation~\eqref{eq:sir_rate}).
-As we said, in high SNR regime, the interference is the main diminishing factor for the rates (c.f. Section~\ref{sec:rates}), the SIR-rates will give us a indicator, on how good we optimized the relays.
+As written in the previous chapters, in high SNR regime, the interference is the main diminishing factor for the rates (c.f. Section~\ref{sec:rates}), the SIR-rates will give an indicator, on how good the relays and the matching network were optimized.
 Example curves of the SIR-rates (blue dashed lines) can be seen in Figures~\ref{fig:relcomp_1}~to~\ref{fig:relcomp_3}.
 
 \subsection{Relays as Fully Cooperation Receivers - Limit}
@@ -110,7 +110,7 @@ When the maximum distance is set equal the minimum distance, the relays will be 
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Dzcomparison.png}
-\caption{Optimized Sum Rates for different minimum distances between receiver and relays ($d_\text{z}$).}
+\caption{Optimized Sum Rates for different minimum distances between receiver and relays ($d_\text{z}\in\{0.1,0.2,0.3,0.4\}$ from right to left).}
 \label{fig:dz_comparison}
 \end{figure}
 
@@ -125,6 +125,7 @@ Therefore we will use in the following $d_\text{z}=0.1\cdot\lambda$.
 
 At first we want to analyze the optimization algorithm at different SNR levels.
 Later we will only look at a high SNR level, as our aim is to minimize the interference.
+As we assume only downstream noise, the optimization algorithm can only change the signal and the interference covariance matrices.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Comparison_modvshighSNR.png}
@@ -135,7 +136,8 @@ Later we will only look at a high SNR level, as our aim is to minimize the inter
 Figure~\ref{fig:snrcomparison} shows the SINR- and SIR- rates at a moderate SNR level (blue curves) and at a high SNR level (red curves).
 As the achievable rate at a moderate SNR level (blue solid line) is less interference driven and more noise limited, the resulting SIR-rate (blue dashed curve) is also lower than the SIR-rate of the optimized achievable rate at a high SNR region (red dashed line).
 
-This shows for the moderate SNR level, that the optimization algorithm was matching the values of the relays and the matching network to amplify the signal and also the interference, than - like for the high SNR level - to blanket the interference.
+This shows for the moderate SNR level, that the optimization algorithm was matching the values of the relays and the matching network in order to amplify the signal at first and only second reducing the interference.
+For two users (as it is here the case) the interference is increased the same as the signal power (from moderate SNR to high SNR), hence if the optimization would have let to the same reduction of the interference at the moderate SNR level, the SIR rates would have become equivalent.
 
 \section{Number of Relays to Eliminate Interference}
 \label{sec:interf_fix}
@@ -153,8 +155,8 @@ To eliminate interference with two transmitters normally two observations are re
 Figure~\ref{fig:relcomp_1} shows the performance of a transmit/receiver pair with one interferer and $N_\text{Rel}\in\{1,2,3\}$ (red curves from left to right).
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.8\linewidth]{images/Relcomparison_1interferer.png}
-\caption{Sum rates for one interferer and one receiver with  $N_\text{Rel}\in\{1,2,3\}$.}
+  \includegraphics[width=0.9\linewidth]{images/Relcomparison_1interferer.png}
+\caption{User rates for one interferer and one receiver with  $N_\text{Rel}\in\{1,2,3\}$ (red and blue curves from left to right) and their theoretical limits (black curves).}
 \label{fig:relcomp_1}
 \end{figure}
 It is clear to see, that the higher the number of relays, the better the performance of the optimized system.
@@ -162,20 +164,19 @@ The blue dashed lines show the rates considering only the SI-ratio (c.f. Equatio
 The use of only one relay, leads only for 10\% of the cases to an interference free connection.
 Increasing the number of relays to two leads to an interference free connection of almost 80\% of the realizations, however, to achieve for almost all realizations a noise limited connection at least three relays per receiver are required.
 
-
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.85\linewidth]{images/Relcomparison_2interferer.png}
+\caption{User rates for two interferer and one receiver with  $N_\text{Rel}\in\{2,3,4,5\}$ (red and blue curves from left to right) and their theoretical limits (black curves).}
+\label{fig:relcomp_2}
+\end{figure}
 \subsection{Two Interferer}
 \label{sec:2interf}
 To eliminate interference with three transmitters normally three observations are required.
 Figure~\ref{fig:relcomp_2} shows the performance of a transmit/receiver pair with two interferer and $N_\text{Rel}\in\{2,3,4,5\}$ (red curves from left to right).
 And, as before, the blue dashed lines show the rates considering only the SI-ratio.
-\begin{figure}[h]
-\centering
-  \includegraphics[width=0.8\linewidth]{images/Relcomparison_2interferer.png}
-\caption{Sum rates for two interferer and one receiver with  $N_\text{Rel}\in\{2,3,4,5\}$.}
-\label{fig:relcomp_2}
-\end{figure}
 
-We see, that for two relays per user, the interference limited rate behaves almost the same as the optimized achievable sum rate.
+We see, that for two relays per user, the interference limited rate behaves almost the same as the optimized achievable user rate.
 For three relays per user, some realizations lead to an interference free connection.
 But only for five relays per user, over 90\% of the realizations can be driven into an low interference state.
 
@@ -186,18 +187,18 @@ Figure~\ref{fig:relcomp_3} shows the performance of a transmit/receiver pair wit
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.85\linewidth]{images/Relcomparison_3interferer.png}
-\caption{Sum rates for three interferer and one receiver with $N_\text{Rel}\in\{4,5,6,7\}$.}
+\caption{User rates for three interferer and one receiver with $N_\text{Rel}\in\{4,5,6,7\}$ (red and blue curves from left to right) and their theoretical limits (black curves).}
 \label{fig:relcomp_3}
 \end{figure}
 
-We see, that for four relays per user, the interference limited rate behaves almost the same as the optimized achievable sum rate.
+We see, that for four relays per user, the interference limited rate behaves almost the same as the optimized achievable user rate.
 For five and six relays per user, some realizations lead to an interference free connection.
 For seven relays per user, over 90\% of the realizations can be driven into an low interference state.
 
 Comparing this to the previous results with one and two interferer, we can see, that  the number of required relays to eliminate the interference grows not linearly as with the use of fully cooperating receivers.
 It looks like, that it requires at least twice the number of interferer ($N_\text{Rel} > N_\text{Interferer}\cdot2$) per user, to overcome the interference.
 
-\section{Relay Versus Receive Antenna Zero Forcing}
+\section{Cooperative versus Non-cooperative Receive Antennas}
 \label{sec:rel_rx_comp}
 
 In the following, we want to analyze what happens, if the number of relays plus receiver antennas is kept constant.
@@ -207,20 +208,20 @@ Behaviors as shown in Section~\ref{sec:stepwise} are therefore less likely to ha
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/ConstNrelNrx8comparison_1Rx_onlySINR.png}
-\caption{Comparison of constant $N_\text{Rel} + N_{\text{Rx}} = 8$, with $N_\text{Rel}\in\{4,5,6,7\}$ and $N_{\text{Rx}}\in\{1,2,3,4\}$.}
+\caption{Comparison of constant $N_\text{Rel} + N_{\text{Rx}} = 8$, with $N_\text{Rel}\in\{4,5,6,7\}$ and $N_{\text{Rx}}\in\{1,2,3,4\}$ from left to right.}
 \label{fig:1user_const}
 \end{figure}
 \subsection{One User, Three Interferer}
 \label{sec:1user_const}
 Figure~\ref{fig:1user_const} shows the performance with three interferer and one transmit/receive pair.
 Obviously in the case where four receive antennas were used (yellow curve), the interference can be fully eliminated therefore it also shows the highest rate.
-However the performance is only $0.5 \left[\text{b/s/Hz}\right]$, if seven relays and only one receive antenna were used - for the values in between even less.
+However the performance is only $0.5 \left[\text{b/s/Hz}\right]$ smaller, if seven relays and only one receive antenna were used - for the values in between even less.
 
 \subsection{Prediction for four Users}
 \label{sec:const_prediction}
 
 By the results shown in the previous section, the performance of a four user system can now be predicted.
-A simlulation of a four user system with widely spread receivers should lead to the same results like summing up the previous curves four times.
+A simulation of a four user system with widely spread receivers should lead to the same results like summing up the previous curves four times.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/4user_inklpred.png}

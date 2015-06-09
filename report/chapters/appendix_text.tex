@@ -23,10 +23,11 @@ Approaches to prevent the solver in running into these lower rates would be a pr
 
 
 
-\chapter{Nossek}
+\chapter{Alternative Description of the Receiver}
 \label{sec:nossek}
 
 As written in the Introduction of this thesis, the circuit description is based on the methods introduced in~\cite{Nossek}.
+Therefore in the following a similar description as used in~\cite{Nossek} is given. 
 
 \section{Transfer Function}
 To be able to fully use this method some adoptions need to be made.
@@ -106,7 +107,89 @@ Therefore, similar to~\cite{Yahia2013}, with the adoptions to the matching netwo
  	\frac{\partial\mat{K}_n}{\partial\mat{Z}_{\text{M},ij}}\right)\Bigg).
 \end{align}
 The derivations of the rate with no interference can be found in~\cite{Yahia2013}.
+In the following it is adapted to the needs of this thesis.
 To get the gradient of the interference, the sum over all interferer is taken, as in Section~\ref{sec:int_cov}.
+
+For notational convenience, we define the following %matrices 
+\begin{eqnarray}
+\mat{G}&=&\mat{H}_j^{\text{sp}}\text{J}[\mat{v}_j\mat{v}_j^H]\mat{H}_j^{\text{sp}^H},\quad\text{and} \nonumber \\
+\mat{P}_j&=&\mat{F}_R\mat{G}\mat{F}_R^H \label{eqX}.
+\end{eqnarray}
+The covariance matrix of the desired signal and interference at the receiver is
+\begin{align}
+\mat{K}_\text{s}&=\left|\frac{z_ld}{z_l+g}\right|^2\mat{D}\mat{P}_j\mat{D}^H,\quad\text{and}\\
+\mat{K}_\text{i}&=\left|\frac{z_ld}{z_l+g}\right|^2\mat{D}\sum_{i=0,i\neq j}^{N_\text{User}-1}\mat{P}_i\mat{D}^H.
+\label{CovSignal}
+\end{align}
+ The covariance matrix of the noise voltages $\vec{v}_{\text{L},j}^n$ is given as  
+\begin{eqnarray}
+\mat{K}_{n}=\text{J}[\vec{v}_{\text{L},j}^n\vec{v}_{\text{L},j}^{n^H}]= 
+\left|\frac{z_ld}{z_l+g}\right|^2\mat{D}\mat{\Phi} \mat{D}^H ,
+\label{NoiseCorr}
+\end{eqnarray}
+with
+\begin{eqnarray}
+\mat{\Phi} &=&
+	\overbrace{ \beta\left(  \mat{Z}_{R}\mat{Z}_{R}^H-2R_N\Re\{ \rho^* \mat{Z}_{R}\}+R_N^2\mat{I}_M\right)}^{\text{LNA noise}}  +
+	\overbrace{\mat{F}_R\mat{R}_{\text{na}}\mat{F}_R^H}^{\text{Ant. noise}} + \nonumber \\
+	&& \underbrace{\frac{1}{|d|^2}\mat{D}^{-1}\psi\mat{I}_{N_\text{Rx}}\mat{D}^{{-H}}}_{\text{Downstream noise}}.
+\label{eq9}
+\end{eqnarray} 
+
+To get the gradient of the achievable rate, we proceed as in~\cite{Yahia2013}, namely
+by the LNA in  \eqref{eq9}.
+Additionally we introduce for symmetric matrices the unit differential matrix $\mat{S}_{ij}$, and all-zeros matrix except for the two elements in $i$-th row and $j$-th column and $j$-th row and $i$-th column, which are equal to $1i$ (hence $\mat{S}_{ij} = \mat{J}_{ij} + \mat{J}_{ji}$, if $j\neq i$, else $\mat{S}_{ij} = \mat{J}_{ij}$). We start by the first term  $\beta\mat{T}_1=\beta \mat{Z}_R\mat{Z}_R^H$. 
+\begin{eqnarray}
+\frac{\partial \mat{T}_1}{\partial \mat{Z}_{\text{M22,}ij}}&=& 
+	\mat{S}_{ij}\mat{Z}_R^H+\mat{Z}_R(\mat{S}_{ij}) \nonumber\\
+\frac{\partial \mat{T}_1}{\partial \mat{Z}_{\text{M12,}ij}}&=& 
+	(\mat{J}_{ij}\mat{F}_R^T+\mat{F}_R\mat{J}_{ij}^T)\mat{Z}_R^H+ %\\
+\mat{Z}_R(\mat{J}_{ij}\mat{F}_R^H+\mat{Z}_{M11}\mat{B}_1^H\mat{J}_{ij}^T)  \nonumber \\
+\frac{\partial \mat{T}_1}{\partial \mat{Z}_{\text{M11,}ij}}&=&
+	\mat{F}_R(-\mat{S}_{ij})\mat{F}_R^T \mat{Z}_R^H +
+	\mat{Z}_R\mat{Z}_{M12}\mat{B}_1^H(\mat{S}_{ij})\mat{F}_R^H,
+\label{Shorteneddeirvatives}
+\end{eqnarray}
+where we define the matrix $\mat{B}_1=(\mat{Z}_{M11}+\mat{Z}_{\text{CR}})^{-1}$. Since both matrices $\mat{Z}_{M11}\text{ and }\mat{Z}_{\text{CR}}$ are symmetric, $\mat{B}_1$ is also symmetric.
+
+
+In the second term of the LNA noise contribution $-\beta R_N\mat{T}_2=-\beta R_N(\rho^*\mat{Z}_R+\rho\mat{Z}_R^*)$ the derivatives are
+\begin{eqnarray}
+\frac{\partial \mat{T}_2}{\partial \mat{Z}_{M22,ij}}&=&
+	\rho^*\mat{S}_{ij}+\rho (-\mat{S}_{ij}) \nonumber \\
+\frac{\partial \mat{T}_2}{\partial \mat{Z}_{M12,ij}}&=&
+	\rho^*(\mat{J}_{ij}\mat{F}_R^T+\mat{F}_R\mat{J}_{ij}^T)+ 
+	\rho(\mat{J}_{ij}\mat{F}_R^{H}+\mat{F}_R^{*}\mat{J}_{ij}^T) \nonumber\\
+\frac{\partial \mat{T}_2}{\partial \mat{Z}_{M11},ij}&=&
+	\rho^*\mat{F}_R(-\mat{S}_{ij})\mat{F}_R^{T}+ 
+	\rho \mat{Z}_{M12}\mat{B}_1^H(\mat{S}_{ij})\mat{F}_R^H.
+\label{ShortenedpartialZ}
+\end{eqnarray}
+
+
+For the downstream noise components $\frac{\psi}{|d|^2}\mat{T}_3=\frac{\psi}{|d|^2}\mat{D}^{-1}\mat{I}_M\mat{D}^{{-H}}$ the derivatives become
+\begin{eqnarray}
+\frac{\partial \mat{T}_3}{\partial \mat{Z}_{M22,ij}}&=&\mat{S}_{ij}(c^*\mat{I}_M+\mat{Z}_{R}^H)+ 
+(c\mat{I}_M+\mat{Z}_{R})(-\mat{S}_{ij}) \nonumber\\
+\frac{\partial \mat{T}_3}{\partial \mat{Z}_{M12,ij}}&=&(\mat{J}_{ij}\mat{F}_R^T+\mat{F}_R\mat{J}_{ij}^T)
+(c^*\mat{I}_M+\mat{Z}_R^H)+ \nonumber \\
+ && (c\mat{I}_M+\mat{Z}_R) 
+(\mat{J}_{ij}\mat{F}_R^H+\mat{Z}_{M12}\mat{B}_1^H\mat{J}_{ij}^T)  \nonumber \\
+\frac{\partial \mat{T}_3}{\partial \mat{Z}_{M11,ij}}&=& (\mat{F}_R(-\mat{S}_{ij})\mat{F}_R^T)(c^*\mat{I}_M+\mat{Z}_R^H)+   \nonumber \\
+&&  (c\mat{I}_M+\mat{Z}_R)(\mat{Z}_{M12}\mat{B}_1^H(\mat{S}_{ij})\mat{F}_R^H).
+\label{ShortenedPostLNA}
+\end{eqnarray}
+
+As mentioned in Chapter~\ref{sec:ana_grad}, the transfer function of the signal and the antenna noise are the same.
+Therefore also the gradients become the same, namely
+\begin{eqnarray}
+\frac{\partial \mat{P}}{\partial \mat{Z}_{M12,ij}}&=&\mat{J}_{ij}\mat{B}_1\mat{G} \mat{F}_R^H+ 
+ \mat{F}_R\mat{G} \mat{B}_1^H\mat{J}_{ij}^T \nonumber\\
+\frac{\partial \mat{P}}{\partial \mat{Z}_{M11,ij}}&=&\mat{F}_R\left((-\mat{S}_{ij})\mat{B}_1\mat{G} + \mat{G}\mat{B}_1^H(\mat{S}_{ij}) \right)\mat{F}_R^H.
+\label{SigDer}
+\end{eqnarray}
+The derivative of the antenna noise is identical to \eqref{SigDer}, but with replacing $\mat{G}$ by $\mat{R}_{\text{na}}$. With the derivatives given above, the gradient of the achievable rate can now be calculated.
+
 
 
 %MU-MIMO TF
@@ -130,25 +213,25 @@ To get the gradient of the interference, the sum over all interferer is taken, a
 
 %Signal Cov
 %\begin{align}
-%\mat{K}_{\text{s},i}=\mathbb{E}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
+%\mat{K}_{\text{s},i}=\mathbb{J}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
 %	\mat{H}_\text{L,0} \cdot \mat{H}_{i}^{\text{sp}} \cdot 
-%	\mathbb{E}[\vec{v}_{i}\vec{v}_{i}^H] \cdot 
+%	\mathbb{J}[\vec{v}_{i}\vec{v}_{i}^H] \cdot 
 %	\mat{H}_{i}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,\\
-%\mat{K}_{\text{s},i}=\mathbb{E}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
+%\mat{K}_{\text{s},i}=\mathbb{J}[\vec{v}_\text{L}^\text{s}\vec{v}_\text{L}^{\text{s}^H}] &= 
 %	\mat{H}_\text{L,0} \cdot \mat{H}_{i}^{\text{sp}} \cdot  
 %	\mat{H}_{i}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H\cdot P_i
 %\end{align}
 %Interference Cov
 %\begin{align}
-%\mat{K}_{\text{i},i}=\mathbb{E}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
+%\mat{K}_{\text{i},i}=\mathbb{J}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
 %	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
-%	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+%	\mathbb{J}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
 %	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H,\\
 %	&= \mat{H}_\text{L,0} \left(\sum_{j=1}^{N_\text{User}-1} 
 %	\cdot \mat{H}_{j}^{\text{sp}} \cdot 
-%	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+%	\mathbb{J}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
 %	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \mat{H}_\text{L,0}^H,\\
-%\mat{K}_{\text{i},i}=\mathbb{E}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
+%\mat{K}_{\text{i},i}=\mathbb{J}[\vec{v}_\text{L}^\text{i}\vec{v}_\text{L}^{\text{i}^H}] &= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
 %	\mat{H}_\text{L,0} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 %	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,0}^H\cdot P_j,\\
 %	&= \mat{H}_\text{L,0} \left(\sum_{j=1}^{N_\text{User}-1} 
