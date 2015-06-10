@@ -175,14 +175,14 @@ As each vector is of size $\mathbb{C}^{ N_\text{Rx}\times 1}$, the noise covaria
 Because all the noise sources are uncorrelated, except for the LNA noise sources (c.f. Equation~\eqref{eq:cov_lna}), the noice covariance matrix can be written as:
 \begin{align}
 \label{eq:exp_noise}\nonumber
-\mat{K}_\text{n,i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] &=
+\mat{K}_{\text{N,}i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] &=
 \mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H]+ 
 \mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] +
 \mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_c}^H] +\\%\nonumber
 \quad&\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +
 \mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H] +
 \mathbb{E}[\vec{u}_{\tilde{n}}\vec{u}_{\tilde{n}}^H].
-%\mat{K}_\text{n,i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] = &\mat{H}_\text{L,i}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,i}^H + 
+%\mat{K}_{\text{N,}i} =\mathbb{E}[\vec{u}_\text{L}\vec{u}_\text{L}^H] = &\mat{H}_\text{L,i}\mathbb{E}[\vec{n}_\text{AR}\vec{n}_\text{AR}^H]\mat{H}_\text{L,i}^H + 
 %\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H] +
 %\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_c}^H] +\\%\nonumber
 %\quad&\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_v}^H] +
@@ -270,7 +270,7 @@ where the statistical property of the downstream noise from Equation~\eqref{eq:c
 With these results we can form the final noise covariance matrix as 
 \begin{align}
 \label{eq:noise_cov}\nonumber
-\mat{K}_{\text{n},i}%&= 
+\mat{K}_{\text{N},i}%&= 
 %	\mathbb{E}[\vec{u}_\text{AR}\vec{u}_\text{AR}^H]+
 %	\mathbb{E}[\vec{u}_{\text{LNA}_v}\vec{u}_{\text{LNA}_v}^H]+
 %	\mathbb{E}[\vec{u}_{\text{LNA}_c}\vec{u}_{\text{LNA}_c}^H]+\\\nonumber
