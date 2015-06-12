@@ -3,18 +3,18 @@
 %\chapter*{Zusammenfassung}
 %\addcontentsline{toc}{chapter}{Zusammenfassung}
 
-In nowadays wireless networks there are mainly two factors witch limit the achievable transmission rates - fading and interference.
-When multiple-input-multiple-output (MIMO) systems mostly reduce the impact of fading, the problem of interference has not yet been solved satisfyingly.
-The most common methods to address the problem of interference are protocols based on schemes like time-division-~(TD-), frequency-division-~(FD-), or code-division multiple access (CDMA).
-The solution - but in the same time also the downside - of those schemes is the unique allocation of a specific time and/or frequency slot for a single user, hence the blocking of all other users.
-\paragraph{}
-In this thesis the problem of interference is addressed by the use of closely spaced passive relays, i.e. antennas with only passive, lossless impedances attached, which interact with the receiving antennas only by the effect of coupling.
-Therefore they require no input power to amplify the signal.
-By the choice of the passive elements the effect of the coupling can be changed and hence by using multiple passive relays, the coupling can be used to increase the signal- and reduce the interference power at the receivers.
-\paragraph{}
-In the following, a description of the system will be derived, which allows an easy and elegant way of analyzing the effect of coupling.
-Different solver methods are analyzed and discussed in order to find an optimal choice of the relay impedances.
+In current wireless networks there are two limiting factors for transmission rates: fading and interference.
+While multiple-input-multiple-output (MIMO) systems reduce the impact of fading, the problem of interference has not yet been satisfyingly solved.
+The most common methods for addressing the problem of interference are protocols based on schemes like time-division-~(TD-), frequency-division-~(FD-), or code-division multiple access (CDMA).
+The simultaneous advantage and downfall of those schemes is their unique allocation of specific time and/or frequency slots for each user, hence blocking all other users.
+
+In this thesis the problem of interference is addressed by using closely spaced passive relays: antennas with only passive, lossless impedances attached, which interact with the receiving antennas only through coupling.
+These relays require no input power to amplify signals.
+By using passive elements, the effects of coupling can be changed, and by using multiple passive relays couplings can be used to increase the signal and reduce the interference power to the receivers.
+
+In the following, a description of the system will be derived that allows for an easy and elegant way of analyzing the effects of coupling.
+Different solver methods are analyzed and discussed in order to find the optimal choice of relay loads.
 As some of the solvers are based on the method of gradient search, the analytical gradient will be derived.
-In order to derive the analytical gradient, full channel knowledge, of the spatial channel and the coupling between the receiving elements is assumed.
-For the gradient search method, a variety of initial value choices will be compared to each other.
-Further, the results are evaluated and compared to different solver methods and previously known interference limiting methods.
+In order to derive the analytical gradient, full channel knowledge of the spatial channel and couplings between receiving elements are assumed.
+For the gradient search method, a variety of initial value choices will be compared.
+Further, the results are evaluated and compared to different solver methods and previously known interference-limiting methods.

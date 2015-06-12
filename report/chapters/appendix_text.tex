@@ -19,9 +19,22 @@ Figure~\ref{fig:lossyrel} shows the performance of the loss less relays in red, 
 In blue the performance of the lossy relays is given.
 We see, that the performance is lower than the performance of the loss less relays, which is contradicting to the statement above.
 This leads to the conclusion, that the performance of the solver is worse, when the degree of freedom is larger.
-Approaches to prevent the solver in running into these lower rates would be a pre-optimization of the loss less relays and afterwards performing an optimization with lossy relays using the results from the red curve as initial values.
 
 
+Therefore, we introduce a stepwise optimization similar to the one in Section~\ref{sec:stepwise}.
+At first the system is optimized for only pure values of the relay loads.
+In a second step the impedances are allowed to become complex, with positive real parts~---~we neglect negative values, as the relays would then required a power source and noise effects would appear.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{images/Imagvscomp_2.png}
+\caption{Comparison of loss less and lossy relays.}
+\label{fig:lossyrel_2}
+\end{figure}
+
+Figure~\ref{fig:lossyrel_2} shows the result of this optimization for one receiver with seven relays and three interferers.
+The settings were changed, in order to have a smaller problem size.
+By the solid lines we see, that allowing the loads to become complex (blue solid and dashed lines), improves as expected the performance.
+However, the improvement is not significantly larger, to the lossless loads (red solid and dashed lines).
 
 \chapter{Alternative Description of the Receiver}
 \label{sec:nossek}
@@ -190,6 +203,40 @@ Therefore also the gradients become the same, namely
 \end{eqnarray}
 The derivative of the antenna noise is identical to \eqref{SigDer}, but with replacing $\mat{G}$ by $\mat{R}_{\text{na}}$. With the derivatives given above, the gradient of the achievable rate can now be calculated.
 
+
+%\begin{equation}
+%\mat{Z}_{\text{eqM}_1} = \mat{Z}_\text{M11} - \mat{Z}_\text{M12}\cdot(\mat{Z}_\text{M22} + R_L\cdot\mat{I})^{-1}\cdot \mat{Z}_\text{M12}.
+%\end{equation}
+
+
+%\begin{align}
+%\mat{H}_0^{\text{pr}} &=
+%\begin{bmatrix}
+%\mat{I}_{N_\text{Rx}} & -\mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}
+%\end{bmatrix}
+%=\begin{bmatrix}
+%\mat{I}_{N_\text{Rx}} & -\mat{H}_{0,\text{ind}}^{\text{pr}}
+%\end{bmatrix}\\
+%\mat{H}_{j}^{\text{sp}} &= 
+%\begin{bmatrix}
+%\mat{H}_{0,j}^{\text{sp}} \\
+%\mat{H}_{1,j}^{\text{sp}} \\
+%\vdots\\
+%\mat{H}_{N_\text{Relay},j}^{\text{sp}} \\
+%\end{bmatrix}\\
+%\mat{H}_0^{\text{pr}}\cdot\mat{H}_{j}^{\text{sp}}&=
+%\begin{bmatrix}
+%\mat{I}_{N_\text{Rx}} & -\mat{H}_{0,\text{ind}}^{\text{pr}}
+%\end{bmatrix}\cdot
+%\begin{bmatrix}
+%\mat{H}_{0,j}^{\text{sp}} \\
+%\mat{H}_{1,j}^{\text{sp}} \\
+%\vdots\\
+%\mat{H}_{N_\text{Relay},j}^{\text{sp}} \\
+%\end{bmatrix}\\
+%\mat{H}_{i,j}^{\text{sp}} &= \mat{H}_{i,\text{ind}}^{\text{pr}}\cdot\mat{H}_{\tilde{i},j}^{\text{sp}}
+%\quad\forall j\neq i
+%\end{align}
 
 
 %MU-MIMO TF

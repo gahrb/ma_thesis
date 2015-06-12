@@ -216,7 +216,19 @@ Figure~\ref{fig:1user_const} shows the performance with three interferer and one
 Obviously in the case where four receive antennas were used (yellow curve), the interference can be fully zero forced therefore it also shows the highest rate.
 However the performance is only $0.5 \left[\text{b/s/Hz}\right]$ smaller, if seven relays and only one receive antenna were used - for the values in between even less.
 This shows, that with one additional observation and one relay less, the rate can not be improved significantly.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/ConstNrelNrx8comparison_1Rx_onlySIR.png}
+\caption{Comparison of constant $N_\text{Rel} + N_{\text{Rx}} = 8$, with $N_\text{Rel}\in\{4,5,6,7\}$ and $N_{\text{Rx}}\in\{1,2,3,4\}$ from left to right, showing only noise free rates.}
+\label{fig:1user_const_SIR}
+\end{figure}
 Therefore we can stick with a system, which uses one receiver antenna and multiple relays, and can expect to perform close to MIMO system with a sufficient large number of receive antennas to zero-force any interference.
+
+Figure~\ref{fig:1user_const_SIR} shows the noise free, hence interference limited rates for a constant number of relays and receivers.
+The SIR-rate for the receiver with four antennas is neglected, as the interference can be fully eliminated.
+Again, it can be seen, that the larger the number of receive antennas, the better the interference can be reduced.
+However, the differences are~---~as mentioned above~---~small.
+Therefore we can conclude, that a system can almost perform the same by increasing the numbers of relays, as it would increasing the number of receive antennas.
 
 
 \section{Four User System}
@@ -325,7 +337,12 @@ Still the method introduced in this thesis without the use of TDMA outperforms 2
 However it can also be observed, that the use of only three relays per user and a 2-slot TDMA approach outperforms the pure TDMA approach by approximately $8 \left[\text{b/s/Hz}\right]$.
 Hence the combination of using passive relays and TDMA also significantly improves the performance of a system suffering from strong interference.
 
-
+\begin{figure}[h]
+\centering
+  \includegraphics[width=\linewidth]{images/SlotTDMAcomparison_user.png}
+\caption{Comparison of different slot TDMA approaches.}
+\label{fig:tdma_comb}
+\end{figure}
 
 
 

@@ -260,15 +260,15 @@ GlobalSearch is less dependent on the initial value - for the relays it is chose
 A further approach to optimize the gradient search routine is a good initial guess.
 The problem of the sum rate maximization is reduced only to the description of the interference.
 Therefore the number of variables can be reduced by a factor of two third for the matching network, as the interference function from Equation~\eqref{eq:port_reduction} - even after multiplication with the spatial channel transfer function~\eqref{eq:spatial_channel} - only requires the input impedance of the matching network.
+\begin{figure}[h]
+\centering
+  \includegraphics[width=0.9\linewidth]{images/Inioptcomparison_edited.png}
+\caption{Comparison of the number of initial values used with different pre-optimized intial values.}
+\label{fig:iniopt_comp}
+\end{figure}
 This reduced problem has size of $N_\text{var} =  2\cdot N_\text{Rel}+2\cdot N_\text{R}\cdot N_\text{Rx} = 2\cdot 4\cdot 5 + 2\cdot 4\cdot 2 = 56$, for the same settings as above.
 The factor 2 from the matching network variables comes from the fact, that with pure imaginary elements in the matching network, any complex value of the input impedance can be achieved.
 
-\begin{figure}[hb]
-\centering
-  \includegraphics[width=0.7\linewidth]{images/Inioptcomparison_edited.png}
-\caption{Comparison of the number of initial values used.}
-\label{fig:iniopt_comp}
-\end{figure}
 
 Figure~\ref{fig:iniopt_comp} shows the performance of the steepest ascent algorithm, with the pre-optimized initial values (three red dotted curves on the left).
 We see, that using the five best pre-optimizations leads to a performance almost as good as initializing the algorithm with 60 random vectors (red solid curve).

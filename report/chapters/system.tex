@@ -230,7 +230,7 @@ With this port reduction the equivalent coupling matrix $\mat{Z}_\text{C}^{'}$ a
 \begin{align}
 \label{eq:port_reduction}
 \mat{Z}_\text{C}^{'}&= \mat{Z}_\text{OO} - \mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}\mat{Z}_\text{LO}\quad\text{and}\\
-\vec{v}_0^{'} &= \mat{H}_0^{\text{pr}} \cdot\mat{H}_{j}^{\text{sp}}\cdot \vec{v_j},\\\nonumber
+\vec{v}_0^{'} &= \mat{H}_0^{\text{pr}} \cdot\mat{H}_{j}^{\text{sp}}\cdot \vec{v}_j,\\\nonumber
 &\text{with}\quad\mat{H}_0^{\text{pr}}=
 \begin{bmatrix}
 \mat{I}_{N_\text{Rx}} & -\mat{Z}_\text{OL}(\mat{Z}_{\text{pass}} + \mat{Z}_\text{LL})^{-1}
@@ -360,20 +360,20 @@ The interference covariance matrix hence becomes
 \begin{align}
 \label{eq:interf_cov}\nonumber
 \mat{K}_{\text{I},i}%=\mathbb{E}[\vec{v}_{\text{L},i}^I\vec{v}_{\text{L},i}^{I^H}]
- 	&= \sum_{j=0,j\neq i}^{N_\text{T}-1} 
+ 	&= \sum_{j=0,j\neq i}^{N_\text{User}-1} 
 	\mat{H}_\text{L,i} \cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
-	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,i}^H,\\
-	&= \mat{H}_\text{L,i} \left(\sum_{j=1}^{N_\text{T}-1} 
+	\mat{H}_{j}^{\text{sp}^H} \cdot \mat{H}_\text{L,i}^H\\
+	&= \mat{H}_\text{L,i} \left(\sum_{j=1,j\neq i}^{N_\text{User}-1} 
 	\cdot \mat{H}_{j}^{\text{sp}} \cdot 
 	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
 	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \mat{H}_\text{L,i}^H.
 \end{align}
 
 
-%% Noise part
+%%%%%%%%%%% Noise part %%%%%%%%%%%%
 \input{chapters/noise_description}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Rate Calculations}
 \label{sec:rates}

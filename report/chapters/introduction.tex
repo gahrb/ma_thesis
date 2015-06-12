@@ -1,93 +1,112 @@
 \chapter{Introduction}
 \label{sec:introduction}
 
-Future wireless networks are assumed to be of higher density at the receiver side, as more and more devices with access to the Internet are appearing on the market, and more and more types of devices are staffed with modules which are able to connect to the Internet (Internet of things~IoT)~\cite{rusek13}.
-Examples for such scenarios are cellular networks in an urban area, wireless networks in public spaces as concert halls, or sensor networks.
+Future wireless networks are assumed to have high receiver density, as more devices with access to the Internet appear on the market and more types of devices are staffed with modules able to connect to the Internet (Internet of things~IoT)~\cite{rusek13}.
+Examples of such scenarios are cellular networks in urban areas, wireless networks in public spaces like concert halls, and sensor networks.
 
-Such networks mainly suffer from two rate limiting  effects: fading and interference.
-When the effect of fading is mostly solved by MIMO techniques, the interference is the remaining bottleneck to achieve high data rates.
-Classical methods to overcome interference are protocols like TDMA, FDMA or CDMA.
-The downside of those protocols is the unique allocation of a user to a specific time or frequency slot, hence the blocking of all other users for this period.
-More advanced techniques use multiple antennas as in the case of fading, to achieve multiple observations of the incoming signals and therefore the ability to zero force the interfering signals.
-This, however, is only possible, if the number of antennas per receiver is larger than the number of interfering signal streams - in high density networks nearly impossible, or very expensive as the size of the receiver structure grows rapidly~\cite{rusek13}.
+Such networks  suffer from two main rate-limiting  effects: fading and interference.
+While the effect of fading is mostly solved by MIMO techniques, interference remains as the limiting factor for high data rates.
+Classical methods of overcoming interference are protocols like TDMA, FDMA, or CDMA.
+The downside of those protocols is their unique allocation of a user to a specific time and frequency slot, blocking of all other users.
+More advanced techniques use multiple antennas~---~similar of overcoming the problem of fading~---~to achieve multiple observations of the incoming signals, and therefore the ability to zero force the interfering signals.
+This, however, is only possible if the number of antennas per receiver is larger than the number of interfering signal streams~---~nearly impossible or very expensive in high-density networks as the size of the receiver structure grows rapidly~\cite{rusek13}.
 
-In this thesis the use of passive relays, i.e. antennae with pure imaginary impedances attached is introduced.
-As they are placed very closely (in terms of wavelengths) around the receivers, they interact by the effect of coupling with the receivers.
-By the choice of the impedances, the strength of coupling can be changed.
-With an increasing number of such passive relays, the coupling can be used to steer the signal towards the receiver and block the interference.
-A full channel knowledge is assumed, of the spatial channel and the coupling matrix, in order to match the relay impedances.
+In this thesis we introduce the use of passive relays, or antennas with pure imaginary impedances attached.
+As they are placed very close (in terms of wavelengths) around the receivers, they interact by  coupling with the receivers.
+By the choice of loads, the strength of coupling can be changed.
+With an increasing number of such passive relays, couplings can be used to steer the signal towards the receiver and block interference.
+Full channel knowledge is assumed of the spatial channel and the coupling matrix in order to match the relay impedances.
+
+Our strategy proved theoretically effective in situations when adapted coupling of passive relays is possible.
+We demonstrate that our theoretical foundation is a useful addition to previously conducted research.
+The paper creates new avenues for future research based on its theoretical insights.
 
 \section{Motivation and Goals}
 \label{sec:motivation}
 
-The achievable rate of a connection pair is dependent on the signal, noise and interference covariance matrices.
-In a high power region the effect of noise can be neglected as the interference is the main diminishing factor.
+The achievable rate of a connection pair is dependent on the signal, noise, and interference covariance matrices.
+In a high power region the effect of noise can be neglected, as the interference is the main diminishing factor.
 Therefore an interference-free connection is the main goal.
 
-As the method of using passive relays only by their coupling is a new way of addressing the problem of interference, this thesis will look more into the achievable improvements than into the practical feasibility of the method.
-To achieve the highest possible rate for any realization, the shape of the problem will be analyzed and different solver methods will be introduced and compared with each other.
-The achievable rates shall be given for different settings and topologies in order to be able to judge for which settings this method is suitable, and for which not.
+As the method of using passive relays through only their coupling is a new way of addressing the problem of interference, this thesis will look into potential improvements rather than practical feasibility of the method.
+To achieve the highest possible rate for any realization, the shape of the problem is analyzed and different solver methods are introduced and comparedS.
+Maximum achievable rates shall be given for different settings and topologies in order to enable judgment of which settings for with this method is suitable.
 
 \section{State of the Art}
 \label{sec:SoA}
 
+Six papers are key to current solutions for interference in large multi-user systems.
+\cite{rusek13} discovered that transmission rates decrease in the presence of large numbers of antennas.
+~\cite{Nossek} described the problem connecting information theory and circuit theory, contributing a novel and useful description of large systems using circuit theory.
+Following up on that work, \cite{Yahia2013} used gradient search to optimize large networks---we follow that approach.
+Using relays, \cite{Berger05} were able eliminate interference.
+\cite{Bains08} steered antenna beams toward the intended target using relays.
+Finally, \cite{Lau12} used relays to uncouple antennas.
+We build upon all of these approaches in this paper.
+
 Because interference is a main problem in larger multi user systems, effects of largely scaled MIMO systems must be studied.
+
 In~\cite{rusek13} F. Rusek et al. wrote about scaling up MIMO systems.
-Opportunities and challenges of large systems with hundreds of antennas were exploited.
-Among other things they look therefore also into mutual coupling and spatial correlation of such large antenna arrays at the transmitter.
-They came to the conclusion, that the interaction among antenna elements can incur significant losses, also because for large MIMO systems the antenna spacing becomes smaller.
+They exploit opportunities and challenges of large systems with hundreds of antennas.
+Among other things, they look into the mutual coupling and spatial correlation of large antenna arrays at the transmitter.
+They came to the conclusion that interactions among antenna elements can incur significant losses, because for large MIMO systems the antenna spacing becomes smaller.
 Therefore it is important to analyze the behavior of closely spaced antennas.
 %However, they also found, that for different antenna placings coupling has different effects and can even increase the capacity of a system, and that with moderate coupling spatial correlation can be reduced.
 
-To work with closely spaced antenna elements, a useful way of describing the coupling is required.
-In~\cite{Nossek} M. Ivrlac and J. Nossek approach such compact systems by describing it using circuit theory.
-The description given is also usable for this thesis with some adaption.
-Additionally they find an optimal setting for the matching network on the receiver side, the so called multi-port matching.
-This multi-port matching will be used in this thesis to serve as an theoretical upper limit.
-For large antenna systems the multi-port matching is getting very complex, and hence hard to implement.
-Therefore this thesis is looking into a different approach in optimizing the achievable rate. 
+Working with closely spaced antenna elements requires a useful way of describing couplings.
+In~\cite{Nossek} M. Ivrlac et al. describe compact systems using circuit theory.
+Their description is also usable for this thesis with some adaptation.
+Additionally they find an optimal setting for the matching network on the receiver side, called multi-port matching.
+Multi-port matching will be used in this thesis to serve as theoretical upper limit.
+For large antenna systems, multi-port matching becomes very complex, and hence hard to implement.
+Therefore, this thesis looks into a different approach to optimize the achievable rate. 
 
 Further research on the matching network was done in~\cite{Yahia2013}.
-A gradient-search algorithm was developed to design the matching network for achievable rate maximization of multi-user MIMO systems.
-The settings are similar to the ones in this thesis.
-Additionally the passive relays are used to amplify the signal and reduce the interference at the receiver.
+A gradient-search algorithm is developed to design a matching network for achievable rate maximization of multi-user MIMO systems.
+Their settings are adapted for this thesis.
+Additionally, we improved upon their developments by using passive relays to amplify the signal and reduce the interference at the receiver.
 
-Although only TDMA was mentioned so far, further approaches on interference elimination methods exist.
-In ~\cite{Berger05}, the concept of Distributive Spatial Multiplexing (DSM), was introduced.
-It tries to zero force interference by the use of amplify and forward relays.
-By the choice of different amplify gains for each relay the interference can be eliminated at each receivers.
-In contrast to the approach in this thesis, the relays are not loss less, hence require an input power to amplify the signal.
+Although only TDMA has been mentioned so far, further approaches on interference elimination methods exist.
+In ~\cite{Berger05}, the concept of Distributive Spatial Multiplexing (DSM), is introduced.
+This attempts to eliminate interference by using amplify and forward (AF) relays.
+By choosing different amplify gains for each relay, the interference can be eliminated at each receiver.
+In contrast to the approach in this thesis, their relays are not lossless and require a power source to amplify their signals.
 
-Further research on passive relays, or parasitic elements, respectively was done in~\cite{Bains08}.
-They were used in order to steer the receive antenna beam.
-However, for closer spaced transmitters, or signals with a similar angle of incidence, this will not eliminate any interference.
+Further research on passive relays, or parasitic elements was done in~\cite{Bains08}.
+They use these parasitic elements to steer the receiving antenna beam.
+However, for more closely spaced transmitters or signals with a similar angle of incidence, this will not eliminate any interference.
+We also use passive relays, but in a different context.
 
-Last, two antennas were uncoupled from each other in~\cite{Lau12}, by placing parasitic elements in the middle.
-For an orthogonal channel this will remove the interference, if however - as in this thesis - a spatial interference channel is assumed, both receiver will collect an interfering signal.
-Therefore this thesis tries to use the coupling to reduce the interference, instead of trying to uncouple the receivers from each other.
+Finally, two antennas were uncoupled from each other in~\cite{Lau12} by placing parasitic elements in the middle.
+For an orthogonal channel this will remove the interference.
+If however~---~as it is in this thesis~---~a spatial interference channel is assumed, both receivers will collect an interfering signal.
+Therefore this thesis tries to use the coupling itself to reduce interference, instead of trying to uncouple the receivers from each other.
 
+Building on all of this work, we address the problem of interference in scaled-up MIMO systems from a circuit theory perspective.
+We add to this by incorporating information theory, forging a connection between the two.
+In our implementation we follow the guidance of other studies and use passive relays and the effect of coupling to design a novel method for reducing interference and amplifying the signal.
 
 \section{Outline}
 \label{sec:outline}
 
-In the following chapter the whole system will be described.
-The effect of coupling will be analyzed and the overall transfer function - from the transmitter to the receiver - will be stated.
-A description of the spatially correlated interference channel will be given.
-All the noise sources appearing in the systems and their transfer function will be shown and derived.
-The transfer functions will be split up into smaller, simpler sub functions, so that the effect of coupling and the interference can be better described and analyzed.
+In the following chapter the whole system is described by connecting circuit theory and information theory.
+The effect of coupling is analyzed and the overall transfer function~---~from the transmitter to the receiver~---~is stated.
+A description of the spatially correlated interference channel is given.
+All the noise sources appearing in the systems and their transfer function are shown and derived.
+The transfer functions are split up into smaller, simpler subfunctions, such that the effect of coupling and the interference can be better described and analyzed.
 
-As one of the solver methods is gradient search, in the third chapter the analytical gradients will be derived - for the signal, the interference and the noise part.
-The gradient is dependent on the covariance matrix, therefore they will be derived as well for the signal, interference and noise contributions at the receiver.
+As one of the optimization methods is gradient search, in the third chapter the analytical gradients are derived~---~for the signal, the interference and the noise.
+The gradient is dependent on the covariance matrix, therefore they are derived as well for the signal, interference, and noise contributions at the receiver.
 
-In the fourth chapter different solver methods will be introduced and compared to each other.
-Beside the method of gradient search, there will be heuristic algorithms introduced.
-Further improvements, in precision and speed, of the solver performance will be introduced.
+In the fourth chapter, different optimization methods are introduced and compared to each other.
+Aside from the method of gradient search, there are heuristic algorithms introduced.
+Further improvements in precision and speed of the optimization methods performance are introduced.
 
-The results of the solver methods and its improvements will be evaluated in the fifth chapter.
-The results will be compared versus different numbers of relays used in a setup, versus different types of placings of the relays and versus different numbers of users.
-Additionally, theoretical limits of the setups will be derived and shown, and the results will be compared to current protocols which overcome interference, such as TDMA.
+The results of the optimization methods and their improvements are evaluated in the fifth chapter.
+The results is compared to different numbers of relays used in a setup, different relay placements, and different numbers of users.
+Additionally, theoretical limits of the setups are derived and shown, and the results are compared to current protocols for overcoming interference, such as TDMA.
 
-Last, in the sixth chapter, a summary of the work achieved in this thesis and an outlook on possible future work will be given.
+Finally, in the sixth chapter, a summary of the work achieved in this thesis and an outlook for possible future work is given.
 
 
 
