@@ -1,37 +1,37 @@
-\chapter{Problem Statement and Solver Methods}
+\chapter{Problem Statement and Optimization Methods}
 \label{sec:solver}
 
-In the following, the problem to optimize will be introduced an analyzed.
-Although the thesis is not looking into finding the optimal solution, different solver strategies have to be introduced and compared to each other, as the utility function is not trivial and the differences are severe.
-Their advantages and disadvantages will be shown.
-If not specific mentioned, we will look at a 2x2 MIMO system with one receive antenna per user and three relays, as shown in Figure~\ref{fig:antenna_placing}.
-The relays in this system will be lossless, i.e. the impedances will be pure imaginary.
+This section analyzes the problem of optimization..
+Although the thesis does not look into finding the optimal solution, different optimization strategies must be introduced and compared, as the utility function is not trivial and the differences are severe.
+We show the advantages and disadvantages of each strategy.
+If it is not specific mentioned, we use a 2x2 MIMO system with one receive antenna per user and three relays, as shown in Figure~\ref{fig:antenna_placing} as our baseline.
+The relays in this system will be lossless, which is to say the impedances will be purely imaginary.
 
 \section{Utility Function}
 \label{sec:utility_function}
-As the aim for wireless communication networks is to maximize the achievable rate, we take the formulas derived in Section~\ref{sec:rates}, which describe the rates for each transmit-receive pair.
+As the aim for wireless communication networks is to maximize the achievable rates, we use the formulas derived in Section~\ref{sec:rates}, which describe the rates for each transmit-receive pair.
 In order to get an utility function from the achievable rates, we take the vector of achievable rates $\vec{r} = \begin{bmatrix}
 r_1 & r_2 & \cdots & r_N
 \end{bmatrix}^T$ from Equation~\eqref{eq:achiev_vec}.
 
-To optimize the rates, different approaches are possible.
+To optimize the rates, different approaches are possible:
 \begin{itemize}
-\item Optimize the minimum rate, i.e. $\text{max}\left(\text{min}(\vec{r})\right)$ (maxmin), and
-\item Optimize the mean rate, i.e. $\text{max}\left(\sum(\vec{r})\right)$ (maxsum)
+\item Optimize the minimum rate, or $\text{max}\left(\text{min}(\vec{r})\right)$ (maxmin), and
+\item Optimize the mean rate, or $\text{max}\left(\sum(\vec{r})\right)$ (maxsum)
 \end{itemize}
 
 This is done using the LP-norm ($||\vec{r}||_p$)~\cite[p.853]{Kreyszig}.
-By setting $p = -\text{Inf}$, the "maxmin" method is achieved.
-Setting $p = 1$, the "maxsum" method is applied
-For all values in between, the utility function "tends" to optimize the sum and the minimum value respectively.
-In the following we restrict ourselves to the "maxsum" method.
-As the other methods easily can be applied and will lead to a similarly good result without loss of generality.
+By setting $p = -\text{Inf}$, the ``maxmin" method is achieved.
+Setting $p = 1$ applies the ``maxsum" method.
+For all values in between, the utility function tends to optimize the sum and the minimum value respectively.
+In the following, we restrict ourselves to the ``maxsum" method.
+The other methods easily can be applied and will lead to similarly good results without loss of generality.
 
 \subsection{Convexity of the Utility Function}
 \label{sec:}
 
-In the following the convexity of the utility function is analyzed.
-This is done, because the choice of the solver depends on the shape of the utility function (e.g. in case of a concave utility function, a normal gradient search is sufficient to provide good results).
+In the following we analyze the convexity of the utility function.
+This is done because the choice of the optimization method depends on the shape of the utility function. In the case of a concave utility function, a normal gradient search is sufficient to provide good results.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/full_mesh_highsnr_93.png}
@@ -39,29 +39,29 @@ This is done, because the choice of the solver depends on the shape of the utili
 \label{fig:utility_power1}
 \end{figure}
 
-To do so, we analyze the utility function at different input values for the passive relays.
-It is clear, that the function (heavily) changes for every channel realization.
-Figure~\ref{fig:utility_power1} and~\ref{fig:utility_power2} show two different channel realizations for the same input power and the same domain of two passive impedances.
+We analyze the utility function at different input values for the passive relays.
+It is clear that the function (dramatically) changes for every channel realization.
+Figures~\ref{fig:utility_power1} and~\ref{fig:utility_power2} show two different channel realizations for the same input power and the same domain of two passive impedances.
 
 
-For the domain of the relay values showed in Figure~\ref{fig:utility_power1}, even two local maxima could be found, with an immensely higher sum rate value.
+For the domain of the relay values showed in Figure~\ref{fig:utility_power1}, two local maxima can be found with immensely higher sum rate values.
 On the other hand, the utility function in Figure~\ref{fig:utility_power2} shows only one local maximum with such a huge performance difference. 
 
 
 \subsection{Dependency on the Input Power}
-\label{sec:}
+\label{sec:depinpow}
 
-We will analyze now the utility function for different input powers.
+We now analyze the utility function for different input powers.
 In Figure~\ref{fig:utility_power2} and Figure~\ref{fig:utility_power3} we see the same channel realization for two different input powers.
 
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/full_mesh_highsnr_99.png}
-\caption{The utility function for an other specific channel realization and a high input power level.}
+\caption{The utility function for another specific channel realization and a high input power level.}
 \label{fig:utility_power2}
 \end{figure}
 
-We observe, that the optima in Figure~\ref{fig:utility_power2} and Figure~\ref{fig:utility_power3} lie at different impedance values of the relays, therefore we can conclude, that an optimal solution for one input power does not necessarily lead to a good solution for a different input power solution.
+We observe that the optima in Figure~\ref{fig:utility_power2} and Figure~\ref{fig:utility_power3} lie at different impedance values for the relays, therefore we can conclude that an optimal solution for one input power does not necessarily lead to a good solution for a different input power solution.
 
 \begin{figure}[h]
 \centering
@@ -70,14 +70,13 @@ We observe, that the optima in Figure~\ref{fig:utility_power2} and Figure~\ref{f
 \label{fig:utility_power3}
 \end{figure}
 
-\subsection{Difference of Local Optima}
-\label{sec:}
+\subsection{Difference in Local Optima}
+\label{sec:diflocop}
 
-
-Last, we want to look at the local optima we can possibly run into.
-We see in Figure~\ref{fig:utility_power1}, that if we hit the local optimum at the left, the performance will be nearly the same as with the local optimum at the right.
-However looking at Figure~\ref{fig:utility_power4}, we see that the difference of the global optimum of the section shown is with above 18 [b/s/Hz] severly higher than the local optimum on its left with around 8.5 [b/s/Hz].
-Therefore, we can not only try to run the optimization with one initialization, but instead, we need multiple initializations, to be sure, that we haven't missed a sever maximum.
+Finally, we look at all local optima we expect to encounter.
+We see in Figure~\ref{fig:utility_power1} that if we achieve the local optimum at the left, the performance will be nearly the same as with the local optimum at the right.
+However, in Figure~\ref{fig:utility_power4} we see the differences of the local optimum at the right with above 18 [b/s/Hz] severely higher than the local optimum on its left with around 8.5 [b/s/Hz].
+Therefore, we cannot simply run the optimization with one initialization, but instead we need multiple initializations to be sure that we have not missed a severe maximum.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/full_mesh_highsnr_94.png}
@@ -86,23 +85,23 @@ Therefore, we can not only try to run the optimization with one initialization, 
 \end{figure}
 
 \subsection{Complexity of the Problem}
-\label{sec:}
+\label{sec:complexity}
 
-As we will discuss different solver approaches in the following Sections, a short description of the complexity of the problem is given.
+As we will discuss different optimization approaches in the following sections, we give a short description of the complexity of the problem here.
 For each relay we use, we will have one variable ($N_\text{Rel}$), if we restrict the relays to the imaginary domain.
-Allowing the relay to become lossy and therefore the impedance complex, the number of variables is doubled.% ($2\cdot N_\text{Rel}$).
-Further for each receiver branch, i.e. receiver antenna, we have a reciprocal (lossless) matching network (see Section~\ref{sec:matching_network}), which has to be optimized.
-Therefore we have three elements per branch (in total: $3\cdot N_\text{R}\cdot N_\text{Rx}$).
-For a four user MIMO system with two receive antennas and five lossy relays per user, this would lead to a problem of size $N_\text{var} =  2\cdot 4\cdot 5 + 3\cdot 4\cdot 2 = 64$.
-As mentioned in the beginning of this chapter, we look at a 2x2 MIMO system with one receive antenna and three lossless relays.
+Allowing the relay to become lossy and therefore allowing the impedance to be complex, the number of variables doubles.% ($2\cdot N_\text{Rel}$).
+Further, for each receiver branch or receiver antenna, we have a reciprocal (lossless) matching network (see Section~\ref{sec:matching_network}), which must be optimized.
+Therefore we have three elements per branch: $3\cdot N_\text{R}\cdot N_\text{Rx}$.
+For a four-user MIMO system with two receiver antennas and five lossy relays per user, this would lead to a problem of size $N_\text{var} =  2\cdot 4\cdot 5 + 3\cdot 4\cdot 2 = 64$.
+As mentioned in the beginning of this chapter, we look at a 2x2 MIMO system with one receiver antenna and three lossless relays.
 The complexity of this system is therefore $N_\text{var} =  1\cdot 2\cdot 3 + 3\cdot 2\cdot 1 = 12$.
 
 \section{Gradient Search}
 \label{sec:grads_solver}
 
-Despite this large number of variables and the non-convexity of the utility function, the first approach remains a gradient search.
+Despite our large number of variables and the non-convexity of the utility function, the first approach remains a gradient search.
 Figure~\ref{fig:grad_search} shows the typical behavior of the gradient search versus the iteration steps.
-In the following, different methods are described, to improve the algorithm.
+In the following, different methods are described for improving the algorithm.
 
 \begin{figure}[h]
 \centering
@@ -111,17 +110,18 @@ In the following, different methods are described, to improve the algorithm.
 \label{fig:grad_search}
 \end{figure}
 
-From Figure~\ref{fig:grad_search}, it is also obvious to see, why the method of gradient search was taken despite the non-convexity of the problem:
-The rate is tripled after seven steps, and after 100 steps the rate is improved by a factor of four.
-Afterwards only small improvements can be achieved, which leads to the assumption, that a sufficiently good local maximum can be found very fast.
-If after such a small number of steps no good result can be achieved, it leads to the assumption, that the initial value was poorly chosen, hence with a different initialization a better result might be achieved.
+From Figure~\ref{fig:grad_search} it is obvious, why the method of gradient search is used despite the non-convexity of the problem:
+the rate is tripled after seven steps, and after 100 steps the rate is improved by a factor of four.
+After, only small improvements can be achieved, which leads to the assumption that a sufficiently good local maximum can be found very quickly.
+If, we assume that after such a smaller number of steps, no good result can be achieved, the initial value was poorly chosen.
+In those cases different initializations might yield to better results.
 This is also shown in the following section.
 
 \subsection{Choice of Initial Values}
 \label{sec:grads_ini}
-We try to overcome the non-pleasant properties of the problem with a larger number of initial guesses, so that the gradient search approach tends more towards a grid search optimization method.
+We try to overcome the unpleasant properties of the problem with a larger number of initial values.
+With this strategy the gradient search approach tends more towards a grid search optimization method.
 The gradient search routine itself is then used as a refinement step of the grid search.
-%(c.f. \cite{Adjashvili2012})
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Inicomparison_edited.png}
@@ -130,12 +130,13 @@ The gradient search routine itself is then used as a refinement step of the grid
 \end{figure}
 
 
-Figure~\ref{fig:ini_comp} shows the empirical CDFs of the optimized sum rate, for different numbers of initializations.
+Figure~\ref{fig:ini_comp} shows the empirical CDFs of the optimized sum rate for different numbers of initializations.
 The initial values were drawn uniformly at random for $Z_{\text{Rel}}[i]\in[-600,600] j , \quad\forall i\in[1,N_{\text{Rel}}]$.
 
-It is obvious and clear to see, that the larger the number of initializations, the better the result.
-However, even with 25 and 60 initializations, there improvement is still immense, which shows, that the number of initializations must be a lot larger than twice the input vector length.
-A good tradeoff between a decent optimization and a comparable small run time of the optimization is achieved by a choice of four times the input vector length.
+It is obvious that larger numbers of initializations yield better the result.
+However, even with 25 and 60 initializations, improvement is still immense.
+This shows that the number of initializations must be larger than twice the input vector length.
+A good tradeoff between decent optimization and comparably small run times is achieved by a choice of four times the input vector length.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.5\linewidth]{images/stepsize_scheme.png}
@@ -145,23 +146,23 @@ A good tradeoff between a decent optimization and a comparable small run time of
 
 \subsection{Adaptive Step Size}
 \label{sec:grads_stepsize}
-The performance of the gradient search routine is improved by the use of an adaptive step size.
+The performance of the gradient search routine is improved by the use of adaptive step sizes.
 For each calculated gradient, the step taken into the direction of the gradient is increased until the new rate value is smaller than the previous calculated value as shown in Figure~\ref{fig:stepsize}.
-Therefore the number of time-expensive gradient calculations is reduced immense.
-
-
+Therefore the number of time-expensive gradient calculations is reduced immensely.
 
 \subsection{Conjugate Gradient}
 \label{sec:grads_conjgrad}
+
+As the gradient search performance still requires too many iterations, further improvements are made.
 \begin{figure}[h]
 \centering
 \includegraphics[width=0.25\linewidth]{images/conjugate_gradient_example.png}
 \caption{A comparison of the convergence of gradient descent with optimal step size (in green) and conjugate vector (in red) for minimizing a quadratic function associated with a given linear system\cite{wiki:conj_grad}.}
 \label{fig:conj_grad_ex}
 \end{figure}
-As the gradient search performance still requires too many iterations, further improvements were made.
-The shape of such complex problems can - in some cases - have the shape of a crest, where, with a unpleasant choice of the initial value, a pure gradient search routine might jump around the optimum, without improving a lot.
-Conjugate gradient routines like "Fletcher-Reeves" or "Polak-Ribi\`{e}re" lead to a faster convergence, as they weight the gradient by the previous gradient and a weigth factor $\beta$. 
+The shape of such complex problems can~---~in some cases~---~have the shape of a crest as shown in Figure~\ref{fig:conj_grad_ex}.
+In these a poorly chosen initial value causes the gradient search routine to jump around the optimum, without improving.
+Conjugate gradient routines like ``Fletcher-Reeves" or ``Polak-Ribi\`{e}re" lead to faster convergences, as they weight the gradient by the previous gradient and a weight factor $\beta$. 
 
 Like Polak-Ribi\`{e}re, the Fletcher-Reeves method updates the conjugate direction according to 
 \begin{equation}
@@ -170,17 +171,17 @@ Like Polak-Ribi\`{e}re, the Fletcher-Reeves method updates the conjugate directi
 \end{equation}
 where $\vec{g}$ denotes the gradient.
 The conjugate direction $\vec{s}$ is then used to perform the conjugate gradient search.
-Polak-Ribi\`{e}re and Fletcher-Reeves differ in the way, they calculate the weight factor $\beta$.
+Polak-Ribi\`{e}re and Fletcher-Reeves differ in the way they calculate the weight factor $\beta$.
 
 \subsubsection{Fletcher-Reeves}
-For the method of Fletcher-Reeves, $\beta$ is calculated according to~\cite{Fletcher64}
+For the Fletcher-Reeves method, $\beta$ is calculated according to~\cite{Fletcher64}
 \begin{equation}
 \beta_n^{FR} = \frac{\vec{g}_n^T \vec{g}_n}{\vec{g}_{n-1}^T \vec{g}_{n-1}}.
 \label{eq:beta_fr}
 \end{equation}
 
 \subsubsection{Polak-Ribi\`{e}re}
-For the method of Polak-Ribi\`{e}re, $\beta$ is calculated according to~\cite{Polak69}
+For the Polak-Ribi\`{e}re method, $\beta$ is calculated according to~\cite{Polak69}
 \begin{equation}
 \beta_n^{PR} = \frac{\vec{g}_n^T\left(\vec{g}_n-\vec{g}_{n-1}\right)}{\vec{g}_{n-1}^T \vec{g}_{n-1}}.
 \label{eq:beta_fr}
@@ -194,58 +195,55 @@ For the method of Polak-Ribi\`{e}re, $\beta$ is calculated according to~\cite{Po
 \end{figure}
 
 In Figure~\ref{fig:pr_fr_sa} the pure gradient search (steepest ascent) method is compared to the methods of Fletcher Reeves and Polak-Ribi\`{e}re.
-The Figure shows once the optimization after 50 iterations (solid lines), to see, which method optimizes the problem the best after just a few steps, and at 500 iterations, to see which routine might get caught in the shape  of the problem.
+The Figure shows both the optimization after 50 iterations (solid lines), representing which method optimizes the problem the quickest, and after 500 iterations, representing which routine might be disrupted by the shape of the problem.
 
 
-We can see, that Fletcher-Reeves is not well suited for our kind of optimization problem.
-Better is Polak-Ribi\`{e}re, which outperforms the standard gradient search method at 50 iterations and has a slightly better performance at 500 iterations.
+We can see that Fletcher-Reeves is not well suited for our kind of optimization problem.
+Polak-Ribi\`{e}re is better, outperforming the standard gradient search method at 50 iterations and slightly better after 500 iterations.
 
 
 \section{Heuristic Optimization Algorithms}
 \label{sec:heuristic}
-Due to the non convexity and the non trivial optimization problem, we further analyze (some) heuristic optimization methods.
-In the following three heuristic algorithms will be introduced and analyzed by their performance.
-They were chosen, because they already exist in the MATLAB library and do not require any strenuous implementation.
+Due to the non-convexity and out non-trivial optimization problem, we further analyze some heuristic optimization methods.
+In the following, three heuristic algorithms are introduced and analyzed for their performance.
 
 \subsection{Simulated Annealing}
 \label{sec:sim_annealing}
-Simulated Annealing was developed, as there is a deep and useful connection between statistical mechanics (the behavior of systems with many degrees of freedom in thermal equilibrium at a finite temperature) and multivariate or combinatorial optimization (finding the minimum of a given function depending on many parameters)~\cite{Kirkpatrick83}.
+Simulated Annealing was developed to exploit the deep and useful connection between statistical mechanics~---~the behavior of systems with many degrees of freedom in thermal equilibrium at a finite temperature~---~and multivariate or combinatorial optimization~---~finding the minimum of a given function depending on many parameters~\cite{Kirkpatrick83}.
 % This connection to statistical mechanics exposes new information and provides an unfamiliar perspective on traditional optimization problems and methods. 
-In this thesis, Simulated Annealing was chosen as it is a method to solve optimization problems of multivariate optimization.
+In this thesis, Simulated Annealing was chosen as it is a method for solving optimization problems of multivariate optimization.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/Simannealcomparison.png}
-\caption{Comparison of the Simulated Annealing algorithm for different number of initializations and the results from "Polak-Ribi\`{e}re" and "Steepest Ascent" gradient searches.}
+\caption{Comparison of the Simulated Annealing algorithm for different number of initializations (increasing from left to right) and the results from ``Polak-Ribi\`{e}re" and ``Steepest Ascent" gradient searches.}
 \label{fig:heur_sa}
 \end{figure}
-
-The Algorithm used in this thesis is a build-in function of MATLAB\copyright.
+The Algorithm used in this thesis is a build-in function of MATLAB.
 A description can be found on the MathWorks homepage~\cite{matlab:simulann}.
-
-
-
+ 
 Figure~\ref{fig:heur_sa} shows the performance of Simulated Annealing algorithm dependent on the choice of numbers of initializations (red curves).
-Again we see, that the more initializations we have, the better the sum rate can be optimized.
-However, we also see, that even with 60 initializations, Simulated Annealing leads to a result, which is worse than the sum rates achieved by steepest ascend (black dashed curve) and Polak-Ribi\`{e}re (blue dashed curve).
+Again, we see, that more initializations yield better sum rates.
+However, we also see that, even with 60 initializations, Simulated Annealing leads to a worse result than the sum rates achieved by steepest ascend (black dashed curve) and Polak-Ribi\`{e}re (blue dashed curve).
 
 
 \subsection{GlobalSearch}
 \label{sec:globals}
 The other two heuristic optimization algorithms are GlobalSearch (GS) and MultiStart (MS).
-They are very similar to each other, the only difference is the choice of the starting values.
-As MultiStart requires the number of initialization values, GlobalSearch generates trial points on its own~\cite{matlab:gloabls}.
-GlobalSearch - the optimization function, which we will analyze - is based on the MATLAB\copyright  built-in function \textit{fmincon}.
+They are very similar to each other, the only difference is the choice of starting values.
+MultiStart requires the number of initialization values, while GlobalSearch generates trial points on its own~\cite{matlab:gloabls}.
+GlobalSearch~---~the optimization function we analyze~---~is based on the MATLAB built-in function \textit{fmincon}.
 Figure~\ref{fig:globals_scheme} shows the schematics of GS and MS.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.5\linewidth]{images/global_algorithm.png}
+  \includegraphics[width=0.8\linewidth]{images/global_algorithm.png}
 \caption{Schematics of the GlobalSearch and MultiStart algorithms~\cite{matlab:gloabls}.}
 \label{fig:globals_scheme}
 \end{figure}
 
 Figure~\ref{fig:globals} shows the performance of GlobalSearch (red curve).
-We see, that it has almost the same performance as the conjugate gradient method by Polak-Ribi\`{e}re with 60 initializations (blue curve).
-GlobalSearch is less dependent on the initial value - for the relays it is chosen very large ($\vec{X}_{\text{Rel}} = 1000j$) and not at random, compared to the gradient search methods, to simulate an open circuited antenna and therefore no coupling.
+We see that it has almost the same performance as the conjugate gradient method by Polak-Ribi\`{e}re with 60 initializations (blue curve).
+GlobalSearch is less dependent on the initial value compared to the gradient search methods.
+Therefore we choose very large values ($\vec{X}_{\text{Rel}} = 1000j$) to simulate an open circuited antenna and therefore no coupling.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.7\linewidth]{images/Globalscomparison_edited.png}
@@ -285,18 +283,18 @@ With five optimized initial values plus the standard open circuit initial value,
 
 \subsection{Post Refinement of GlobalSearch by Gradient Search}
 \label{sec:postrefinement}
-When the problem of gradient search is, that it may run into non optimal local maximas, the questions remaining for the heuristic solvers are: "How good are the results after all?" and "Can they be improved any further?"
+When the problem of gradient search is, that it may run into non optimal local maximas, the questions remaining for the heuristic optimization methods are: ``How good are the results after all?" and ``Can they be improved any further?"
 
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Postrefinementcomparison.png}
-\caption{Comparison the heuristic solvers with and without a post refinement by gradient search.}
+\caption{Comparison the heuristic optimization methods with and without a post refinement by gradient search.}
 \label{fig:postrefinement}
 \end{figure}
 
-The approach in finding the answers, is to use the gradient search routine on top of the heuristic solvers as a refinement.
+The approach in finding the answers, is to use the gradient search routine on top of the heuristic optimization as a refinement.
 Figure~\ref{fig:postrefinement} shows the performance of the Simulated Annealing and the GlobalSearch algorithm (solid red and solid yellow curves).
-The dashed lines show the result, when gradient search was added on top of the heuristic solvers (red for Simulated Annealing and blue for GlobalSearch).
+The dashed lines show the result, when gradient search was added on top of the heuristic optimization (red for Simulated Annealing and blue for GlobalSearch).
 This shows, that the poor results of the Simulated Annealing algorithm does not lead to any good initial value for the gradient search as after the refinement the performance is still about $5 \left[\text{b/s/Hz}\right]$ worse, than the performance of GlobalSearch.
 Second, it shows that the performance of GlobalSearch is quite good, as any post refinement of gradient search \emph{does not lead to any significant improvement}.
 
@@ -305,7 +303,7 @@ Second, it shows that the performance of GlobalSearch is quite good, as any post
 \label{sec:stepwise}
 In the previous Sections, we saw the performance of different methods for three relays per user.
 The number of relays was kept small for the analysis of the algorithms, so that complexity effects diminishing the performance were avoided.
-Increasing the number of relays might result in worse sum rates as the complexity of the system correlates with the number of required initial values to achieve similar good results, hence the run time of the solver must be increased, or the precision is decreased.
+Increasing the number of relays might result in worse sum rates as the complexity of the system correlates with the number of required initial values to achieve similar good results, hence the run time of the optimization routine must be increased, or the precision is decreased.
 Therefore we will have a look at the performance of the optimization and how it can be pushed in the following.
 For the results shown below, the number of relays were increased to seven, if not mentioned specifically.
 
@@ -342,7 +340,7 @@ Figure~\ref{fig:rel_choice} shows an example on how the relays would be chosen f
 Back in Figure~\ref{fig:nrel7}, the yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$.
 Therefore $N_{\text{Rep}} = 3$ had to be taken.
 As for $N_{\text{Step}}=4$, $N_{\text{Step}}=5$ and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), it leads almost to the same result.
-It can also be seen, that none of the stepwise optimized solvers has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
+It can also be seen, that none of the stepwise optimization has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
 
 A second approach is to optimize one user and its relays per step.
 This reduces the size of the problem to $N_\text{R}\cdot N_\text{Rx}+N_\text{Rel}$ for each optimization step.
@@ -367,7 +365,7 @@ With this inequality constraint, the heuristic algorithm is prevented in running
 %The main difference are the rates below $12 \left[\text{b/s/Hz}\right]$ (logarithmic scaled subplot).
 %Whenever the step to increase the number of relays was chosen to be even (i.e. on both sides of the relay were the same number of relays optimized), the rates were higher.
 %This speaks for some symmetry in optimizing the relays.
-%Additionally, the lower the size of the "step" (i.e. the higher the number of the repetition), the higher were the optimized rates (c.f. "3 Steps" (yellow) and "5 Steps" (orange), or "2 Steps" (blue) and "4 Steps" (green)).
+%Additionally, the lower the size of the ``step" (i.e. the higher the number of the repetition), the higher were the optimized rates (c.f. ``3 Steps" (yellow) and ``5 Steps" (orange), or ``2 Steps" (blue) and ``4 Steps" (green)).
 
 
 

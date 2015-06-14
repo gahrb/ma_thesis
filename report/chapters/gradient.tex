@@ -1,9 +1,9 @@
 \chapter{Analytical Gradient}
 \label{sec:ana_grad}
 
-In the following the derivation of the gradients will be given.
-In the first section the signal gradients will be derived, in the later the noise gradients.
-The gradients are derived to improve the achievable rates of the system (Equation~\eqref{eq:achiev_rate}).
+In the following, the derivation of the gradients is given.
+In the first section, the signal gradients are derived, in the later section we derive the noise gradients.
+The gradients are used to improve the achievable rates of the system (Equation~\eqref{eq:achiev_rate}).
 We are interested in the gradient of the achievable rates with respect to the matching network and the passive antenna loads.
 Using the matrix relations from~\cite{Codebook12} and restricting to the achievable sum rate, the gradient becomes
 \begin{align}
@@ -11,8 +11,8 @@ Using the matrix relations from~\cite{Codebook12} and restricting to the achieva
 \frac{\partial \vec{r}}{\partial \mat{Z}_{l,ij}} &=
 \sum_{i=0}^{N_\text{User}-1} \frac{\partial r_i}{\partial\mat{Z}_{l,ij}}.
 \end{align}
-Therefore, the gradient must be derived for each user, hence looking at one and applying it similarily to the others is sufficient.
-The gradient of one user (neglecting the user index, for simplicity reasons) can be written as
+Therefore, the gradient must be derived for each user, and looking at one and applying it to the others is sufficient.
+The gradient of one user (neglecting the user index for simplicity reasons) can be written as
 \begin{align}
 \label{eq:usergrad}
 \frac{\partial r}{\partial\mat{Z}_{l,ij}} &= \frac{1}{\text{ln}(2)} 
@@ -27,13 +27,13 @@ The gradient of one user (neglecting the user index, for simplicity reasons) can
  	\frac{\partial\mat{K}_{\text{n}}}{\partial\mat{Z}_{l,ij}}\right)\Bigg),
 \end{align}
 with $l\in\{\text{M}11,\text{M}12,\text{M}22,\text{pass}\}$ denoting the sub-matrices of the matching network or the passive antenna loads and $i,j$ denoting the element in the $i$-th row and $j$-th column.
-In the following the gradient is split up in the signal, interference and the noise part.
-The derivatives for each covariance matrix will be derived.
+In the following, the gradient is split up in to the signal, interference, and noise part.
+The derivatives for each covariance matrix are determined.
 
 \section{Signal Gradient}
 \label{sec:signal_gradient}
- For the signal covariance matrix, we see from Equation~\eqref{eq:sig_cov}, that we can take the derivative of each sub transfer function and place them together afterwards by the chain rule. 
-Therefore the gradient of the signal covariance becomes
+ For the signal covariance matrix, we see from Equation~\eqref{eq:sig_cov} that we can take the derivative of each sub-transfer function and place them together after by the chain rule. 
+Therefore, the gradient of the signal covariance becomes
 \begin{align}
 \label{eq:signal_gradient}\nonumber
 \frac{\partial\mat{K}_s}{\partial\mat{Z}_{l,ij}} &= \frac{\partial\mat{H}_\text{L,0}}{\partial\mat{Z}_{l,ij}}\cdot \mat{H}_{0}^{\text{sp}}
@@ -44,11 +44,11 @@ Therefore the gradient of the signal covariance becomes
 	\mat{H}_{0}^{\text{sp}^H} \cdot \frac{\partial\mat{H}_\text{L,0}^H }{\partial\mat{Z}_{l,ij}}.
 \end{align}
 
-First of all, we check which sub transfer functions (c.f. Equation~\eqref{eq:transfer_function}) are affected by the gradient.
-We see that the transfer functions $\mat{H}_\text{LNA,M}$, $\mat{H}_\text{M,0'}$ and obviously $\mat{H}_i^{\text{pr}}$ for the port reduction are affected by the relay loads and the matching network.
+First we check which sub-transfer functions (c.f. Equation~\eqref{eq:transfer_function}) are affected by the gradient.
+We see that the transfer functions $\mat{H}_\text{LNA,M}$, $\mat{H}_\text{M,0'}$, and obviously $\mat{H}_i^{\text{pr}}$ for port reduction are affected by the relay loads and the matching network.
 
-For the following $\mat{J}_{ij}$ denotes the single entry matrix, with respect to the i-th row and the $j$-th column.
-If follows for the port reduction transfer function (again, neglecting the user index)
+For the following, $\mat{J}_{ij}$ denotes the single entry matrix, with respect to the $i$-th row and the $j$-th column.
+It follows for the port reduction transfer function (again neglecting the user index) that
 \begin{align}
 \label{eq:H0_sig_grad}
 \frac{\partial\mat{H}^{\text{pr}}}{\partial\mat{Z}_{\text{pass},ij}}&=
@@ -56,9 +56,9 @@ If follows for the port reduction transfer function (again, neglecting the user 
 \mat{0}_{N_\text{Rx}} & \mat{Z}_\text{OL}(\mat{Z}_\text{pass}+\mat{Z}_\text{LL})^{-1}\mat{J}_{ij}(\mat{Z}_{\text{pass}}+\mat{Z}_\text{LL})^{-1}
 \end{bmatrix}
 \end{align}
-with $\mat{0}_{N_\text{Rx}}$ the ${N_\text{Rx}}$ by ${N_\text{Rx}}$ all-zeros matrix.
+with $\mat{0}_{N_\text{Rx}}$~---~the ${N_\text{Rx}}$ by ${N_\text{Rx}}$ all-zeros matrix.
 
-Next, for the voltage divider before the matching network, hence the transfer function of the open circuit voltages at the antennas to parallel input voltages of the matching network it follows,
+Next, for the voltage divider before the matching network~---~the transfer function of the open circuit voltages at the antennas to parallel input voltages of the matching network~---~it follows that
 \begin{align}
 \label{eq:HM0_sig_grad}
 \frac{\partial\mat{H}_\text{M,0'}}{\partial\mat{Z}_{11,ij}}&=
@@ -98,7 +98,7 @@ Next, for the voltage divider before the matching network, hence the transfer fu
 
 
 
-After deriving the gradient for the open circuit - matching network transfer function, the transfer function over the matching network is the last remaining affected transfer function.
+After deriving the gradient for the voltage divider transfer function, the transfer function over the matching network is the last remaining affected transfer function.
 Its gradient can be written as
 \begin{align}
 \label{eq:HLNAM_sig_grad}
@@ -122,34 +122,34 @@ Its gradient can be written as
 	\mat{Z}_\text{M12}\mat{Z}_\text{M11}^{-1}.
 \label{eq:HLNAM_sig_grad_22}
 \end{align}
-Note, that the transfer function is only affected by the matching network and not by the coupling network, hence also not by the relay loads.
+Note that the transfer function is only affected by the matching network and not by the coupling network, hence also not by the relay loads.
 
 \section{Interference Gradient}
 \label{sec:interf_gradient}
 
-From Equation~\eqref{eq:interf_cov}, it can be seen, that the interference is similar to the signal, hence the same derivatives as in Section~\ref{sec:signal_gradient} will apply on the interference.
-This leads to the gradient of the interference covariance matrix, of user $m$
+From Equation~\eqref{eq:interf_cov} it can be seen that the interference is similar to the signal, so the same derivatives as in Section~\ref{sec:signal_gradient} will apply to the interference.
+This leads to the gradient of the interference covariance matrix for user $i$
 \begin{align}
 \label{eq:interf_gradient}\nonumber
-\frac{\partial\mat{K}_{\text{i},m}}{\partial\mat{Z}_{l,ij}} &= 
-	\frac{\partial\mat{H}_\text{L,m}}{\partial\mat{Z}_{l,ij}} \cdot
-	\left(\sum_{n=0,n\neq m}^{N_\text{User}-1} 
-	 \mat{H}_{n}^{\text{sp}} \cdot 
-	\mathbb{E}[\vec{v}_{n}\vec{v}_{n}^H] \cdot 
-	\mat{H}_{n}^{\text{sp}^H}\right) \cdot \mat{H}_\text{L,m}^H + \\
- &\qquad \mat{H}_\text{L,m} \cdot \left(\sum_{n=1}^{N_\text{User}-1} 
-	\mat{H}_{n}^{\text{sp}} \cdot 
-	\mathbb{E}[\vec{v}_{n}\vec{v}_{n}^H] \cdot 
-	\mat{H}_{n}^{\text{sp}^H}\right) \cdot \frac{\partial\mat{H}_\text{L,m}^H}{\partial\mat{Z}_{l,ij}}.
+\frac{\partial\mat{K}_{\text{i},i}}{\partial\mat{Z}_{l,ij}} &= 
+	\frac{\partial\mat{H}_{\text{L,}i}}{\partial\mat{Z}_{l,ij}} \cdot
+	\left(\sum_{j=0,j\neq i}^{N_\text{User}-1} 
+	 \mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \mat{H}_{\text{L,}i}^H + \\
+ &\qquad \mat{H}_{\text{L,}i} \cdot \left(\sum_{j=1}^{N_\text{User}-1} 
+	\mat{H}_{j}^{\text{sp}} \cdot 
+	\mathbb{E}[\vec{v}_{j}\vec{v}_{j}^H] \cdot 
+	\mat{H}_{j}^{\text{sp}^H}\right) \cdot \frac{\partial\mat{H}_{\text{L,}i}^H}{\partial\mat{Z}_{l,ij}}.
 \end{align}
-Again, only the transfer function $\mat{H}_\text{L,m}$ is affected by the matching network and the relay loads.
-Its gradient was shown in Section~\ref{sec:signal_gradient}, hence is neglected here.
+Again, only the transfer function $\mat{H}_\text{L,i}$ is affected by the matching network and the relay loads.
+Its gradient was shown in Section~\ref{sec:signal_gradient}, so it is neglected here.
 
 \section{Noise Gradients}
 \label{sec:noise_gradient}
 
-As written in Section~\ref{sec:noise_description}, we have four noise sources, where only the two LNA noise sources correlated with each other.
-From the noise covariance matrix derived in Equation~\eqref{eq:noise_cov}, the gradient of it can be written as
+As written in Section~\ref{sec:noise_description}, we have four noise sources, of which only the two LNA noise sources are correlated.
+From the noise covariance matrix derived in Equation~\eqref{eq:noise_cov}, the gradient can be written as
 \begin{align}
 \label{eq:noise_grad}\nonumber
 \frac{\partial\mat{K}_\text{n}}{\partial\mat{Z}_{l,ij}} &= 
@@ -196,29 +196,28 @@ From the noise covariance matrix derived in Equation~\eqref{eq:noise_cov}, the g
 	\mat{H}_\text{L,n}\cdot\frac{\partial\mat{H}_\text{L,n}^H}{\mat{Z}_{l,ij}}
 	\right).
 \end{align}
-The gradient for the antenna noise ($\frac{\partial\mat{H}_{\text{L,}i}}{\partial\mat{Z}_{l,ij}}$) is the same as for the signal.
-For the LNA noise, some new gradients must be found.
-And for the downstream noise contribution, it can be shown, that under the unilateral assumption, the transfer function is independent of the matching network and the relay loads, hence the gradient is zero.
-In the following the gradients of the sub covariance matrices will be derived and described more in detail.
+The gradient for the antenna noise ($\frac{\partial\mat{H}_{\text{L,}i}}{\partial\mat{Z}_{l,ij}}$) is the same as the one for the signal.
+For the LNA noise, we need some new gradients.
+For the downstream noise contribution it can be shown that~---~under the unilateral assumption~---~the transfer function is independent of the matching network and the relay loads, hence the gradient is zero.
+In the following, the gradients of the sub-covariance matrices are derived and described in more detail.
 
 
 \subsection{Antenna Noise Gradient}
 \label{sec:ant_noise_grad}
-As the antenna noise is picked up at the same place as the signal, its gradient is also the same as the signal covariance gradient.
-The formulas from~\eqref{eq:H0_sig_grad} to ~\eqref{eq:HLNAM_sig_grad_22} apply in the same manner to the antenna noise transfer functions.
-Therefore they are omitted here.
-We only note, that the transfer functions $\mat{H}_0^{\text{pr}}$, $\mat{H}_\text{M,0}$ and $\mat{H}_\text{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_\text{n}}{\partial\mat{Z}_{l,ij}}$, with $l\in\{\text{M}11,\text{M}12,\text{M}22,\text{pass}\}$.
+As the antenna noise is picked up in the same place as the signal, its gradient is also the same as the signal covariance gradient.
+The formulas from~\eqref{eq:H0_sig_grad} to ~\eqref{eq:HLNAM_sig_grad_22} apply in the same manner to the antenna noise transfer functions, so they are omitted here.
+We only note that the transfer functions $\mat{H}_0^{\text{pr}}$, $\mat{H}_\text{M,0}$ and $\mat{H}_\text{LNA,M}$ are affected in the derivation of $\frac{\partial\mat{K}_\text{n}}{\partial\mat{Z}_{l,ij}}$, with $l\in\{\text{M}11,\text{M}12,\text{M}22,\text{pass}\}$.
 
 \subsection{LNA Noise Gradient}
 \label{sec:lna_noise_grad}
 
 Looking at the transfer function of the two LNA noise sources, we see that the newly introduced $\mat{\tilde{Z}}_{\text{eqM}_2}$ (Equation~\eqref{eq:zr}) is dependent on the matching network and on the coupling matrix, hence on the relay loads.
 Further, as the direct transfer function from Equations~\eqref{eq:lnavdir} and~\eqref{eq:lnacdir} are dependent on $\mat{\tilde{Z}}_{\text{eqM}_2}$, their gradient must be derived.
-Last, obviously also the gradient of the indirect transfer functions (Equation~\eqref{eq:lnaind}) must be derived.
+Last, the gradient of the indirect transfer functions (Equation~\eqref{eq:lnaind}) must be also derived.
 
 \subsubsection{Gradient of the Direct Noise Contribution}
 
-First the gradient of the newly introduced equivalent impedance matrix $\mat{\tilde{Z}}_{\text{eqM}_2}$ will be given.
+First, we show the gradient of the newly introduced equivalent impedance matrix $\mat{\tilde{Z}}_{\text{eqM}_2}$.
 It can be written as
 \begin{align}
 \label{eq:HLNAM_lna_grad}
@@ -245,7 +244,7 @@ It can be written as
 %		\frac{\partial\mat{\tilde{Z}}_{\text{eqM}_2}}{\partial\mat{Z}_{l,ij}}
 %	(\mat{Z}_{\text{eqLNA}_1} + \mat{\tilde{Z}}_{\text{eqM}_2})^{-1}.
 \end{align}
-Therefore the direct transfer functions from Equation~\eqref{eq:lnavdir} and~\eqref{eq:lnacdir} can be expressed by
+Therefore, the direct transfer functions from Equation~\eqref{eq:lnavdir} and~\eqref{eq:lnacdir} can be expressed by
 \begin{align}\label{eq:lnavdir_grad}\nonumber
 \frac{\partial\mat{H}_\text{L,LNAv,dir}}{\partial\mat{Z}_{l,ij}} &=
 	-R_\text{L}\mat{I}_{N_R}(R_\text{L}\mat{I}_{N_R} +
@@ -261,9 +260,9 @@ Therefore the direct transfer functions from Equation~\eqref{eq:lnavdir} and~\eq
 \end{align}
 
 
-\subsubsection{Gradient of the Direct Noise Contribution}
-The indirect transfer function consists of two parts, namely the sub-function $\mat{H}_\text{O,LNA}$, to transfer the signal towards the antennas and the  sub-function $\mat{H}_{\text{L},i}$ transferring the noise towards the loads over the coupling.
-The gradient of the second function was already derived for the signal, hence is neglected here.
+\subsubsection{Gradient of the Indirect Noise Contribution}
+The indirect transfer function consists of two parts: the sub-function $\mat{H}_\text{O,LNA}$ to transfer the signal towards the antennas, and the sub-function $\mat{H}_{\text{L},i}$ to transfer the noise towards the loads over the coupling.
+The gradient of the second function was already derived for the signal, so it is neglected here.
 Therefore the gradient of $\mat{H}_\text{O,LNA}$ is given by
 \begin{align}\label{eq:lnavind_grad12}
 \frac{\partial\mat{H}_\text{O,LNA}}{\partial\mat{Z}_{M12,ij}} &= 
@@ -272,8 +271,8 @@ Therefore the gradient of $\mat{H}_\text{O,LNA}$ is given by
 	\mat{Z}_\text{M12}(\mat{Z}_\text{M22}+\mat{Z}_{\text{eqLNA1}})^{-1}\cdot
 	\mat{J}_{ij}(\mat{Z}_\text{M22}+\mat{Z}_{\text{eqLNA1}})^{-1},
 \end{align}
-as $\mat{H}_\text{O,LNA}$ is independent of $\mat{Z}_{11}$ and $\mat{Z}_\text{Pass}$, therefore zero for them.
-This leads to the gradient of the indirect transfer function given by
+as $\mat{H}_\text{O,LNA}$ is independent of $\mat{Z}_{11}$ and $\mat{Z}_\text{Pass}$, it is zero in those cases.
+This leads to the gradient of the indirect transfer function, given by
 \begin{align}\label{eq:lnaind_grad}
 \frac{\partial\mat{H}_\text{L,LNAv,ind}}{\partial\mat{Z}_{l,ij}} &= 
 	\frac{\partial\mat{H}_\text{L,i}}{\partial\mat{Z}_{l,ij}}\cdot\mat{H}_\text{O,LNA}+
@@ -286,7 +285,7 @@ This leads to the gradient of the indirect transfer function given by
 
 \subsection{Downstream Noise Gradient}
 \label{sec:down_noise_grad}
-Last, we see, that the transfer function of the downstream noise $\mat{H}_{\text{L},\tilde{n}}$ is not affected by any of the derivations above under the unilateral assumption.
-Hence its gradient is zero, no matter for the matching network or the relay loads.
+Finally, we see that the transfer function of the downstream noise $\mat{H}_{\text{L},\tilde{n}}$ is not affected by any of the derivations above under the unilateral assumption.
+Its gradient is zero, no matter the matching network or the relay loads.
 
 
