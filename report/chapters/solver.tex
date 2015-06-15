@@ -214,7 +214,7 @@ Simulated Annealing was developed to exploit the deep and useful connection betw
 In this thesis, Simulated Annealing was chosen as it is a method for solving optimization problems of multivariate optimization.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.8\linewidth]{images/Simannealcomparison.png}
+  \includegraphics[width=\linewidth]{images/Simannealcomparison.png}
 \caption{Comparison of the Simulated Annealing algorithm for different number of initializations (increasing from left to right) and the results from ``Polak-Ribi\`{e}re" and ``Steepest Ascent" gradient searches.}
 \label{fig:heur_sa}
 \end{figure}
@@ -232,59 +232,59 @@ The other two heuristic optimization algorithms are GlobalSearch (GS) and MultiS
 They are very similar to each other, the only difference is the choice of starting values.
 MultiStart requires the number of initialization values, while GlobalSearch generates trial points on its own~\cite{matlab:gloabls}.
 GlobalSearch~---~the optimization function we analyze~---~is based on the MATLAB built-in function \textit{fmincon}.
-Figure~\ref{fig:globals_scheme} shows the schematics of GS and MS.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.8\linewidth]{images/global_algorithm.png}
 \caption{Schematics of the GlobalSearch and MultiStart algorithms~\cite{matlab:gloabls}.}
 \label{fig:globals_scheme}
 \end{figure}
+Figure~\ref{fig:globals_scheme} shows the schematics of GS and MS.
 
-Figure~\ref{fig:globals} shows the performance of GlobalSearch (red curve).
-We see that it has almost the same performance as the conjugate gradient method by Polak-Ribi\`{e}re with 60 initializations (blue curve).
-GlobalSearch is less dependent on the initial value compared to the gradient search methods.
-Therefore we choose very large values ($\vec{X}_{\text{Rel}} = 1000j$) to simulate an open circuited antenna and therefore no coupling.
+
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.7\linewidth]{images/Globalscomparison_edited.png}
+  \includegraphics[width=0.9\linewidth]{images/Globalscomparison_edited.png}
 \caption{Performance of the GlobalSearch algorithm in comparison to the previous results.}
 \label{fig:globals}
 \end{figure}
+Figure~\ref{fig:globals} shows the performance of GlobalSearch (red curve).
+We see that it has almost the same performance as the conjugate gradient method by Polak-Ribi\`{e}re with 60 initializations (blue curve).
+Compared to gradient search methods GlobalSearch is less dependent on the initial value.
+Therefore we choose very large values for the relay loads ($\vec{X}_{\text{Rel}} = 1000j$), to simulate an open circuited antenna and therefore no coupling.
+
 
 \section{Further Algorithm Improvements}
 
 \subsection{Optimization of the Interference Function}
 \label{sec:preoptimization}
-A further approach to optimize the gradient search routine is a good initial guess.
-The problem of the sum rate maximization is reduced only to the description of the interference.
-Therefore the number of variables can be reduced by a factor of two third for the matching network, as the interference function from Equation~\eqref{eq:port_reduction} - even after multiplication with the spatial channel transfer function~\eqref{eq:spatial_channel} - only requires the input impedance of the matching network.
+A further approach optimizing the gradient search routine is a good initial guess.
+The problem of sum rate maximization is reduced to the elimination of interference.
+Therefore the number of variables can be reduced by a factor of two thirds for the matching network, as the interference function from Equation~\eqref{eq:port_reduction}~---~even after multiplication with the spatial channel transfer function~\eqref{eq:spatial_channel}~---~only requires the input impedance of the matching network.
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/Inioptcomparison_edited.png}
+  \includegraphics[width=\linewidth]{images/Inioptcomparison_edited.png}
 \caption{Comparison of the number of initial values used with different pre-optimized intial values.}
 \label{fig:iniopt_comp}
 \end{figure}
-This reduced problem has size of $N_\text{var} =  2\cdot N_\text{Rel}+2\cdot N_\text{R}\cdot N_\text{Rx} = 2\cdot 4\cdot 5 + 2\cdot 4\cdot 2 = 56$, for the same settings as above.
-The factor 2 from the matching network variables comes from the fact, that with pure imaginary elements in the matching network, any complex value of the input impedance can be achieved.
-
+This reduced problem has size of $N_\text{var} =  2\cdot N_\text{Rel}+2\cdot N_\text{R}\cdot N_\text{Rx} = 2\cdot 4\cdot 5 + 2\cdot 4\cdot 2 = 56$ for the same settings as above.
+The factor 2 from the matching network variables comes from the fact that with pure imaginary elements in the matching network any complex value of the equivalent input impedance can be achieved.
 
 Figure~\ref{fig:iniopt_comp} shows the performance of the steepest ascent algorithm, with the pre-optimized initial values (three red dotted curves on the left).
-We see, that using the five best pre-optimizations leads to a performance almost as good as initializing the algorithm with 60 random vectors (red solid curve).
+We see that, using the five best pre-optimizations leads to a performance almost as good as initializing the algorithm with 60 random vectors (red solid curve).
 To push the optimization even further, we can combine these two techniques and take the best optimization from the five best pre-optimized initial values and 55 random initial values (red dotted curve on the right).
-This leads to a $0.5 \left[\text{b/s/Hz}\right]$ improvement at the mean and a $1.5 \left[\text{b/s/Hz}\right]$ improvement for the lowest 10\% of the rates, than only considering random values.
+This leads to a $0.5 \left[\text{b/s/Hz}\right]$ improvement at the mean and a $1.5 \left[\text{b/s/Hz}\right]$ improvement for the lowest 10\% of the rates compared to only considering random values.
 
-Applying this to the method of Polak-Ribi\`{e}re (blue dotted curve), however, does not improve the results as much as with the steepest ascent method.
+Applying this to the method of Polak-Ribi\`{e}re (blue dotted curve), however, does not improve the results as much as we did with the steepest ascent method.
 A sum rate of only about $0.1 \left[\text{b/s/Hz}\right]$ higher is achieved by using pre-optimized initial values in combination with the method of Polak-Ribi\`{e}re.
 
 Finally, this method is applied to the heuristic GlobalSearch routine.
-As mentioned in Section~\ref{sec:globals}, GloablSearch is less dependent on the initial value and therefore, the initial value is chose to be open circuited for the relays.
+As mentioned in Section~\ref{sec:globals}, GloablSearch is less dependent on the initial value and therefore, the initial value is chosen to be open-circuited for the relays.
 With five optimized initial values plus the standard open circuit initial value, an improvement of almost $1.0 \left[\text{b/s/Hz}\right]$ can be achieved (black dotted curve) compared to initializing only by the open circuited value (black solid curve).
 
 
 \subsection{Post Refinement of GlobalSearch by Gradient Search}
 \label{sec:postrefinement}
-When the problem of gradient search is, that it may run into non optimal local maximas, the questions remaining for the heuristic optimization methods are: ``How good are the results after all?" and ``Can they be improved any further?"
-
+When the problem of gradient search is that it may run into non-optimal local maximas, the questions for heuristic optimization methods are: ``How good are the results after all?" and ``Can they be improved any further?"
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/Postrefinementcomparison.png}
@@ -292,74 +292,73 @@ When the problem of gradient search is, that it may run into non optimal local m
 \label{fig:postrefinement}
 \end{figure}
 
-The approach in finding the answers, is to use the gradient search routine on top of the heuristic optimization as a refinement.
-Figure~\ref{fig:postrefinement} shows the performance of the Simulated Annealing and the GlobalSearch algorithm (solid red and solid yellow curves).
-The dashed lines show the result, when gradient search was added on top of the heuristic optimization (red for Simulated Annealing and blue for GlobalSearch).
-This shows, that the poor results of the Simulated Annealing algorithm does not lead to any good initial value for the gradient search as after the refinement the performance is still about $5 \left[\text{b/s/Hz}\right]$ worse, than the performance of GlobalSearch.
-Second, it shows that the performance of GlobalSearch is quite good, as any post refinement of gradient search \emph{does not lead to any significant improvement}.
+The approach to finding the answers is to use the gradient search routine on top of the heuristic optimization as a refinement.
+Figure~\ref{fig:postrefinement} shows the performance of the Simulated Annealing and the GlobalSearch algorithms (solid red and solid yellow curves).
+The dashed lines show the result when gradient search was added on top of the heuristic optimization (red dashed for Simulated Annealing and blue dashed for GlobalSearch).
+This shows that the poor results of the Simulated Annealing algorithm do not lead to good initial values for the gradient search.
+After the refinement, the performance is about $5 \left[\text{b/s/Hz}\right]$ worse than the performance of GlobalSearch.
+Second, it shows that the performance of GlobalSearch is quite good, as any post-refinement of gradient search \emph{does not lead to any significant improvement}.
 
 
 \subsection{Stepwise Optimization}
 \label{sec:stepwise}
 In the previous Sections, we saw the performance of different methods for three relays per user.
-The number of relays was kept small for the analysis of the algorithms, so that complexity effects diminishing the performance were avoided.
-Increasing the number of relays might result in worse sum rates as the complexity of the system correlates with the number of required initial values to achieve similar good results, hence the run time of the optimization routine must be increased, or the precision is decreased.
-Therefore we will have a look at the performance of the optimization and how it can be pushed in the following.
+The number of relays was kept small for the analysis of the algorithms to avoid complexity effects reducing the performance.
+Increasing the number of relays might result in worse sum rates, as the complexity of the system correlates with the number of initial values required to achieve similarly good results.
+Then the run time of the optimization routine must be increased or the precision is decreased.
+Therefore we now look at the performance of the optimization and how it can be pushed.
 For the results shown below, the number of relays were increased to seven, if not mentioned specifically.
-
-In Figure~\ref{fig:nrel7} we see the performance of the GlobalSearch algorithm, optimizing a 2x2 MIMO system, with seven relays and one receiving antenna per user (red curve).
-The black curve shows the performance of the algorithm optimizing only three relays per user (c.f.  red curve in Figure~\ref{fig:globals}).
-Actually this should be a lower limit of the red curve, as one solution for seven relays is to optimize only three of them and open circuit the remaining four.
-However this is only the case for about 85\% of the cases, the lowest 15\% actually lead to a worse solution than only optimizing three relays.
-This shows, that the GlobalSeach optimization might not perform very good on larger problems, i.e. reducing the size of the problem results in a better sum rate.
-
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.9\linewidth]{images/Relstepcomparison_edited.png}
+  \includegraphics[width=\linewidth]{images/Relstepcomparison_edited.png}
 \caption{Comparison of the number of step wise optimization.}
 \label{fig:nrel7}
 \end{figure}
 
-Therefore one approach to prevent GlobalSearch of running into a low rate, is to reduce the number of relays to optimize and increase them stepwise.
-The blue curve shows to result of the optimization, when GlobalSearch is allowed to optimize only two relays.
-Once finished, two additional relays are considered so that in total four relays per user are optimized.
-This is repeated until the total number of relays is reached (in this case four times, $N_{\text{Rep}} = \lceil\frac{N_{\text{Relays}}}{N_{\text{Step}}}\rceil = \lceil\frac{7}{2}\rceil=4$).
-This leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relay steps ($ N_{\text{Step}}$) will lead probably to a better result, but also to a larger number of repetitions and therefore it will take a lot longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
+In Figure~\ref{fig:nrel7} we see the performance of the GlobalSearch algorithm optimizing a 2x2 MIMO system with seven relays and one receiving antenna per user (red curve).
+The black curve shows the performance of the algorithm optimizing only three relays per user (c.f.  red curve in Figure~\ref{fig:globals}).
+This should be the lower limit of the red curve, as one solution for seven relays is to optimize only three of them and open circuit the remaining four.
+However this is only the case for about 85\% of the cases~---~the lowest 15\% actually lead to worse solutions than only optimizing three relays.
+This shows that GlobalSearch optimization might not perform very well on larger problems~---~reducing the size of the problem results in a better sum rate.
 
 \begin{figure}[h]
 \centering
-  \includegraphics[width=0.6\linewidth]{images/choice_of_relays.png}
+  \includegraphics[width=0.8\linewidth]{images/choice_of_relays.png}
 \caption{Example of choosing the relays for stepwise optimization.}
 \label{fig:rel_choice}
 \end{figure}
+One approach to prevent GlobalSearch from running into a low rate is to reduce the number of relays for optimization and increase them stepwise.
+The blue curve shows the result of the optimization, when GlobalSearch is allowed to optimize only two relays.
+Once finished, two additional relays are considered so that in total four relays per user are optimized.
+This is repeated until the total number of relays is reached (in this case four times, $N_{\text{Rep}} = \lceil\frac{N_{\text{Relays}}}{N_{\text{Step}}}\rceil = \lceil\frac{7}{2}\rceil=4$).
+Hereby, the first relay is chosen at random.
+For the following relays, the algorithm always takes the next free relay across the receiver.
+Figure~\ref{fig:rel_choice} shows an example of how the relays would be chosen for this setting.
+The stepwise optimization method leads to a tradeoff between the precision of the routine and the run-time, as a smaller number of relays per step ($ N_{\text{Step}}$) will likely lead to a better result, but also to a larger number of repetitions and therefore will take much longer ($\approx N_{\text{Rep}}*\text{T}_0$, for $\text{T}_0$, the time for one optimization).
 
-The first relay is therebey chosen at random.
-For the following relays, the algorithm takes always the next free relay across the receiver.
-Figure~\ref{fig:rel_choice} shows an example on how the relays would be chosen for this setting.
 
-Back in Figure~\ref{fig:nrel7}, the yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$.
-Therefore $N_{\text{Rep}} = 3$ had to be taken.
-As for $N_{\text{Step}}=4$, $N_{\text{Step}}=5$ and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), it leads almost to the same result.
-It can also be seen, that none of the stepwise optimization has a significant low rate outlier (logarithmic scaled subplot), therefore we can say, that the outliers from the direct optimization can be avoided, when a single repetition is added.
+In Figure~\ref{fig:nrel7}, the yellow curve shows the optimization for a stepwise increment of $N_{\text{Step}}=3$ (denoted in the legend as ``3 Step").
+Therefore we use $N_{\text{Rep}} = 3$ as our baseline.
+For $N_{\text{Step}}=4$, $N_{\text{Step}}=5$, and $N_{\text{Step}}=6$ (with each $N_{\text{Rep}} = 2$), we find almost to the same result.
+Also none of the stepwise optimization has a significant low-rate outlier, therefore we can say that the outliers from direct optimization can be avoided when a single repetition is added.
 
-A second approach is to optimize one user and its relays per step.
-This reduces the size of the problem to $N_\text{R}\cdot N_\text{Rx}+N_\text{Rel}$ for each optimization step.
-The number of optimization steps is increased by $N_\text{R}$.
-Additionally after optimizing each user a final step might be included, where the whole system is refined.
 \begin{figure}[h]
 \centering
   \includegraphics[width=0.9\linewidth]{images/stepwise_comparison.png}
 \caption{Comparison of optimizing the relays stepwise versus optimizing each user per step.}
 \label{fig:uservsrelay_stepwise}
 \end{figure}
-
+A second approach is to optimize one user and its relays for each step.
+This reduces the size of the problem to $N_\text{R}\cdot N_\text{Rx}+N_\text{Rel}$ for each optimization step.
+The number of optimization steps is increased by $N_\text{R}$.
+Additionally, after optimizing each user, a final step might be included in which the whole system is refined, which leads to a number of $N_\text{Rep}=N_\text{R}+1$ repetitions.
 Figure~\ref{fig:uservsrelay_stepwise} shows the performance of this method for a $2\times2$ system with three relays per user.
 The blue solid curve denotes the performance of optimizing the system directly.
-The red solid curve shows the performance of optimizing each user on its own and additionally optimizing the whole system in a refinement step afterwards.
-It can be seen that optimizing each user in advance of optimizing the whole system, leads to a slight improvement, even for this small system.
+The red solid curve shows the performance of optimizing each user on its own and additionally optimizing the whole system in a refinement step after.
+Optimizing each user in advance of optimizing the whole system, leads to a slight improvement, even for this small system.
 
-For both cases - the user stepwise optimization and the relay stepwise optimization - a lower sum rate limit constraint is set after each step.
-With this inequality constraint, the heuristic algorithm is prevented in running into a lower rate than in the previous step.
+For both cases~---~the user stepwise optimization and the relay stepwise optimization~---~a lower sum rate limit constraint is set after each step.
+With this inequality constraint, the heuristic algorithm is prevented in running into a lower rate than it had in the previous step.
 
 
 %The main difference are the rates below $12 \left[\text{b/s/Hz}\right]$ (logarithmic scaled subplot).

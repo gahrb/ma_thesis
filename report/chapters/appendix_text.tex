@@ -1,51 +1,50 @@
 \chapter{Lossy Passive Relays}
 \label{sec:lossyrel}
 
-In this chapter, the effect of lossy passive relays will be explored.
-In the beginning we justified the choice of considering only pure imaginary impedances at the relays, by the fact, that this results in loss less relays.
-In the following we will allow the impedances to become complex, with a strict positive real part, i.e.
+In this chapter, the effect of lossy passive relays is explored.
+In the beginning, we justified the choice of considering only purely imaginary impedances at the relays, by the fact that this results in lossless relays.
+In the following, we will allow impedances to become complex, with a strict positive real part, i.e.
 $\mat{Z}_\text{Rel} = \mat{R}_\text{Rel} + j\mat{X}_\text{Rel}$ with $R_\text{Rel}[i]>=0,\forall i\in[1,\cdots,N_{Rel}]$.
-
-It is obvious, that the performance of this system must be strictly larger than allowing only loss less relays, as we can set the real part to zero and therefore we would get the same result.
+It is obvious that the performance of this system must be strictly larger than when allowing only lossless relays, as we can set the real part to zero and therefore we would get the same result.
 
 \begin{figure}[h]
 \centering
   \includegraphics[width=\linewidth]{images/Imagvscomp.png}
-\caption{Comparison of loss less and lossy relays.}
+\caption{Comparison of lossless and lossy relays.}
 \label{fig:lossyrel}
 \end{figure}
 
-Figure~\ref{fig:lossyrel} shows the performance of the loss less relays in red, as we know them from the previous chapters.
-In blue the performance of the lossy relays is given.
-We see, that the performance is lower than the performance of the loss less relays, which is contradicting to the statement above.
-This leads to the conclusion, that the performance of the solver is worse, when the degree of freedom is larger.
+Figure~\ref{fig:lossyrel} shows the performance of the lossless relays in red, as we know them from the previous chapters.
+In blue, we give the performance of the lossy relays.
+We see that the performance is lower than the performance of the lossless relays, which contradicts the statement above.
+This leads to the conclusion that the performance of the optimization routine is worse, when the degrees of freedom are larger.
 
 
 Therefore, we introduce a stepwise optimization similar to the one in Section~\ref{sec:stepwise}.
-At first the system is optimized for only pure values of the relay loads.
+At first the system is optimized for only the pure values of the relay loads.
 In a second step the impedances are allowed to become complex, with positive real parts~---~we neglect negative values, as the relays would then required a power source and noise effects would appear.
 \begin{figure}[h]
 \centering
   \includegraphics[width=\linewidth]{images/Imagvscomp_2.png}
-\caption{Comparison of loss less and lossy relays.}
+\caption{Comparison of lossless and lossy relays.}
 \label{fig:lossyrel_2}
 \end{figure}
 
 Figure~\ref{fig:lossyrel_2} shows the result of this optimization for one receiver with seven relays and three interferers.
-The settings were changed, in order to have a smaller problem size.
+We changed the settings to have a smaller problem size.
 By the solid lines we see, that allowing the loads to become complex (blue solid and dashed lines), improves as expected the performance.
-However, the improvement is not significantly larger, to the lossless loads (red solid and dashed lines).
+However, the improvement is not significantly larger to the lossless loads (red solid and dashed lines).
 
 \chapter{Alternative Description of the Receiver}
 \label{sec:nossek}
 
-As written in the Introduction of this thesis, the circuit description is based on the methods introduced in~\cite{Nossek}.
-Therefore in the following a similar description as used in~\cite{Nossek} is given. 
+As written in the Introduction of this thesis, our circuit description is based on the methods introduced in~\cite{Nossek}.
+Therefore we give a similar description to that used in~\cite{Nossek} here. 
 
 \section{Transfer Function}
-To be able to fully use this method some adoptions need to be made.
+To fully use this method in our context, some adaptations are made.
 In~\cite{Nossek}, the use of relays was not introduced.
-In order to use the description, we model the relays as receivers with the following setting for the matching network:	
+In order to use their description, we model relays as receivers with the following setting for the matching network:	
 \begin{align}
 \label{eq:nossek_matching}
 \mat{Z}_\text{M11}[N_\text{R}\cdot N_\text{Rx}+\left(1:N_\text{Relay}\right)] &=
@@ -69,13 +68,13 @@ In order to use the description, we model the relays as receivers with the follo
 %\end{bmatrix}
 \end{align}
 
-The equivalent input impedance matrix for the relay ports hence becomes
+The equivalent input impedance matrix for the relay ports becomes
 \begin{align}
 \label{eq:nossek_matching}
 \mat{Z}_\text{inM}[N_\text{R}\cdot N_\text{Rx}+\left(1:N_\text{Relay}\right)] &= \text{diag}\left(\vec{Z}_\text{Relay}\right).
 \end{align}
 \subsection{Signal Transfer Function}
-The circuitry transfer function from~\cite{Nossek} applied to the adoptions, leads to
+Applying the circuitry transfer function from~\cite{Nossek} to our adaptations, leads to
 \begin{align}
 \label{eq:nossek_transf}
 \mat{H}_\text{L,A} &= \frac{z_l d}{z_l + g}\mat{D}\mat{F}_\text{R},\quad\text{with}\\
@@ -86,28 +85,28 @@ The circuitry transfer function from~\cite{Nossek} applied to the adoptions, lea
 \label{eq:nossek_Zr}
 \mat{Z}_\text{R} &= \mat{Z}_\text{M22} + \mat{F}_\text{R}\mat{Z}_\text{M12}.
 \end{align}
-Note, that in~\cite{Nossek}, the matching network is defined differently, i.e. $\mat{Z}_\text{M11}$ and $\mat{Z}_\text{M22}$ are swapped.
-$\mat{H}_\text{L,A}$ denotes hereby the transfer function from all the open circuit input voltages to all the voltages over the downstream circuitry loads.
-To get the transfer function only towards receiver $j$, only the rows $\left[(j-1)\cdot N_\text{Rx}+1 : j\cdot N_\text{Rx}\right]$ must be considered.
-In the following we denote such case by $\mat{H}_{\text{L,}j}$ and we can write the overall transfer function by
+Note that in~\cite{Nossek}, the matching network is defined differently:$\mat{Z}_\text{M11}$ and $\mat{Z}_\text{M22}$ are swapped.
+$\mat{H}_\text{L,A}$ denotes the transfer function from all the open circuit input voltages to all the voltages over the downstream circuitry loads.
+To get the transfer function for only receiver $j$, we consider only rows $\left[(j-1)\cdot N_\text{Rx}+1 : j\cdot N_\text{Rx}\right]$.
+In the following, we denote such cases by $\mat{H}_{\text{L,}j}$ and we can write the overall transfer function as
 \begin{align}
 %\vec{v}_\text{L} &= \mat{H}_\text{L,0}\cdot\vec{v}_o + \vec{n}\\
 \vec{v}_{\text{L},j}^s &= \mat{H}_{\text{L,}j}\cdot\mat{H}_{j}^{\text{sp}}\cdot\vec{v}_j.
 \end{align}
 
 \subsection{Noise Transfer Function}
-Similarly, the new model can be applied to the noise sources.
+Similarly, the new model can be applied to noise sources.
 According to~\cite[Equation (14)]{Yahia2013}, this leads to the transfer function
 \begin{align}
 \vec{v}_{\text{L},j}^n &= \frac{z_l d}{z_l +g}\left(\mat{D}\left(\mat{Z}_\text{R}\vec{i}_\text{LNA} - \vec{v}_\text{LNA} +\mat{F}_\text{R}\vec{n}_\text{AR}\right) + \frac{1}{d}\vec{\tilde{v}}_n\right).
 \end{align}
-Compared to the sources introduced in Section~\ref{sec:noise_description}, the noise contribution for the LNA and the downstream used in this formula must be extended by the length of $N_\text{Relay}$ with zeros, to form a valid matrix multiplication.
-As in the previous section the index $j$ denotes the branches of the j-th receiver, i.e. the rows $\left[(j-1)\cdot N_\text{Rx}+1 : j\cdot N_\text{Rx}\right]$ of the transfer function matrix.
+Compared to the sources introduced in Section~\ref{sec:noise_description}, the noise contribution for the LNA and the downstream noise used in this formula must be extended by the length of $N_\text{Relay}$ with zeros to enable a valid matrix multiplication.
+As in the previous section, the index $j$ denotes the branches of the j-th receiver, or the rows $\left[(j-1)\cdot N_\text{Rx}+1 : j\cdot N_\text{Rx}\right]$ of the transfer function matrix.
 
 \section{Analytical Gradient}
-In the following the analytical gradient will be derived.
-In contrast to Chapter~\ref{sec:ana_grad}, the rate is only dependent on $\mat{Z}_{\text{M}ij},$ with $i,j\in\{1,2\}$, as the relays were expressed by the matching network as written above.
-Therefore, similar to~\cite{Yahia2013}, with the adoptions to the matching network it follows
+In the following, the analytical gradient will be derived.
+In contrast to Chapter~\ref{sec:ana_grad}, the rate is only dependent on $\mat{Z}_{\text{M}ij},$ with $i,j\in\{1,2\}$, as the relays were expressed by the matching network written above.
+Therefore, similarly to~\cite{Yahia2013}, with the adaptations to the matching network it follows that
 \begin{align}
 \label{eq:gradient}\nonumber
 \frac{\partial r}{\partial\mat{Z}_{\text{M},ij}} &= \frac{1}{\text{ln}(2)} 
@@ -120,7 +119,7 @@ Therefore, similar to~\cite{Yahia2013}, with the adoptions to the matching netwo
  	\frac{\partial\mat{K}_n}{\partial\mat{Z}_{\text{M},ij}}\right)\Bigg).
 \end{align}
 The derivations of the rate with no interference can be found in~\cite{Yahia2013}.
-In the following it is adapted to the needs of this thesis.
+In the following, we adapt it to the needs of this thesis.
 To get the gradient of the interference, the sum over all interferer is taken, as in Section~\ref{sec:int_cov}.
 
 For notational convenience, we define the following %matrices 
@@ -151,7 +150,7 @@ with
 
 To get the gradient of the achievable rate, we proceed as in~\cite{Yahia2013}, namely
 by the LNA in  \eqref{eq9}.
-Additionally we introduce for symmetric matrices the unit differential matrix $\mat{S}_{ij}$, and all-zeros matrix except for the two elements in $i$-th row and $j$-th column and $j$-th row and $i$-th column, which are equal to $1i$ (hence $\mat{S}_{ij} = \mat{J}_{ij} + \mat{J}_{ji}$, if $j\neq i$, else $\mat{S}_{ij} = \mat{J}_{ij}$). We start by the first term  $\beta\mat{T}_1=\beta \mat{Z}_R\mat{Z}_R^H$. 
+Additionally, we introduce for symmetric matrices the unit-differential matrix $\mat{S}_{ij}$, and all-zeros matrix except for the two elements in $i$-th row and $j$-th column and $j$-th row and $i$-th column, which are equal to $1i$ (hence $\mat{S}_{ij} = \mat{J}_{ij} + \mat{J}_{ji}$, if $j\neq i$, else $\mat{S}_{ij} = \mat{J}_{ij}$). We start by the first term  $\beta\mat{T}_1=\beta \mat{Z}_R\mat{Z}_R^H$. 
 \begin{eqnarray}
 \frac{\partial \mat{T}_1}{\partial \mat{Z}_{\text{M22,}ij}}&=& 
 	\mat{S}_{ij}\mat{Z}_R^H+\mat{Z}_R(\mat{S}_{ij}) \nonumber\\
@@ -194,7 +193,7 @@ For the downstream noise components $\frac{\psi}{|d|^2}\mat{T}_3=\frac{\psi}{|d|
 \end{eqnarray}
 
 As mentioned in Chapter~\ref{sec:ana_grad}, the transfer function of the signal and the antenna noise are the same.
-Therefore also the gradients become the same, namely
+Therefore the gradients also become the same, namely
 \begin{eqnarray}
 \frac{\partial \mat{P}}{\partial \mat{Z}_{M12,ij}}&=&\mat{J}_{ij}\mat{B}_1\mat{G} \mat{F}_R^H+ 
  \mat{F}_R\mat{G} \mat{B}_1^H\mat{J}_{ij}^T \nonumber\\
